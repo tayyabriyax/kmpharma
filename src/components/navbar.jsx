@@ -1,8 +1,12 @@
 "use client"
 
+import { REMOVE_ACTIVE_USER } from "@/lib/slices/authSlice";
 import { Menu, Bell, LogOut } from "lucide-react";
+import { useDispatch } from "react-redux";
 
 export default function Navbar({ setSidebarOpen }) {
+    const dispatch = useDispatch();
+
     return (
         <header className="flex items-center justify-between bg-white px-4 py-2.5 shadow-sm">
             <div className="flex items-center gap-2">
@@ -21,7 +25,7 @@ export default function Navbar({ setSidebarOpen }) {
                     <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                 </button>
 
-                <button className="flex items-center gap-1 text-gray-700 hover:bg-red-300 py-2 px-4 hover:text-red-600 cursor-pointer rounded-lg">
+                <button onClick={() => dispatch(REMOVE_ACTIVE_USER())} className="flex items-center gap-1 text-gray-700 hover:bg-red-300 py-2 px-4 hover:text-red-600 cursor-pointer rounded-lg">
                     <LogOut className="w-5 h-5" />
                     <span className="hidden sm:inline">Logout</span>
                 </button>

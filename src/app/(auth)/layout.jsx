@@ -3,9 +3,17 @@
 import { useState } from "react";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
+import { useSelector } from "react-redux";
+import { redirect } from "next/navigation";
 
 export default function AuthLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const isLoggedIn = useSelector(state => state.kmpharma.auth.isLoggedIn);
+
+    if (!isLoggedIn) {
+        redirect("/login")
+    }
 
     return (
         <div className="flex h-screen bg-gray-50">

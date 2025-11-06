@@ -1,12 +1,43 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 import SubmitButton from "@/components/submit-button"
+import { useDispatch, useSelector } from "react-redux"
+import { loginAsync } from "@/lib/slices/authSlice"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
-    const [showPassword, setShowPassword] = useState(false)
+    const dispatch = useDispatch();
+
+    const loading = useSelector(state => state.kmpharma.auth.loading);
+    const isLoggedIn = useSelector(state => state.kmpharma.auth.isLoggedIn);
+
+    const router = useRouter();
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const [loginCredentials, setLoginCredentials] = useState({ email: "", password: "" });
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            router.push("/dashboard")
+        }
+    }, [isLoggedIn])
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setLoginCredentials((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const submit = (e) => {
+        e.preventDefault();
+        dispatch(loginAsync(loginCredentials));
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-teal-50 px-4 text-slate-700">
@@ -23,8 +54,11 @@ export default function LoginPage() {
                         </label>
                         <input
                             type="email"
+                            name="email"
+                            value={loginCredentials.email}
+                            onChange={handleChange}
                             placeholder="you@example.com"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                             required
                         />
                     </div>
@@ -37,14 +71,17 @@ export default function LoginPage() {
                         <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
+                                name="password"
+                                value={loginCredentials.password}
+                                onChange={handleChange}
                                 placeholder="••••••••"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400 pr-10"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 pr-10"
                                 required
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-teal-500"
+                                className="absolute cursor-pointer inset-y-0 right-3 flex items-center text-gray-500"
                             >
                                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                             </button>
@@ -61,7 +98,7 @@ export default function LoginPage() {
                     </div>
 
                     {/* Submit */}
-                    <SubmitButton label={"Sign In"} />
+                    <SubmitButton label={"Sign In"} onClick={submit} loading={loading} />
                 </form>
 
                 <p className="text-sm text-center text-gray-500 mt-6">
