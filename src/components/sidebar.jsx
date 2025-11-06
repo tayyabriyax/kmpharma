@@ -1,0 +1,52 @@
+"use client"
+
+import Link from "next/link";
+import { FileText, LayoutDashboard, Settings, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+
+export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
+
+    const pathname = usePathname();
+
+    const menuItems = [
+        { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
+        { title: "Settings", href: "/settings", icon: <Settings size={20} /> },
+        { title: "Reports", href: "/reports", icon: <FileText size={20} /> },
+    ];
+
+    return (
+        <aside
+            className={`fixed z-40 inset-y-0 left-0 w-64 bg-white shadow-lg transform text-black 
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+          transition-transform duration-200 ease-in-out
+          md:translate-x-0 md:static md:shadow-none`}
+        >
+            <div className="p-4 border-r border-r-gray-200 flex items-center justify-between">
+                <h1 className="text-xl font-semibold">KM Pharma</h1>
+                <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
+                    <X size={20} />
+                </button>
+            </div>
+
+            <nav>
+                {menuItems.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                        <Link
+                            key={item.title}
+                            href={item.href}
+                            className={`flex items-center gap-3 px-3 py-3 transition-all
+                                ${isActive
+                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                                }`}
+                        >
+                            {item.icon}
+                            <span className="font-medium">{item.title}</span>
+                        </Link>
+                    );
+                })}
+            </nav>
+        </aside>
+    )
+}
