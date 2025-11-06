@@ -9,7 +9,7 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false)
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-teal-50 px-4 text-slate-700">
+        <div className="min-h-screen flex items-center justify-center bg-teal-50 px-4 text-slate-700">
             <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-6 md:p-8">
                 <h1 className="text-2xl font-semibold text-center text-slate-700 mb-6">
                     Pharma Portal Login
@@ -24,7 +24,7 @@ export default function LoginPage() {
                         <input
                             type="email"
                             placeholder="you@example.com"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400 placeholder:text-gray-300"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400"
                             required
                         />
                     </div>
@@ -38,7 +38,7 @@ export default function LoginPage() {
                             <input
                                 type={showPassword ? "text" : "password"}
                                 placeholder="••••••••"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400 pr-10 placeholder:text-gray-300"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400 pr-10"
                                 required
                             />
                             <button
