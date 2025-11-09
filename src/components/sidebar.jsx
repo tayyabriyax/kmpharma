@@ -16,12 +16,12 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     return (
         <aside
-            className={`fixed z-40 inset-y-0 left-0 w-64 bg-white shadow-lg transform text-black 
+            className={`fixed z-40 inset-y-0 left-0 w-64 bg-white shadow-lg transform text-black border-r border-gray-200
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
           transition-transform duration-200 ease-in-out
           md:translate-x-0 md:static md:shadow-none`}
         >
-            <div className="p-4 border-r border-r-gray-200 flex items-center justify-between">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
                 <h1 className="text-xl font-semibold">KM Pharma</h1>
                 <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
                     <X size={20} />

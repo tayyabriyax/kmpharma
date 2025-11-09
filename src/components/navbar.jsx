@@ -2,13 +2,21 @@
 
 import { REMOVE_ACTIVE_USER } from "@/lib/slices/authSlice";
 import { Menu, Bell, LogOut } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 export default function Navbar({ setSidebarOpen }) {
     const dispatch = useDispatch();
 
+    const pathname = usePathname();
+
+    function activeTab() {
+        if (pathname.includes('/dashboard')) return 'Dashboard'
+        if (pathname.includes('/distributers')) return 'Distributers'
+    }
+
     return (
-        <header className="flex items-center justify-between bg-white px-4 py-2.5 shadow-sm">
+        <header className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-2.5">
             <div className="flex items-center gap-2">
                 <button
                     className="lg:hidden"
@@ -16,7 +24,7 @@ export default function Navbar({ setSidebarOpen }) {
                 >
                     <Menu className="w-6 h-6 text-gray-700" />
                 </button>
-                <h2 className="text-lg font-semibold text-gray-800">Dashboard</h2>
+                <h2 className="text-lg font-semibold text-gray-800">{activeTab()}</h2>
             </div>
 
             <div className="flex items-center gap-4">
