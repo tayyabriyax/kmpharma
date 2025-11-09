@@ -11,25 +11,34 @@ import {
 } from "lucide-react";
 import SubmitButton from "./submit-button";
 import InputField from "./input-field";
+import { useDispatch, useSelector } from "react-redux";
+import { createDistributer } from "@/lib/slices/distributerSlice";
 
 export default function AddDistributorModal({ isOpen, onClose }) {
+
+    const dispatch = useDispatch();
+
+    const loading = useSelector(state => state.kmpharma.distributer.loading);
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        role: "",
-        status: "",
-        country: "",
-        date: "",
+        phone: "",
+        adress: "",
+        area: "",
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form Data Submitted:", formData);
+        dispatch(createDistributer(formData));
         onClose();
     };
 
@@ -53,6 +62,8 @@ export default function AddDistributorModal({ isOpen, onClose }) {
                     {/* Name */}
                     <InputField
                         label={"Full Name"}
+                        value={formData.name}
+                        onChange={handleChange}
                         icon={<User className="absolute left-3 top-3 text-gray-400" size={18} />}
                         id={"name"}
                         placeholder={"John Doe"}
@@ -61,6 +72,8 @@ export default function AddDistributorModal({ isOpen, onClose }) {
                     {/* Email */}
                     <InputField
                         label={"Email"}
+                        value={formData.email}
+                        onChange={handleChange}
                         icon={<Mail className="absolute left-3 top-3 text-gray-400" size={18} />}
                         id={"email"}
                         type="email"
@@ -70,29 +83,35 @@ export default function AddDistributorModal({ isOpen, onClose }) {
                     {/* Phone */}
                     <InputField
                         label={"Phone"}
+                        value={formData.phone}
+                        onChange={handleChange}
                         icon={<Phone className="absolute left-3 top-3 text-gray-400" size={18} />}
                         id={"phone"}
                         placeholder={"+92 328 6823465"}
                         required={true} />
 
-                    {/* Status */}
+                    {/* Address */}
                     <InputField
                         label={"Address"}
+                        value={formData.adress}
+                        onChange={handleChange}
                         icon={<Building className="absolute left-3 top-3 text-gray-400" size={18} />}
                         id={"adress"}
                         placeholder={"House ABC, Street ABC, etc"}
                         required={true} />
 
-                    {/* Country */}
+                    {/* Area */}
                     <InputField
                         label={"Area"}
+                        value={formData.area}
+                        onChange={handleChange}
                         icon={<AreaChart className="absolute left-3 top-3 text-gray-400" size={18} />}
                         id={"area"}
                         placeholder={"Downtown, etc"}
                         required={true} />
 
                     {/* Submit Button */}
-                    <SubmitButton label={"Save Distributer"} />
+                    <SubmitButton label={"Save Distributer"} onClick={handleSubmit} />
                 </form>
             </div>
         </div>

@@ -4,8 +4,17 @@ import {
     X
 } from "lucide-react";
 import DeleteButton from "./delete-button";
+import { useDispatch } from "react-redux";
+import { deleteDistributerById } from "@/lib/slices/distributerSlice";
 
-export default function DeleteModal({ isOpen, onClose }) {
+export default function DeleteModal({ isOpen, onClose, selectedItem }) {
+
+    const dispatch = useDispatch();
+
+    const handleDelete = () => {
+        dispatch(deleteDistributerById(selectedItem));
+        onClose();
+    }
 
     if (!isOpen) return null;
 
@@ -24,7 +33,7 @@ export default function DeleteModal({ isOpen, onClose }) {
 
                 <div className="px-6 py-4 space-y-4">
                     <p>Are you sure to delete this ?</p>
-                    <DeleteButton label={"Delete"} />
+                    <DeleteButton onClick={handleDelete} label={"Delete"} />
                 </div>
             </div>
         </div>

@@ -4,34 +4,20 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp, Edit, Trash } from "lucide-react";
 import DeleteModal from "./delete-modal";
 
-export default function ResponsiveTable() {
+export default function ResponsiveTable({ data }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    const [selectedItem, setSelectedItem] = useState(0);
 
     const toggleRow = (index) => {
         setOpenRow(openRow === index ? null : index);
     };
 
-    const data = [
-        {
-            id: 1,
-            name: "John Doe",
-            email: "john@example.com",
-            role: "Distributor",
-            status: "Active",
-            country: "USA",
-            date: "2025-11-06",
-        },
-        {
-            id: 2,
-            name: "Jane Smith",
-            email: "jane@example.com",
-            role: "Manager",
-            status: "Inactive",
-            country: "UK",
-            date: "2025-11-05",
-        },
-    ];
+    const handleClickOnTrash = (id) => {
+        setSelectedItem(id);
+        setShowDeleteModal(true);
+    }
 
     return (
         <div className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden">
@@ -57,24 +43,15 @@ export default function ResponsiveTable() {
                             >
                                 <td className="px-4 py-3">{item.name}</td>
                                 <td className="px-4 py-3">{item.email}</td>
-                                <td className="px-4 py-3">{item.role}</td>
-                                <td className="px-4 py-3">
-                                    <span
-                                        className={`px-2 py-1 text-xs rounded-full ${item.status === "Active"
-                                            ? "bg-green-100 text-green-600"
-                                            : "bg-red-100 text-red-600"
-                                            }`}
-                                    >
-                                        {item.status}
-                                    </span>
-                                </td>
-                                <td className="px-4 py-3">{item.country}</td>
-                                <td className="px-4 py-3">{item.date}</td>
+                                <td className="px-4 py-3">{item.phone}</td>
+                                <td className="px-4 py-3">{item.adress}</td>
+                                <td className="px-4 py-3">{item.area}</td>
+                                <td className="px-4 py-3">{item.created_at}</td>
                                 <td className="px-2 py-1 space-x-4">
                                     <button className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
                                         <Edit size={18} />
                                     </button>
-                                    <button onClick={() => setShowDeleteModal(true)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
                                         <Trash size={18} />
                                     </button>
                                 </td>
@@ -106,7 +83,7 @@ export default function ResponsiveTable() {
                                     <button className="text-gray-500">
                                         <Edit size={18} />
                                     </button>
-                                    <button onClick={() => setShowDeleteModal(true)} className="text-gray-500">
+                                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
                                         <Trash size={18} />
                                     </button>
                                 </div>
@@ -118,24 +95,16 @@ export default function ResponsiveTable() {
                             >
                                 <div className="space-y-1 text-sm text-gray-600">
                                     <p>
-                                        <span className="font-semibold">Phone:</span> {item.role}
+                                        <span className="font-semibold">Phone : </span> {item.phone}
                                     </p>
                                     <p>
-                                        <span className="font-semibold">Address:</span>{" "}
-                                        <span
-                                            className={`px-2 py-0.5 text-xs rounded-full ${item.status === "Active"
-                                                ? "bg-green-100 text-green-600"
-                                                : "bg-red-100 text-red-600"
-                                                }`}
-                                        >
-                                            {item.status}
-                                        </span>
+                                        <span className="font-semibold">Address : </span>{item.adress}
                                     </p>
                                     <p>
-                                        <span className="font-semibold">Area:</span> {item.country}
+                                        <span className="font-semibold">Area : </span> {item.area}
                                     </p>
                                     <p>
-                                        <span className="font-semibold">Created At:</span> {item.date}
+                                        <span className="font-semibold">Created At : </span> {item.created_at}
                                     </p>
                                 </div>
                             </div>
@@ -145,6 +114,7 @@ export default function ResponsiveTable() {
             </div>
             <DeleteModal
                 isOpen={showDeleteModal}
+                selectedItem={selectedItem}
                 onClose={() => setShowDeleteModal(false)}
             />
         </div>
