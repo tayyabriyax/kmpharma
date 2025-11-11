@@ -1,10 +1,9 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     X,
     User,
-    Mail,
     Phone,
     Building,
     AreaChart,
@@ -12,17 +11,22 @@ import {
 import SubmitButton from "./submit-button";
 import InputField from "./input-field";
 import { useDispatch, useSelector } from "react-redux";
-import { createDistributer } from "@/lib/slices/distributerSlice";
+import { createDistributer, getDropdownUsers } from "@/lib/slices/distributerSlice";
+import SelectInput from "./select";
 
 export default function AddDistributorModal({ isOpen, onClose }) {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(getDropdownUsers());
+    }, [])
+
     const loading = useSelector(state => state.kmpharma.distributer.loading);
+    const users = useSelector(state => state.kmpharma.distributer.users);
 
     const [formData, setFormData] = useState({
-        name: "",
-        email: "",
+        user_id: "",
         phone: "",
         adress: "",
         area: "",
@@ -60,25 +64,13 @@ export default function AddDistributorModal({ isOpen, onClose }) {
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
                     {/* Name */}
-                    <InputField
-                        label={"Full Name"}
-                        value={formData.name}
-                        onChange={handleChange}
+                    <SelectInput
+                        label={"User"}
                         icon={<User className="absolute left-3 top-3 text-gray-400" size={18} />}
-                        id={"name"}
-                        placeholder={"John Doe"}
-                        required={true} />
-
-                    {/* Email */}
-                    <InputField
-                        label={"Email"}
-                        value={formData.email}
-                        onChange={handleChange}
-                        icon={<Mail className="absolute left-3 top-3 text-gray-400" size={18} />}
-                        id={"email"}
-                        type="email"
-                        placeholder={"example@gmail.com"}
-                        required={true} />
+                        options={users}
+                        name={"user_id"}
+                        value={formData.user_id}
+                        onChange={handleChange} />
 
                     {/* Phone */}
                     <InputField
@@ -111,7 +103,7 @@ export default function AddDistributorModal({ isOpen, onClose }) {
                         required={true} />
 
                     {/* Submit Button */}
-                    <SubmitButton label={"Save Distributer"} onClick={handleSubmit} />
+                    <SubmitButton label={"Save Distributer"} loading={loading} onClick={handleSubmit} />
                 </form>
             </div>
         </div>

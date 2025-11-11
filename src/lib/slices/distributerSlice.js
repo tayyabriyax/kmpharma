@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 const initialState = {
     distributers: [],
+    users: [],
     loadData: false,
     loading: false
 };
@@ -29,6 +30,15 @@ export const deleteDistributerById = createAsyncThunk("distributer/deleteDistrib
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
         return await fetchAPI(`api/v1/distributers/${id}`, { method: "DELETE" });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
+export const getDropdownUsers = createAsyncThunk("distributer/getDropdownUsers", async (_, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/dropdowns/users`, { method: "GET" });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -66,6 +76,9 @@ const distributerSlice = createSlice({
             .addCase(deleteDistributerById.rejected, (state, action) => {
                 toast.error("Error while deleting distributer !");
                 state.loading = false;
+            })
+            .addCase(getDropdownUsers.fulfilled, (state, action) => {
+                state.users = action.payload;
             })
     }
 });

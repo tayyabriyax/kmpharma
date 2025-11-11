@@ -41,12 +41,12 @@ export default function ResponsiveTable({ data }) {
                                 key={i}
                                 className="border-t border-gray-200 hover:bg-gray-50 transition"
                             >
-                                <td className="px-4 py-3">{item.name}</td>
-                                <td className="px-4 py-3">{item.email}</td>
+                                <td className="px-4 py-3">{item.user.fullname}</td>
+                                <td className="px-4 py-3">{item.user.email}</td>
                                 <td className="px-4 py-3">{item.phone}</td>
                                 <td className="px-4 py-3">{item.adress}</td>
                                 <td className="px-4 py-3">{item.area}</td>
-                                <td className="px-4 py-3">{item.created_at}</td>
+                                <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td>
                                 <td className="px-2 py-1 space-x-4">
                                     <button className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
                                         <Edit size={18} />
@@ -73,8 +73,8 @@ export default function ResponsiveTable({ data }) {
                         >
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <p className="font-semibold text-gray-800">{item.name}</p>
-                                    <p className="text-sm text-gray-500">{item.email}</p>
+                                    <p className="font-semibold text-gray-800">{item.user.fullname}</p>
+                                    <p className="text-sm text-gray-500">{item.user.email}</p>
                                 </div>
                                 <div className="space-x-4">
                                     <button className="text-gray-500">
@@ -104,7 +104,7 @@ export default function ResponsiveTable({ data }) {
                                         <span className="font-semibold">Area : </span> {item.area}
                                     </p>
                                     <p>
-                                        <span className="font-semibold">Created At : </span> {item.created_at}
+                                        <span className="font-semibold">Created At : </span> {new Date(item.created_at).toDateString()}
                                     </p>
                                 </div>
                             </div>
