@@ -11,10 +11,10 @@ import {
 import SubmitButton from "./submit-button";
 import InputField from "./input-field";
 import { useDispatch, useSelector } from "react-redux";
-import { createDistributer, getDropdownUsers } from "@/lib/slices/distributerSlice";
+import { createDistributer, editDistributerById, getDropdownUsers } from "@/lib/slices/distributerSlice";
 import SelectInput from "./select";
 
-export default function AddDistributorModal({ isOpen, onClose }) {
+export default function AddDistributorModal({ isOpen, onClose, editableDistributer }) {
 
     const dispatch = useDispatch();
 
@@ -32,6 +32,18 @@ export default function AddDistributorModal({ isOpen, onClose }) {
         area: "",
     });
 
+    useEffect(() => {
+        if (editableDistributer) {
+            setFormData((prev) => ({
+                ...prev,
+                user_id: editableDistributer.user_id,
+                phone: editableDistributer.phone,
+                adress: editableDistributer.adress,
+                area: editableDistributer.area
+            }))
+        }
+    }, [isOpen])
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -42,7 +54,12 @@ export default function AddDistributorModal({ isOpen, onClose }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createDistributer(formData));
+        if (editableDistributer) {
+            delete formData.user_id;
+            dispatch(editDistributerById({ id: editableDistributer.id, credentials: formData }));
+        } else {
+            dispatch(createDistributer(formData));
+        }
         onClose();
     };
 
@@ -69,6 +86,7 @@ export default function AddDistributorModal({ isOpen, onClose }) {
                         icon={<User className="absolute left-3 top-3 text-gray-400" size={18} />}
                         options={users}
                         name={"user_id"}
+                        disabled={editableDistributer ? true : false}
                         value={formData.user_id}
                         onChange={handleChange} />
 

@@ -35,6 +35,15 @@ export const deleteDistributerById = createAsyncThunk("distributer/deleteDistrib
     }
 })
 
+export const editDistributerById = createAsyncThunk("distributer/editDistributerById", async ({ id, credentials }, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/distributers/${id}`, { method: "PUT", data: credentials });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
 export const getDropdownUsers = createAsyncThunk("distributer/getDropdownUsers", async (_, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
@@ -79,6 +88,18 @@ const distributerSlice = createSlice({
             })
             .addCase(getDropdownUsers.fulfilled, (state, action) => {
                 state.users = action.payload;
+            })
+            .addCase(editDistributerById.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(editDistributerById.fulfilled, (state, action) => {
+                toast.success("Distributer updated Successfully !");
+                state.loadData = !state.loadData;
+                state.loading = false;
+            })
+            .addCase(editDistributerById.rejected, (state, action) => {
+                toast.error("Error while updateing distributer !");
+                state.loading = false;
             })
     }
 });

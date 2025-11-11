@@ -10,6 +10,7 @@ export default function SelectInput({
     name,
     placeholder = "Select an option",
     required = false,
+    disabled = false
 }) {
     const id = useId();
 
@@ -32,6 +33,7 @@ export default function SelectInput({
                     value={value}
                     onChange={onChange}
                     required={required}
+                    disabled={disabled}
                     className={`w-full ${Icon ? "pl-10" : "pl-3"
                         } pr-8 py-2 md:py-2.5 text-sm md:text-base border border-gray-300 rounded-lg
                         text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none
