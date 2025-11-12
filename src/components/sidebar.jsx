@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { FileText, Handshake, LayoutDashboard, Settings, X } from "lucide-react";
+import { Handshake, LayoutDashboard, Truck, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
@@ -11,7 +11,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     const menuItems = [
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
         { title: "Distributers", href: "/distributers", icon: <Handshake size={20} /> },
-        { title: "Settings", href: "/settings", icon: <Settings size={20} /> },
+        { title: "Suppliers", href: "/suppliers", icon: <Truck size={20} /> },
     ];
 
     return (

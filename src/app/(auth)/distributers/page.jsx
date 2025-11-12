@@ -1,11 +1,11 @@
 "use client"
 
-import AddDistributorModal from "@/components/add-modal";
-import ResponsiveTable from "@/components/data-table";
+import AddDistributorModal from "@/app/(auth)/distributers/components/add-modal";
 import SubmitButton from "@/components/submit-button";
 import { getAllDistributers } from "@/lib/slices/distributerSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ResponsiveTable from "./components/data-table";
 
 export default function Distributers() {
 

@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Edit, Trash } from "lucide-react";
-import DeleteModal from "./delete-modal";
+import DeleteModal from "@/components/delete-modal";
 import AddDistributorModal from "./add-modal";
+import { deleteDistributerById } from "@/lib/slices/distributerSlice";
 
 export default function ResponsiveTable({ data }) {
     const [openRow, setOpenRow] = useState(null);
@@ -123,6 +124,7 @@ export default function ResponsiveTable({ data }) {
             <DeleteModal
                 isOpen={showDeleteModal}
                 selectedItem={selectedItem}
+                method={deleteDistributerById}
                 onClose={() => setShowDeleteModal(false)}
             />
             <AddDistributorModal

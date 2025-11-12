@@ -5,14 +5,13 @@ import {
 } from "lucide-react";
 import DeleteButton from "./delete-button";
 import { useDispatch } from "react-redux";
-import { deleteDistributerById } from "@/lib/slices/distributerSlice";
 
-export default function DeleteModal({ isOpen, onClose, selectedItem }) {
+export default function DeleteModal({ isOpen, onClose, selectedItem, method }) {
 
     const dispatch = useDispatch();
 
     const handleDelete = () => {
-        dispatch(deleteDistributerById(selectedItem));
+        dispatch(method(selectedItem));
         onClose();
     }
 

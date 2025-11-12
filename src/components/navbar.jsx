@@ -13,6 +13,7 @@ export default function Navbar({ setSidebarOpen }) {
     function activeTab() {
         if (pathname.includes('/dashboard')) return 'Dashboard'
         if (pathname.includes('/distributers')) return 'Distributers'
+        if (pathname.includes('/suppliers')) return 'Suppliers'
     }
 
     return (

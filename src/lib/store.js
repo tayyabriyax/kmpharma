@@ -3,10 +3,12 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import authReducer from "./slices/authSlice";
 import distributerReducer from "./slices/distributerSlice";
+import supplierReducer from "./slices/supplierSlice";
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    distributer: distributerReducer
+    distributer: distributerReducer,
+    supplier: supplierReducer
 });
 
 const persistConfig = {

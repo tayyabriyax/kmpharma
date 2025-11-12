@@ -8,11 +8,11 @@ import {
     Building,
     AreaChart,
 } from "lucide-react";
-import SubmitButton from "./submit-button";
-import InputField from "./input-field";
 import { useDispatch, useSelector } from "react-redux";
 import { createDistributer, editDistributerById, getDropdownUsers } from "@/lib/slices/distributerSlice";
-import SelectInput from "./select";
+import SubmitButton from "@/components/submit-button";
+import InputField from "@/components/input-field";
+import SelectInput from "@/components/select";
 
 export default function AddDistributorModal({ isOpen, onClose, editableDistributer }) {
 
