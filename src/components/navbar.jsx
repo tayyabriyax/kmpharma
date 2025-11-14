@@ -14,6 +14,7 @@ export default function Navbar({ setSidebarOpen }) {
         if (pathname.includes('/dashboard')) return 'Dashboard'
         if (pathname.includes('/distributers')) return 'Distributers'
         if (pathname.includes('/suppliers')) return 'Suppliers'
+        if (pathname.includes('/parties')) return 'Parties'
     }
 
     return (

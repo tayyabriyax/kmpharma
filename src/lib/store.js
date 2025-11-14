@@ -4,11 +4,13 @@ import { persistReducer, persistStore } from 'redux-persist';
 import authReducer from "./slices/authSlice";
 import distributerReducer from "./slices/distributerSlice";
 import supplierReducer from "./slices/supplierSlice";
+import partyReducer from "./slices/partySlice";
 
 const rootReducer = combineReducers({
     auth: authReducer,
     distributer: distributerReducer,
-    supplier: supplierReducer
+    supplier: supplierReducer,
+    party: partyReducer
 });
 
 const persistConfig = {
