@@ -7,7 +7,7 @@ import {
     Phone,
     Building,
     Mail,
-    Truck,
+    Handshake,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import SubmitButton from "@/components/submit-button";
@@ -126,7 +126,7 @@ export default function AddPartiesModal({ isOpen, onClose, editableParty }) {
                     {/* Distributer */}
                     <SelectInput
                         label={"Distributer"}
-                        icon={<Truck className="absolute left-3 top-3 text-gray-400" size={18} />}
+                        icon={<Handshake className="absolute left-3 top-3 text-gray-400" size={18} />}
                         options={distributers}
                         name={"distributer_id"}
                         value={formData.distributer_id}

@@ -5,12 +5,14 @@ import authReducer from "./slices/authSlice";
 import distributerReducer from "./slices/distributerSlice";
 import supplierReducer from "./slices/supplierSlice";
 import partyReducer from "./slices/partySlice";
+import vaterinaryProductReducer from "./slices/vaterinaryProductSlice";
 
 const rootReducer = combineReducers({
     auth: authReducer,
     distributer: distributerReducer,
     supplier: supplierReducer,
-    party: partyReducer
+    party: partyReducer,
+    vaterinaryProduct: vaterinaryProductReducer
 });
 
 const persistConfig = {

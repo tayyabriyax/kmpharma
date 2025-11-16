@@ -19,7 +19,7 @@ export default function SelectInput({
             {label && (
                 <label
                     htmlFor={id}
-                    className="block text-sm md:text-base font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-700 mb-1"
                 >
                     {label}
                 </label>
@@ -35,7 +35,7 @@ export default function SelectInput({
                     required={required}
                     disabled={disabled}
                     className={`w-full ${Icon ? "pl-10" : "pl-3"
-                        } pr-8 py-2 md:py-2.5 text-sm md:text-base border border-gray-300 rounded-lg
+                        } pr-8 py-2 md:py-2.5 text-sm border border-gray-300 rounded-lg
                         text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white appearance-none
                         transition-all duration-200`}
                 >
