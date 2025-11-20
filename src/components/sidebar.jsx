@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { Handshake, LayoutDashboard, PackageSearch, PawPrint, Truck, Users, X } from "lucide-react";
+import { ClipboardList, Handshake, LayoutDashboard, PackageSearch, PawPrint, Truck, Users, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
@@ -15,6 +15,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         { title: "Parties", href: "/parties", icon: <Users size={20} /> },
         { title: "Vaterinary Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
         { title: "Distributer Products", href: "/distributer-products", icon: <PackageSearch size={20} /> },
+        { title: "Distributer Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
     ];
 
     return (

@@ -7,6 +7,7 @@ import supplierReducer from "./slices/supplierSlice";
 import partyReducer from "./slices/partySlice";
 import vaterinaryProductReducer from "./slices/vaterinaryProductSlice";
 import distributerProductReducer from "./slices/distributerProductSlice";
+import distrbuterOrderReducer from "./slices/distributerOrderSlice";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     supplier: supplierReducer,
     party: partyReducer,
     vaterinaryProduct: vaterinaryProductReducer,
-    distributerProduct: distributerProductReducer
+    distributerProduct: distributerProductReducer,
+    distributerOrder: distrbuterOrderReducer
 });
 
 const persistConfig = {
