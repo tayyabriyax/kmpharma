@@ -54,6 +54,13 @@ export default function AddSuppliersModal({ isOpen, onClose, editableSupplier })
         } else {
             dispatch(createSupplier(formData));
         }
+        setFormData((prev) => ({
+            ...prev,
+            name: "",
+            email: "",
+            phone: "",
+            address: ""
+        }))
         onClose();
     };
 

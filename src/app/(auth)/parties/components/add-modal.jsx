@@ -62,6 +62,14 @@ export default function AddPartiesModal({ isOpen, onClose, editableParty }) {
         } else {
             dispatch(createParty(formData));
         }
+        setFormData((prev) => ({
+            ...prev,
+            name: "",
+            email: "",
+            phone: "",
+            adress: "",
+            distributer_id: ""
+        }))
         onClose();
     };
 

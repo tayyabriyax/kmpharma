@@ -3,16 +3,14 @@
 import { useEffect, useState } from "react";
 import {
     X,
-    Handshake,
     Users,
-    Phone,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import SubmitButton from "@/components/submit-button";
 import SelectInput from "@/components/select";
 import { getDropdownDistributers } from "@/lib/slices/partySlice";
 import { createDistributerOrder, getDropdownParties } from "@/lib/slices/distributerOrderSlice";
-import InputField from "@/components/input-field";
+import TextAreaField from "@/components/text-area";
 
 export default function AddDistributerOrderModal({ isOpen, onClose, openBillModal }) {
 
@@ -43,6 +41,11 @@ export default function AddDistributerOrderModal({ isOpen, onClose, openBillModa
         e.preventDefault();
         const res = dispatch(createDistributerOrder(formData));
         if (!res.error) {
+            setFormData((prev) => ({
+                ...prev,
+                party_id: "",
+                remarks: ""
+            }))
             onClose();        // close Create Order modal
             openBillModal();  // immediately open Bill Modal
         }
@@ -80,15 +83,15 @@ export default function AddDistributerOrderModal({ isOpen, onClose, openBillModa
                             value={formData.party_id}
                             onChange={handleChange} />
 
-                        {/* Phone */}
-                        <InputField
-                            label={"Remarks"}
+                        {/* Remarks */}
+                        <TextAreaField
+                            label="Remarks"
                             value={formData.remarks}
                             onChange={handleChange}
-                            icon={<Phone className="absolute left-3 top-3 text-gray-400" size={18} />}
-                            id={"remarks"}
-                            placeholder={"+92 328 6823465"}
-                            required={true} />
+                            id="remarks"
+                            placeholder="Add any important notes here..."
+                            required={false}
+                        />
 
                         {/* Submit Button */}
                         <SubmitButton label={"Add Items"} loading={loading} onClick={handleSubmit} />

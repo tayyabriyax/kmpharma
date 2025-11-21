@@ -20,12 +20,14 @@ import {
     AlertTriangle,
     Warehouse,
     Clock,
+    MessageSquare,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import SubmitButton from "@/components/submit-button";
 import InputField from "@/components/input-field";
 import SelectInput from "@/components/select";
 import { createVaterinaryProduct, editVeterinaryProductById, getDropdownSuppliers } from "@/lib/slices/vaterinaryProductSlice";
+import TextAreaField from "@/components/text-area";
 
 export default function AddVaterinaryProductModal({ isOpen, onClose, editableProduct }) {
 
@@ -101,6 +103,27 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
         } else {
             dispatch(createVaterinaryProduct(formData));
         }
+        setFormData((prev) => ({
+            ...prev,
+            name: "",
+            supplier_id: "",
+            brand: "",
+            category: "",
+            composition: "",
+            dosage_form: "",
+            pack_size: "",
+            species_targeted: "",
+            usage_instructions: "",
+            withdrawal_period: "",
+            storage_conditions: "",
+            side_effects: "",
+            buying_price: 0,
+            selling_price: 0,
+            batch_no: "",
+            manufacture_date: "",
+            expiry_date: "",
+            remarks: "",
+        }))
         onClose();
     };
 
@@ -305,13 +328,13 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                             />
 
                             {/* Remarks */}
-                            <InputField
-                                label={"Remarks"}
+                            <TextAreaField
+                                label="Remarks"
                                 value={formData.remarks}
                                 onChange={handleChange}
-                                icon={<FileText className="absolute left-3 top-3 text-gray-400" size={18} />}
-                                id={"remarks"}
-                                placeholder={"Additional notes..."}
+                                id="remarks"
+                                placeholder="Add any important notes here..."
+                                required={false}
                             />
                         </div>
 

@@ -60,6 +60,13 @@ export default function AddDistributorModal({ isOpen, onClose, editableDistribut
         } else {
             dispatch(createDistributer(formData));
         }
+        setFormData((prev) => ({
+            ...prev,
+            user_id: "",
+            phone: "",
+            adress: "",
+            area: "",
+        }))
         onClose();
     };
 

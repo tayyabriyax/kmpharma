@@ -9,7 +9,7 @@ import SelectInput from "@/components/select";
 import InputField from "@/components/input-field";
 
 import { getDropdownProducts } from "@/lib/slices/distributerProductSlice";
-import { createBill, createDistributerOrder } from "@/lib/slices/distributerOrderSlice";
+import { createBill } from "@/lib/slices/distributerOrderSlice";
 
 const PAID_STATUS = [
     { label: "Paid", value: "paid" },
@@ -108,7 +108,7 @@ export default function BillModal({ isOpen, onClose }) {
                         {items.map((item, index) => (
                             <div
                                 key={index}
-                                className="border rounded-xl p-4 space-y-4 bg-gray-50 relative"
+                                className="border border-teal-600 rounded-xl p-4 space-y-4 relative"
                             >
                                 {/* REMOVE BUTTON */}
                                 {items.length > 1 && (
