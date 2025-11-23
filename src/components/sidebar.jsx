@@ -1,12 +1,15 @@
 "use client"
 
 import Link from "next/link";
-import { ClipboardList, Handshake, LayoutDashboard, PackageSearch, PawPrint, Truck, Users, X } from "lucide-react";
+import { ClipboardList, Handshake, LayoutDashboard, PackageSearch, PawPrint, Truck, User, Users, X } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     const pathname = usePathname();
+
+    const user = useSelector(state => state.kmpharma.auth.loggedInUser);
 
     const menuItems = [
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
@@ -33,6 +36,20 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
 
             <nav>
+                {user.role === "Admin" && (
+                    <Link
+                        href="/user"
+                        className={`flex items-center gap-3 px-3 py-3 transition-all
+                             ${pathname === "/user"
+                                ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                            }`}
+                    >
+                        <User size={20} />
+                        <span className="font-medium">Add User</span>
+                    </Link>
+
+                )}
                 {menuItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (

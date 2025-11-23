@@ -18,6 +18,7 @@ export default function Navbar({ setSidebarOpen }) {
         if (pathname.includes('/vaterinary-products')) return 'Vaterinary Products'
         if (pathname.includes('/distributer-products')) return 'Distributer Products'
         if (pathname.includes('/distributer-order')) return 'Distributer Orders'
+        if (pathname.includes('/user')) return 'User'
     }
 
     return (
