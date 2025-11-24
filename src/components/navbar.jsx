@@ -1,14 +1,16 @@
 "use client"
 
 import { REMOVE_ACTIVE_USER } from "@/lib/slices/authSlice";
-import { Menu, Bell, LogOut } from "lucide-react";
+import { Menu, Bell, LogOut, User, KeyRound } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState, useEffect } from "react";
 
 export default function Navbar({ setSidebarOpen }) {
     const dispatch = useDispatch();
-
     const pathname = usePathname();
+    const user = useSelector((state) => state.usd?.auth?.loggedInUser);
+    const [openDropdown, setOpenDropdown] = useState(false);
 
     function activeTab() {
         if (pathname.includes('/dashboard')) return 'Dashboard'
@@ -21,30 +23,97 @@ export default function Navbar({ setSidebarOpen }) {
         if (pathname.includes('/user')) return 'User'
     }
 
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setOpenDropdown(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const userInitials = user?.name
+        ? user.name.split(" ").map(n => n[0]).join("").toUpperCase()
+        : "U";
+
     return (
         <header className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-2.5">
             <div className="flex items-center gap-2">
-                <button
-                    className="lg:hidden"
-                    onClick={() => setSidebarOpen(true)}
-                >
+                <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                     <Menu className="w-6 h-6 text-gray-700" />
                 </button>
                 <h2 className="text-lg font-semibold text-gray-800">{activeTab()}</h2>
             </div>
 
             <div className="flex items-center gap-4">
+
+                {/* NOTIFICATION */}
                 <button className="relative">
                     <Bell className="w-6 h-6 text-gray-700" />
                     <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                 </button>
 
-                <button onClick={() => dispatch(REMOVE_ACTIVE_USER())} className="flex items-center gap-1 text-gray-700 hover:bg-red-300 py-2 px-4 hover:text-red-600 cursor-pointer rounded-lg">
+                {/* EXISTING LOGOUT BUTTON */}
+                {/* <button
+                    onClick={() => dispatch(REMOVE_ACTIVE_USER())}
+                    className="flex items-center gap-1 text-gray-700 hover:bg-red-300 py-2 px-4 hover:text-red-600 cursor-pointer rounded-lg"
+                >
                     <LogOut className="w-5 h-5" />
                     <span className="hidden sm:inline">Logout</span>
-                </button>
+                </button> */}
+
+                {/* USER DETAILS DROPDOWN */}
+                <div className="relative" ref={dropdownRef}>
+                    <button
+                        onClick={() => setOpenDropdown(!openDropdown)}
+                        className="flex cursor-pointer items-center gap-2 px-2 py-1 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+                    >
+                        <div className="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-white font-semibold">
+                            {userInitials}
+                        </div>
+
+                        <div className="hidden sm:flex flex-col text-left leading-tight">
+                            <span className="text-gray-800 text-sm font-medium">{user?.name || "User"}</span>
+                            <span className="text-gray-500 text-xs">{user?.email || "email@example.com"}</span>
+                        </div>
+                    </button>
+
+                    {/* DROPDOWN MENU */}
+                    {openDropdown && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 py-2 z-50 animate-fadeIn">
+                            <a
+                                href="/profile"
+                                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-gray-700"
+                            >
+                                <User size={18} />
+                                Edit Profile
+                            </a>
+
+                            <a
+                                href="/change-password"
+                                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-gray-700"
+                            >
+                                <KeyRound size={18} />
+                                Change Password
+                            </a>
+
+                            <button
+                                onClick={() => dispatch(REMOVE_ACTIVE_USER())}
+                                className="w-full flex items-center gap-2 px-4 py-2 text-left hover:bg-red-100 text-red-600"
+                            >
+                                <LogOut size={18} />
+                                Logout
+                            </button>
+                        </div>
+                    )}
+                </div>
 
             </div>
         </header>
-    )
+    );
 }
