@@ -1,11 +1,11 @@
 "use client"
 
-import AddDistributorModal from "@/app/(auth)/distributers/components/add-modal";
 import SubmitButton from "@/components/submit-button";
 import { getAllDistributers } from "@/lib/slices/distributerSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ResponsiveTable from "./components/data-table";
+import AddDistributorModal from "./components/add-modal";
 
 export default function Distributers() {
 
@@ -24,7 +24,7 @@ export default function Distributers() {
         <div>
             <div className="w-full sm:w-52 py-4">
                 <SubmitButton
-                    label={"Add Distributer"}
+                    label={"Add Distributor"}
                     onClick={() => setShowModal(true)} />
             </div>
             <ResponsiveTable data={distributers} />

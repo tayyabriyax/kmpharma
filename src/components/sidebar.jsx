@@ -13,7 +13,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     const menuItems = [
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
-        { title: "Distributers", href: "/distributers", icon: <Handshake size={20} /> },
         { title: "Suppliers", href: "/suppliers", icon: <Truck size={20} /> },
         { title: "Parties", href: "/parties", icon: <Users size={20} /> },
         { title: "Vaterinary Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
@@ -37,18 +36,30 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
             <nav>
                 {user.role === "Admin" && (
-                    <Link
-                        href="/user"
-                        className={`flex items-center gap-3 px-3 py-3 transition-all
+                    <>
+                        <Link
+                            href="/user"
+                            className={`flex items-center gap-3 px-3 py-3 transition-all
                              ${pathname === "/user"
-                                ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
-                                : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
-                            }`}
-                    >
-                        <User size={20} />
-                        <span className="font-medium">Add User</span>
-                    </Link>
-
+                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                                }`}
+                        >
+                            <User size={20} />
+                            <span className="font-medium">Add User</span>
+                        </Link>
+                        <Link
+                            href="/distributors"
+                            className={`flex items-center gap-3 px-3 py-3 transition-all
+                             ${pathname === "/distributors"
+                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                                }`}
+                        >
+                            <Handshake size={20} />
+                            <span className="font-medium">Distributors</span>
+                        </Link>
+                    </>
                 )}
                 {menuItems.map((item) => {
                     const isActive = pathname === item.href;

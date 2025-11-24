@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Edit, Trash } from "lucide-react";
 import DeleteModal from "@/components/delete-modal";
-import AddDistributorModal from "./add-modal";
 import { deleteDistributerById } from "@/lib/slices/distributerSlice";
+import AddDistributorModal from "./add-modal";
 
 export default function ResponsiveTable({ data }) {
     const [openRow, setOpenRow] = useState(null);

@@ -128,7 +128,7 @@ export default function AddDistributorModal({ isOpen, onClose, editableDistribut
                         required={true} />
 
                     {/* Submit Button */}
-                    <SubmitButton label={"Save Distributer"} loading={loading} onClick={handleSubmit} />
+                    <SubmitButton label={"Save Distributor"} loading={loading} onClick={handleSubmit} />
                 </form>
             </div>
         </div>
