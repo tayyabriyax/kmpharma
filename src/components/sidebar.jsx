@@ -35,32 +35,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
 
             <nav>
-                {user.role === "Admin" && (
-                    <>
-                        <Link
-                            href="/user"
-                            className={`flex items-center gap-3 px-3 py-3 transition-all
-                             ${pathname === "/user"
-                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
-                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
-                                }`}
-                        >
-                            <User size={20} />
-                            <span className="font-medium">Add User</span>
-                        </Link>
-                        <Link
-                            href="/distributors"
-                            className={`flex items-center gap-3 px-3 py-3 transition-all
-                             ${pathname === "/distributors"
-                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
-                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
-                                }`}
-                        >
-                            <Handshake size={20} />
-                            <span className="font-medium">Distributors</span>
-                        </Link>
-                    </>
-                )}
                 {menuItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -78,6 +52,32 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </Link>
                     );
                 })}
+                {user.role === "Admin" && (
+                    <>
+                        <Link
+                            href="/user"
+                            className={`flex items-center gap-3 px-3 py-3 transition-all
+                             ${pathname === "/user"
+                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                                }`}
+                        >
+                            <User size={20} />
+                            <span className="font-medium">Users</span>
+                        </Link>
+                        <Link
+                            href="/distributors"
+                            className={`flex items-center gap-3 px-3 py-3 transition-all
+                             ${pathname === "/distributors"
+                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                                }`}
+                        >
+                            <Handshake size={20} />
+                            <span className="font-medium">Distributors</span>
+                        </Link>
+                    </>
+                )}
             </nav>
         </aside>
     )

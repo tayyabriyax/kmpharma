@@ -5,11 +5,12 @@ import { Menu, Bell, LogOut, User, KeyRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Navbar({ setSidebarOpen }) {
     const dispatch = useDispatch();
     const pathname = usePathname();
-    const user = useSelector((state) => state.usd?.auth?.loggedInUser);
+    const user = useSelector((state) => state.kmpharma?.auth?.loggedInUser);
     const [openDropdown, setOpenDropdown] = useState(false);
 
     function activeTab() {
@@ -37,8 +38,9 @@ export default function Navbar({ setSidebarOpen }) {
         };
     }, []);
 
-    const userInitials = user?.name
-        ? user.name.split(" ").map(n => n[0]).join("").toUpperCase()
+
+    const userInitials = user?.username
+        ? user.username.split(" ").map(n => n[0]).join("").toUpperCase()
         : "U";
 
     return (
@@ -78,7 +80,7 @@ export default function Navbar({ setSidebarOpen }) {
                         </div>
 
                         <div className="hidden sm:flex flex-col text-left leading-tight">
-                            <span className="text-gray-800 text-sm font-medium">{user?.name || "User"}</span>
+                            <span className="text-gray-800 text-sm font-medium">{user?.fullname || "User"}</span>
                             <span className="text-gray-500 text-xs">{user?.email || "email@example.com"}</span>
                         </div>
                     </button>
@@ -86,21 +88,21 @@ export default function Navbar({ setSidebarOpen }) {
                     {/* DROPDOWN MENU */}
                     {openDropdown && (
                         <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 py-2 z-50 animate-fadeIn">
-                            <a
+                            <Link
                                 href="/profile"
                                 className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-gray-700"
                             >
                                 <User size={18} />
                                 Edit Profile
-                            </a>
+                            </Link>
 
-                            <a
+                            <Link
                                 href="/change-password"
                                 className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-gray-700"
                             >
                                 <KeyRound size={18} />
                                 Change Password
-                            </a>
+                            </Link>
 
                             <button
                                 onClick={() => dispatch(REMOVE_ACTIVE_USER())}
