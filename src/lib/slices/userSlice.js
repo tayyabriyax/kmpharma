@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 const initialState = {
     users: [],
+    userDetails: {},
     loadData: false,
     loading: false
 };
@@ -35,10 +36,19 @@ export const deleteUserById = createAsyncThunk("user/deleteUserById", async (id,
     }
 })
 
-export const editUserById = createAsyncThunk("user/editUserById", async ({ id, credentials }, thunkAPI) => {
+export const editUser = createAsyncThunk("user/editUser", async (credentials, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/user/${id}`, { method: "PUT", data: credentials });
+        return await fetchAPI(`api/v1/user/update-user-details`, { method: "PUT", data: credentials, token });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
+export const getUserDetails = createAsyncThunk("user/getUserDetails", async (_, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/user/get-user-details`, { method: "GET", token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -77,17 +87,20 @@ const userSlice = createSlice({
                 toast.error("Error while deleting user");
                 state.loading = false;
             })
-            .addCase(editUserById.pending, (state) => {
+            .addCase(editUser.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(editUserById.fulfilled, (state, action) => {
+            .addCase(editUser.fulfilled, (state, action) => {
                 toast.success("User updated Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
-            .addCase(editUserById.rejected, (state, action) => {
+            .addCase(editUser.rejected, (state, action) => {
                 toast.error("Error while updating user");
                 state.loading = false;
+            })
+            .addCase(getUserDetails.fulfilled, (state, action) => {
+                state.userDetails = action.payload.data;
             })
     }
 });

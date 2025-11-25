@@ -6,12 +6,20 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import { getUserDetails } from "@/lib/slices/userSlice";
 
 export default function Navbar({ setSidebarOpen }) {
     const dispatch = useDispatch();
     const pathname = usePathname();
-    const user = useSelector((state) => state.kmpharma?.auth?.loggedInUser);
+
+    const user = useSelector((state) => state.kmpharma?.user?.userDetails);
+    const loadData = useSelector((state) => state.kmpharma?.user?.loadData);
+
     const [openDropdown, setOpenDropdown] = useState(false);
+
+    useEffect(() => {
+        dispatch(getUserDetails());
+    }, [loadData])
 
     function activeTab() {
         if (pathname.includes('/dashboard')) return 'Dashboard'

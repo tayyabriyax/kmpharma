@@ -1,23 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { User, Mail, Lock, Phone } from "lucide-react";
 import InputField from "@/components/input-field";
 import SubmitButton from "@/components/submit-button";
 import { useSelector, useDispatch } from "react-redux";
-// import { UPDATE_PROFILE } from "@/lib/slices/authSlice";
+import { editUser } from "@/lib/slices/userSlice";
 
 export default function EditProfilePage() {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.kmpharma.auth.loggedInUser);
+
+    const user = useSelector((state) => state.kmpharma.user.userDetails);
+    const loading = useSelector((state) => state.kmpharma.user.loading);
 
     const [formData, setFormData] = useState({
-        fullname: user?.fullname || "",
-        username: user?.username || "",
-        email: user?.email || "",
+        fullname: "",
+        username: "",
     });
 
-    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        setFormData({
+            fullname: user?.fullname,
+            username: user?.username
+        })
+    }, [user])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,12 +32,7 @@ export default function EditProfilePage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-
-        // trigger redux update
-        // dispatch(UPDATE_PROFILE(formData));
-
-        setLoading(false);
+        dispatch(editUser(formData));
     };
 
     return (
@@ -48,7 +49,7 @@ export default function EditProfilePage() {
                     <InputField
                         label="Full Name"
                         id="fullname"
-                        value={formData.fullname}
+                        value={formData.fullname ?? ""}
                         onChange={handleChange}
                         placeholder="John Doe"
                         icon={<User className="absolute left-3 top-3 text-gray-400" size={18} />}
@@ -58,7 +59,7 @@ export default function EditProfilePage() {
                     <InputField
                         label="Username"
                         id="username"
-                        value={formData.username}
+                        value={formData.username ?? ""}
                         onChange={handleChange}
                         placeholder="johndoe"
                         icon={<User className="absolute left-3 top-3 text-gray-400" size={18} />}
@@ -68,11 +69,11 @@ export default function EditProfilePage() {
                     <InputField
                         label="Email"
                         id="email"
-                        value={formData.email}
-                        onChange={handleChange}
+                        value={user?.email ?? ""}
                         placeholder="Enter your email"
                         type="email"
                         icon={<Mail className="absolute left-3 top-3 text-gray-400" size={18} />}
+                        readOnly={true}
                         required
                     />
 
