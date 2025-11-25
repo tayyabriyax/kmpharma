@@ -10,8 +10,9 @@ const initialState = {
 };
 
 export const createParty = createAsyncThunk("party/createParty", async (credentials, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/parties/create", { method: "POST", data: credentials });
+        return await fetchAPI("api/v1/parties/create", { method: "POST", data: credentials, token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }

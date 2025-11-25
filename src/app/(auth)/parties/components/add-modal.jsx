@@ -31,7 +31,6 @@ export default function AddPartiesModal({ isOpen, onClose, editableParty }) {
         email: "",
         phone: "",
         adress: "",
-        distributer_id: ""
     });
 
     useEffect(() => {
@@ -42,7 +41,6 @@ export default function AddPartiesModal({ isOpen, onClose, editableParty }) {
                 email: editableParty.email,
                 phone: editableParty.phone,
                 adress: editableParty.adress,
-                distributer_id: editableParty.id
             }))
         }
     }, [isOpen])
@@ -68,7 +66,6 @@ export default function AddPartiesModal({ isOpen, onClose, editableParty }) {
             email: "",
             phone: "",
             adress: "",
-            distributer_id: ""
         }))
         onClose();
     };
@@ -130,15 +127,6 @@ export default function AddPartiesModal({ isOpen, onClose, editableParty }) {
                         id={"adress"}
                         placeholder={"House ABC, Street ABC, etc"}
                         required={true} />
-
-                    {/* Distributer */}
-                    <SelectInput
-                        label={"Distributer"}
-                        icon={<Handshake className="absolute left-3 top-3 text-gray-400" size={18} />}
-                        options={distributers}
-                        name={"distributer_id"}
-                        value={formData.distributer_id}
-                        onChange={handleChange} />
 
                     {/* Submit Button */}
                     <SubmitButton label={"Save Party"} loading={loading} onClick={handleSubmit} />
