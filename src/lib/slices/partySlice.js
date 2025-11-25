@@ -21,7 +21,7 @@ export const createParty = createAsyncThunk("party/createParty", async (credenti
 export const getAllParties = createAsyncThunk("party/getAllParties", async (_, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/parties/", { method: "GET" });
+        return await fetchAPI("api/v1/parties-by-distributer", { method: "GET", token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -76,7 +76,7 @@ const partySlice = createSlice({
                 state.distributers = action.payload;
             })
             .addCase(getAllParties.fulfilled, (state, action) => {
-                state.parties = action.payload.data;
+                state.parties = action.payload.data.parties;
             })
             .addCase(deletePartyById.pending, (state) => {
                 state.loading = true;

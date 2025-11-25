@@ -39,8 +39,7 @@ export default function ResponsiveTable({ data }) {
                             <th className="px-4 py-3">Email</th>
                             <th className="px-4 py-3">Phone</th>
                             <th className="px-4 py-3">Address</th>
-                            <th className="px-4 py-3">Distributer</th>
-                            <th className="px-4 py-3">Created At</th>
+                            {/* <th className="px-4 py-3">Created At</th> */}
                             <th className="px-4 py-3">Action</th>
                         </tr>
                     </thead>
@@ -54,8 +53,7 @@ export default function ResponsiveTable({ data }) {
                                 <td className="px-4 py-3">{item.email}</td>
                                 <td className="px-4 py-3">{item.phone}</td>
                                 <td className="px-4 py-3">{item.adress}</td>
-                                <td className="px-4 py-3">{item.distributer_name}</td>
-                                <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td>
+                                {/* <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td> */}
                                 <td className="px-2 py-1 space-x-4">
                                     <button onClick={() => handleClickOnEdit(item)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
                                         <Edit size={18} />
@@ -108,9 +106,6 @@ export default function ResponsiveTable({ data }) {
                                     </p>
                                     <p>
                                         <span className="font-semibold">Address : </span>{item.adress}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">Distributer : </span>{item.distributer_name}
                                     </p>
                                     <p>
                                         <span className="font-semibold">Created At : </span> {new Date(item.created_at).toDateString()}

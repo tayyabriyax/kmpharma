@@ -22,6 +22,8 @@ export default function Navbar({ setSidebarOpen }) {
         if (pathname.includes('/distributer-products')) return 'Distributer Products'
         if (pathname.includes('/distributer-order')) return 'Distributer Orders'
         if (pathname.includes('/user')) return 'User'
+        if (pathname.includes('/profile')) return 'Profile'
+        if (pathname.includes('/change-password')) return 'Change Password'
     }
 
     const dropdownRef = useRef(null);

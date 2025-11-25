@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { User, Mail, Lock, Phone } from "lucide-react";
-import InputField from "@/components/input-field";
 import SubmitButton from "@/components/submit-button";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PasswordField from "@/components/password-field";
 
 export default function ChangePassword() {
