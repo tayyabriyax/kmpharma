@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import SubmitButton from "@/components/submit-button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PasswordField from "@/components/password-field";
+import { changePassword } from "@/lib/slices/userSlice";
 
 export default function ChangePassword() {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export default function ChangePassword() {
         new_password: "",
     });
 
-    const [loading, setLoading] = useState(false);
+    const loading = useSelector(state => state.kmpharma.user.loading);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,12 +23,11 @@ export default function ChangePassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-
-        // trigger redux update
-        // dispatch(UPDATE_PROFILE(formData));
-
-        setLoading(false);
+        dispatch(changePassword(formData));
+        setFormData({
+            old_password: "",
+            new_password: ""
+        })
     };
 
     return (
