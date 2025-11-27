@@ -49,7 +49,7 @@ export const editDistributerOrderById = createAsyncThunk("distributerOrder/editD
 export const getDropdownParties = createAsyncThunk("distributerOrder/getDropdownParties", async (_, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/dropdowns/parties`, { method: "GET" });
+        return await fetchAPI(`api/v1/dropdowns/parties-by-distributer`, { method: "GET", token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
