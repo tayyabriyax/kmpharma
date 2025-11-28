@@ -10,8 +10,9 @@ const initialState = {
 };
 
 export const createDistributer = createAsyncThunk("distributer/createDistributer", async (credentials, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/distributers/create", { method: "POST", data: credentials });
+        return await fetchAPI("api/v1/distributers/create", { method: "POST", data: credentials, token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -20,7 +21,7 @@ export const createDistributer = createAsyncThunk("distributer/createDistributer
 export const getAllDistributers = createAsyncThunk("distributer/getAllDistributers", async (_, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/distributers/", { method: "GET" });
+        return await fetchAPI("api/v1/distributers/", { method: "GET", token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -29,7 +30,7 @@ export const getAllDistributers = createAsyncThunk("distributer/getAllDistribute
 export const deleteDistributerById = createAsyncThunk("distributer/deleteDistributerById", async (id, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/distributers/${id}`, { method: "DELETE" });
+        return await fetchAPI(`api/v1/distributers/${id}`, { method: "DELETE", token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -38,7 +39,7 @@ export const deleteDistributerById = createAsyncThunk("distributer/deleteDistrib
 export const editDistributerById = createAsyncThunk("distributer/editDistributerById", async ({ id, credentials }, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/distributers/${id}`, { method: "PUT", data: credentials });
+        return await fetchAPI(`api/v1/distributers/${id}`, { method: "PUT", data: credentials, token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }

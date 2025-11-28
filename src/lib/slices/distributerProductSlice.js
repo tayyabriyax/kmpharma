@@ -12,7 +12,7 @@ const initialState = {
 export const createDistributerProduct = createAsyncThunk("distributerProduct/createDistributerProduct", async (credentials, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/distributer_products/create", { method: "POST", data: credentials });
+        return await fetchAPI("api/v1/distributer_products/create", { method: "POST", data: credentials, token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -21,7 +21,7 @@ export const createDistributerProduct = createAsyncThunk("distributerProduct/cre
 export const getAllDistributerProducts = createAsyncThunk("distributerProduct/getAllDistributerProducts", async (_, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/distributer_products/", { method: "GET" });
+        return await fetchAPI("api/v1/distributer_products/", { method: "GET", token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -30,7 +30,7 @@ export const getAllDistributerProducts = createAsyncThunk("distributerProduct/ge
 export const deleteDistributerProductById = createAsyncThunk("distributerProduct/deleteDistributerProductById", async (id, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/distributer_products/${id}`, { method: "DELETE" });
+        return await fetchAPI(`api/v1/distributer_products/${id}`, { method: "DELETE", token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
@@ -39,7 +39,7 @@ export const deleteDistributerProductById = createAsyncThunk("distributerProduct
 export const editDistributerProductById = createAsyncThunk("distributerProduct/editDistributerProductById", async ({ id, credentials }, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/distributer_products/${id}`, { method: "PUT", data: credentials });
+        return await fetchAPI(`api/v1/distributer_products/${id}`, { method: "PUT", data: credentials, token });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
