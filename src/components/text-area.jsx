@@ -45,6 +45,7 @@ export default function TextAreaField({
             focus:outline-none 
             focus:ring-teal-500 
             transition-all 
+            text-gray-700
             px-3 py-3 
             resize-y
             ${disabled ? "opacity-60 cursor-not-allowed" : ""}

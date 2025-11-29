@@ -13,11 +13,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     const menuItems = [
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
-        { title: "Suppliers", href: "/suppliers", icon: <Truck size={20} /> },
         { title: "Parties", href: "/parties", icon: <Users size={20} /> },
-        { title: "Vaterinary Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
-        { title: "Distributer Products", href: "/distributer-products", icon: <PackageSearch size={20} /> },
-        { title: "Distributer Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
+        { title: "Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
+        // { title: "Distributer Products", href: "/distributer-products", icon: <PackageSearch size={20} /> },
+        { title: "Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
     ];
 
     return (
@@ -75,6 +74,17 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         >
                             <Handshake size={20} />
                             <span className="font-medium">Distributors</span>
+                        </Link>
+                        <Link
+                            href="/suppliers"
+                            className={`flex items-center gap-3 px-3 py-3 transition-all
+                             ${pathname === "/suppliers"
+                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                                }`}
+                        >
+                            <Truck size={20} />
+                            <span className="font-medium">Suppliers</span>
                         </Link>
                     </>
                 )}

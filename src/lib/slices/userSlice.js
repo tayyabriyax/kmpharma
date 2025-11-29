@@ -30,7 +30,7 @@ export const getAllUsers = createAsyncThunk("user/getAllUsers", async (_, thunkA
 export const deleteUserById = createAsyncThunk("user/deleteUserById", async (id, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/user/${id}`, { method: "DELETE" });
+        return await fetchAPI(`api/v1/user/delete-user/${id}`, { method: "DELETE" });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }

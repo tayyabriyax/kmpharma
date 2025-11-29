@@ -17,6 +17,7 @@ import SubmitButton from "@/components/submit-button";
 import InputField from "@/components/input-field";
 import SelectInput from "@/components/select";
 import { createUser } from "@/lib/slices/userSlice";
+import PasswordField from "@/components/password-field";
 
 const ROLES = [
     { label: "Admin", value: "admin" },
@@ -109,27 +110,12 @@ export default function AddUserModal({ isOpen, onClose, editableParty }) {
                         placeholder={"johndoe"}
                         required={true} />
 
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
-                        Password
-                    </label>
-                    <div className="relative">
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="••••••••"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 pr-10"
-                            required
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute cursor-pointer inset-y-0 right-3 flex items-center text-gray-500"
-                        >
-                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </button>
-                    </div>
+                    {/* Password */}
+                    <PasswordField
+                        label={"Password"}
+                        id={"password"}
+                        value={formData.password}
+                        onChange={handleChange} />
 
                     {/* Role */}
                     <SelectInput
