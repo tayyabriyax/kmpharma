@@ -63,12 +63,17 @@ const vaterinaryProductSlice = createSlice({
                 state.loading = true;
             })
             .addCase(createVaterinaryProduct.fulfilled, (state, action) => {
-                toast.success("Vaterinary Product created Successfully !");
+                toast.success("Product created Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(createVaterinaryProduct.rejected, (state, action) => {
-                toast.error("Error while creating Vaterinary Product !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(getDropdownSuppliers.fulfilled, (state, action) => {
@@ -81,24 +86,34 @@ const vaterinaryProductSlice = createSlice({
                 state.loading = true;
             })
             .addCase(deleteVaterinaryProductById.fulfilled, (state, action) => {
-                toast.success("Veterinary product deleted Successfully !");
+                toast.success("Veterinary product deleted Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(deleteVaterinaryProductById.rejected, (state, action) => {
-                toast.error("Error while Veterinary product !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(editVeterinaryProductById.pending, (state) => {
                 state.loading = true;
             })
             .addCase(editVeterinaryProductById.fulfilled, (state, action) => {
-                toast.success("Veterinary product updated Successfully !");
+                toast.success("Veterinary product updated Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(editVeterinaryProductById.rejected, (state, action) => {
-                toast.error("Error while updating Veterinary product !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }

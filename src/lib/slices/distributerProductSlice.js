@@ -64,12 +64,17 @@ const distributerProductSlice = createSlice({
                 state.loading = true;
             })
             .addCase(createDistributerProduct.fulfilled, (state, action) => {
-                toast.success("Distributer Product created Successfully !");
+                toast.success("Distributer Product created Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(createDistributerProduct.rejected, (state, action) => {
-                toast.error("Error while creating Distributer Product !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(getDropdownProducts.fulfilled, (state, action) => {
@@ -82,24 +87,34 @@ const distributerProductSlice = createSlice({
                 state.loading = true;
             })
             .addCase(deleteDistributerProductById.fulfilled, (state, action) => {
-                toast.success("Distributer product deleted Successfully !");
+                toast.success("Distributer product deleted Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(deleteDistributerProductById.rejected, (state, action) => {
-                toast.error("Error while Distributer product !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(editDistributerProductById.pending, (state) => {
                 state.loading = true;
             })
             .addCase(editDistributerProductById.fulfilled, (state, action) => {
-                toast.success("Distributer product updated Successfully !");
+                toast.success("Distributer product updated Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(editDistributerProductById.rejected, (state, action) => {
-                toast.error("Error while updating Distributer product !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }

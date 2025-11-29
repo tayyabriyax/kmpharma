@@ -53,12 +53,17 @@ const supplierSlice = createSlice({
                 state.loading = true;
             })
             .addCase(createSupplier.fulfilled, (state, action) => {
-                toast.success("Supplier created Successfully !");
+                toast.success("Supplier created Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(createSupplier.rejected, (state, action) => {
-                toast.error("Error while creating supplier !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(getAllSuppliers.fulfilled, (state, action) => {
@@ -68,24 +73,34 @@ const supplierSlice = createSlice({
                 state.loading = true;
             })
             .addCase(deleteSupplierById.fulfilled, (state, action) => {
-                toast.success("Supplier deleted Successfully !");
+                toast.success("Supplier deleted Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(deleteSupplierById.rejected, (state, action) => {
-                toast.error("Error while deleting supplier !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(editSupplierById.pending, (state) => {
                 state.loading = true;
             })
             .addCase(editSupplierById.fulfilled, (state, action) => {
-                toast.success("Supplier updated Successfully !");
+                toast.success("Supplier updated Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(editSupplierById.rejected, (state, action) => {
-                toast.error("Error while updating supplier !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }

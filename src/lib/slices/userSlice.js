@@ -78,7 +78,12 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(createUser.rejected, (state, action) => {
-                toast.error("Error while creating user");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(getAllUsers.fulfilled, (state, action) => {
@@ -93,7 +98,12 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(deleteUserById.rejected, (state, action) => {
-                toast.error("Error while deleting user");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(editUser.pending, (state) => {
@@ -105,7 +115,12 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(editUser.rejected, (state, action) => {
-                toast.error("Error while updating user");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(getUserDetails.fulfilled, (state, action) => {
@@ -119,7 +134,12 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(changePassword.rejected, (state, action) => {
-                toast.error("Error while changing password");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }

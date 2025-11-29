@@ -64,12 +64,17 @@ const partySlice = createSlice({
                 state.loading = true;
             })
             .addCase(createParty.fulfilled, (state, action) => {
-                toast.success("Party created Successfully !");
+                toast.success("Party created Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(createParty.rejected, (state, action) => {
-                toast.error("Error while creating party !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(getDropdownDistributers.fulfilled, (state, action) => {
@@ -82,24 +87,34 @@ const partySlice = createSlice({
                 state.loading = true;
             })
             .addCase(deletePartyById.fulfilled, (state, action) => {
-                toast.success("Party deleted Successfully !");
+                toast.success("Party deleted Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(deletePartyById.rejected, (state, action) => {
-                toast.error("Error while deleting party !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(editPartyById.pending, (state) => {
                 state.loading = true;
             })
             .addCase(editPartyById.fulfilled, (state, action) => {
-                toast.success("Party updated Successfully !");
+                toast.success("Party updated Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
             .addCase(editPartyById.rejected, (state, action) => {
-                toast.error("Error while updating party !");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }

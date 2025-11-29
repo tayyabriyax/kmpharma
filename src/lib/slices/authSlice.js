@@ -39,7 +39,12 @@ const authSlice = createSlice({
                 state.loading = false;
             })
             .addCase(loginAsync.rejected, (state, action) => {
-                toast.error("Invalid Credentials !")
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }

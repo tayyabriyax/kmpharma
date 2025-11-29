@@ -80,7 +80,12 @@ const distributerOrderSlice = createSlice({
                 state.loading = false;
             })
             .addCase(createDistributerOrder.rejected, (state, action) => {
-                toast.error("Error while creating Order");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(getDropdownParties.fulfilled, (state, action) => {
@@ -98,7 +103,12 @@ const distributerOrderSlice = createSlice({
                 state.loading = false;
             })
             .addCase(deleteDistributerOrderById.rejected, (state, action) => {
-                toast.error("Error while deleting Order");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(editDistributerOrderById.pending, (state) => {
@@ -110,7 +120,12 @@ const distributerOrderSlice = createSlice({
                 state.loading = false;
             })
             .addCase(editDistributerOrderById.rejected, (state, action) => {
-                toast.error("Error while updating Order");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
             .addCase(createBill.pending, (state) => {
@@ -122,7 +137,12 @@ const distributerOrderSlice = createSlice({
                 state.loading = false;
             })
             .addCase(createBill.rejected, (state, action) => {
-                toast.error("Error while creating bill");
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }
