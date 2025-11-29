@@ -92,6 +92,9 @@ const vaterinaryProductSlice = createSlice({
             .addCase(getAllVaterinaryProducts.fulfilled, (state, action) => {
                 state.vaterinaryProducts = action.payload.data;
             })
+            .addCase(getVaterinaryProductsById.fulfilled, (state, action) => {
+                state.productDetails = action.payload.data;
+            })
             .addCase(deleteVaterinaryProductById.pending, (state) => {
                 state.loading = true;
             })
