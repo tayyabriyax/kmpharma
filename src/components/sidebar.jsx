@@ -13,7 +13,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     const menuItems = [
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
-        { title: "Parties", href: "/parties", icon: <Users size={20} /> },
+        // { title: "Parties", href: "/parties", icon: <Users size={20} /> },
         { title: "Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
         // { title: "Distributer Products", href: "/distributer-products", icon: <PackageSearch size={20} /> },
         { title: "Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
@@ -51,7 +51,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </Link>
                     );
                 })}
-                {user.role === "Admin" && (
+                {user.role === "Admin" ? (
                     <>
                         <Link
                             href="/user"
@@ -85,6 +85,20 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         >
                             <Truck size={20} />
                             <span className="font-medium">Suppliers</span>
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link
+                            href="/parties"
+                            className={`flex items-center gap-3 px-3 py-3 transition-all
+                             ${pathname === "/parties"
+                                    ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
+                                    : "text-gray-700 hover:bg-teal-50 hover:text-teal-500"
+                                }`}
+                        >
+                            <Users size={20} />
+                            <span className="font-medium">Parties</span>
                         </Link>
                     </>
                 )}

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 const initialState = {
     vaterinaryProducts: [],
     suppliers: [],
+    productDetails: {},
     loadData: false,
     loading: false
 };
@@ -21,6 +22,15 @@ export const getAllVaterinaryProducts = createAsyncThunk("vaterinaryProduct/getA
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
         return await fetchAPI("api/v1/veterinary-products/", { method: "GET" });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
+export const getVaterinaryProductsById = createAsyncThunk("vaterinaryProduct/getVaterinaryProductsById", async (id, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/veterinary-products/${id}`, { method: "GET" });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
