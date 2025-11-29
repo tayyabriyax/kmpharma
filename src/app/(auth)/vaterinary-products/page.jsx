@@ -15,6 +15,7 @@ export default function VaterinaryProducts() {
 
     const products = useSelector(state => state.kmpharma.vaterinaryProduct.vaterinaryProducts);
     const loadData = useSelector(state => state.kmpharma.vaterinaryProduct.loadData);
+    const user = useSelector(state => state.kmpharma.auth.loggedInUser);
 
     useEffect(() => {
         dispatch(getAllVaterinaryProducts());
@@ -22,12 +23,15 @@ export default function VaterinaryProducts() {
 
     return (
         <div>
-            <div className="w-full sm:w-52 py-4">
-                <SubmitButton
-                    label={"Add Vaterinary Product"}
-                    onClick={() => setShowModal(true)} />
-            </div>
-            <ResponsiveTable data={products} />
+            {
+                user.role === "Admin" &&
+                <div className="w-full sm:w-52 py-4">
+                    <SubmitButton
+                        label={"Add Vaterinary Product"}
+                        onClick={() => setShowModal(true)} />
+                </div>
+            }
+            <ResponsiveTable data={products} user={user} />
             <AddSuppliersModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}

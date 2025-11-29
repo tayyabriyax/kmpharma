@@ -6,7 +6,7 @@ import DeleteModal from "@/components/delete-modal";
 import { deleteVaterinaryProductById } from "@/lib/slices/vaterinaryProductSlice";
 import AddVaterinaryProductModal from "./add-modal";
 
-export default function ResponsiveTable({ data }) {
+export default function ResponsiveTable({ data, user }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -42,7 +42,10 @@ export default function ResponsiveTable({ data }) {
                             <th className="px-4 py-3">Composition</th>
                             <th className="px-4 py-3">Dosage Form</th>
                             <th className="px-4 py-3">Created At</th>
-                            <th className="px-4 py-3">Action</th>
+                            {
+                                user?.role === "Admin" &&
+                                <th className="px-4 py-3">Action</th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -58,14 +61,17 @@ export default function ResponsiveTable({ data }) {
                                 <td className="px-4 py-3">{item.composition}</td>
                                 <td className="px-4 py-3">{item.dosage_form}</td>
                                 <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td>
-                                <td className="px-2 py-1 space-x-4">
-                                    <button onClick={() => handleClickOnEdit(item)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
-                                        <Edit size={18} />
-                                    </button>
-                                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
-                                        <Trash size={18} />
-                                    </button>
-                                </td>
+                                {
+                                    user?.role === "Admin" &&
+                                    <td className="px-2 py-1 space-x-4">
+                                        <button onClick={() => handleClickOnEdit(item)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                                            <Edit size={18} />
+                                        </button>
+                                        <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                                            <Trash size={18} />
+                                        </button>
+                                    </td>
+                                }
                             </tr>
                         ))}
                     </tbody>
@@ -91,12 +97,17 @@ export default function ResponsiveTable({ data }) {
                                     <button className="text-gray-500">
                                         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                                     </button>
-                                    <button onClick={() => handleClickOnEdit(item)} className="text-gray-500">
-                                        <Edit size={18} />
-                                    </button>
-                                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
-                                        <Trash size={18} />
-                                    </button>
+                                    {
+                                        user?.role === "Admin" &&
+                                        <>
+                                            <button onClick={() => handleClickOnEdit(item)} className="text-gray-500">
+                                                <Edit size={18} />
+                                            </button>
+                                            <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
+                                                <Trash size={18} />
+                                            </button>
+                                        </>
+                                    }
                                 </div>
                             </div>
 
