@@ -20,13 +20,12 @@ import { createUser } from "@/lib/slices/userSlice";
 import PasswordField from "@/components/password-field";
 
 const ROLES = [
-    { label: "Admin", value: "admin" },
-    { label: "User", value: "user" }
+    { label: "Admin", value: "Admin" },
+    { label: "User", value: "User" }
 ]
 
 export default function AddUserModal({ isOpen, onClose, editableParty }) {
 
-    const [showPassword, setShowPassword] = useState(false);
 
     const dispatch = useDispatch();
 
