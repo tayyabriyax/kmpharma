@@ -1,31 +1,29 @@
 "use client"
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Edit, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Edit, Info, Trash } from "lucide-react";
 import DeleteModal from "@/components/delete-modal";
 import AddDistributerProductModal from "./add-modal";
 import { deleteDistributerOrderById } from "@/lib/slices/distributerOrderSlice";
+import OrderDetailsModal from "./details-modal";
 
 export default function ResponsiveTable({ data = [] }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
 
     const [selectedItem, setSelectedItem] = useState(0);
     const [editableItem, setEditableItem] = useState(0);
-
-    const toggleRow = (index) => {
-        setOpenRow(openRow === index ? null : index);
-    };
 
     const handleClickOnTrash = (id) => {
         setSelectedItem(id);
         setShowDeleteModal(true);
     }
 
-    const handleClickOnEdit = (item) => {
+    const handleClickOnInfo = (item) => {
         setEditableItem(item);
-        setShowEditModal(true);
+        setShowDetailsModal(true);
     }
 
     return (
@@ -51,9 +49,9 @@ export default function ResponsiveTable({ data = [] }) {
                                 <td className="px-4 py-3">{item.remarks}</td>
                                 <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td>
                                 <td className="px-2 py-1 space-x-4">
-                                    {/* <button onClick={() => handleClickOnEdit(item)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
-                                        <Edit size={18} />
-                                    </button> */}
+                                    <button onClick={() => handleClickOnInfo(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                                        <Info size={18} />
+                                    </button>
                                     <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
                                         <Trash size={18} />
                                     </button>
@@ -83,9 +81,9 @@ export default function ResponsiveTable({ data = [] }) {
                                     {/* <button className="text-gray-500">
                                         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                                     </button> */}
-                                    {/* <button onClick={() => handleClickOnEdit(item)} className="text-gray-500">
-                                        <Edit size={18} />
-                                    </button> */}
+                                    <button onClick={() => handleClickOnInfo(item.id)} className="text-gray-500">
+                                        <Info size={18} />
+                                    </button>
                                     <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
                                         <Trash size={18} />
                                     </button>
@@ -115,10 +113,10 @@ export default function ResponsiveTable({ data = [] }) {
                 method={deleteDistributerOrderById}
                 onClose={() => setShowDeleteModal(false)}
             />
-            <AddDistributerProductModal
-                isOpen={showEditModal}
-                editableProduct={editableItem}
-                onClose={() => setShowEditModal(false)} />
+            <OrderDetailsModal
+                isOpen={showDetailsModal}
+                order={editableItem}
+                onClose={() => setShowDetailsModal(false)} />
         </div>
     );
 }

@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 const initialState = {
     distributerOrders: [],
+    orderDetails: [],
     order_id: 0,
     parties: [],
     loadData: false,
@@ -64,6 +65,15 @@ export const createBill = createAsyncThunk("distributerOrder/createBill", async 
     }
 })
 
+export const getOrderDetails = createAsyncThunk("distributerOrder/getOrderDetails", async (order_id, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/orders/items-bill_by_order_id/${order_id}`, { method: "GET" });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
 const distributerOrderSlice = createSlice({
     name: 'distributerOrder',
     initialState,
@@ -92,6 +102,9 @@ const distributerOrderSlice = createSlice({
             })
             .addCase(getAllDistributerOrders.fulfilled, (state, action) => {
                 state.distributerOrders = action.payload.data;
+            })
+            .addCase(getOrderDetails.fulfilled, (state, action) => {
+                state.orderDetails = action.payload.data;
             })
             .addCase(deleteDistributerOrderById.pending, (state) => {
                 state.loading = true;
