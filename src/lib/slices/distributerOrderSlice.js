@@ -74,7 +74,6 @@ const distributerOrderSlice = createSlice({
                 state.loading = true;
             })
             .addCase(createDistributerOrder.fulfilled, (state, action) => {
-                toast.success("Order created Successfully");
                 state.order_id = action.payload.data.id;
                 state.loadData = !state.loadData;
                 state.loading = false;

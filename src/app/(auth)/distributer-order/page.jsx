@@ -15,6 +15,11 @@ export default function VaterinaryProducts() {
     const [showModal, setShowModal] = useState(false);
     const [openBillModal, setOpenBillModal] = useState(false);
 
+    const [formData, setFormData] = useState({
+        party_id: "",
+        remarks: ""
+    });
+
     const orders = useSelector(state => state.kmpharma.distributerOrder.distributerOrders);
     const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
 
@@ -33,13 +38,17 @@ export default function VaterinaryProducts() {
             <AddDistributerOrderModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
+                formData={formData}
+                setFormData={setFormData}
                 openBillModal={() => {
-                    setShowModal(false);     // close modal 1
-                    setOpenBillModal(true);  // open modal 2
+                    setShowModal(false);
+                    setOpenBillModal(true);
                 }}
             />
             <BillModal
                 isOpen={openBillModal}
+                partyForm={formData}
+                setPartyForm={setFormData}
                 onClose={() => setOpenBillModal(false)}
             />
         </div>

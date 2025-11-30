@@ -12,7 +12,7 @@ import { getDropdownDistributers } from "@/lib/slices/partySlice";
 import { createDistributerOrder, getDropdownParties } from "@/lib/slices/distributerOrderSlice";
 import TextAreaField from "@/components/text-area";
 
-export default function AddDistributerOrderModal({ isOpen, onClose, openBillModal }) {
+export default function AddDistributerOrderModal({ isOpen, onClose, openBillModal, setFormData, formData }) {
 
     const dispatch = useDispatch();
 
@@ -24,11 +24,6 @@ export default function AddDistributerOrderModal({ isOpen, onClose, openBillModa
     const loading = useSelector(state => state.kmpharma.distributerProduct.loading);
     const parties = useSelector(state => state.kmpharma.distributerOrder.parties);
 
-    const [formData, setFormData] = useState({
-        party_id: "",
-        remarks: ""
-    });
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -39,16 +34,8 @@ export default function AddDistributerOrderModal({ isOpen, onClose, openBillModa
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const res = dispatch(createDistributerOrder(formData));
-        if (!res.error) {
-            setFormData((prev) => ({
-                ...prev,
-                party_id: "",
-                remarks: ""
-            }))
-            onClose();        // close Create Order modal
-            openBillModal();  // immediately open Bill Modal
-        }
+        onClose();
+        openBillModal();
     };
 
     if (!isOpen) return null;

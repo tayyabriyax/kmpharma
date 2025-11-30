@@ -9,14 +9,15 @@ import SelectInput from "@/components/select";
 import InputField from "@/components/input-field";
 
 import { getDropdownProducts } from "@/lib/slices/distributerProductSlice";
-import { createBill } from "@/lib/slices/distributerOrderSlice";
+import { createBill, createDistributerOrder } from "@/lib/slices/distributerOrderSlice";
+import { getVaterinaryProductsById } from "@/lib/slices/vaterinaryProductSlice";
 
 const PAID_STATUS = [
     { label: "Paid", value: "paid" },
     { label: "Unpaid", value: "unpaid" }
 ];
 
-export default function BillModal({ isOpen, onClose }) {
+export default function BillModal({ isOpen, onClose, partyForm, setPartyForm }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,8 +26,6 @@ export default function BillModal({ isOpen, onClose }) {
 
     const loading = useSelector(state => state.kmpharma.distributerProduct.loading);
     const products = useSelector(state => state.kmpharma.distributerProduct.products || []);
-    const order_id = useSelector(state => state.kmpharma.distributerOrder.order_id);
-    const productDetails = useSelector(state => state.kmpharma.vaterinaryProduct.productDetails);
 
     // Current single-selection form (for adding to table)
     const [currentProductId, setCurrentProductId] = useState("");
@@ -41,22 +40,16 @@ export default function BillModal({ isOpen, onClose }) {
     // Global fields (apply to entire bill)
     const [discount, setDiscount] = useState(0);
     const [paidStatus, setPaidStatus] = useState("unpaid");
-    const [paidAmount, setPaidAmount] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     // Dummy product details fetch - replace URL with your real endpoint
     const fetchProductDetails = async (productId) => {
         if (!productId) return;
         setFetchingPrice(true);
         try {
-            // <-- Replace this with your real API. This is a dummy placeholder.
-            // Example: const res = await fetch(`/api/v1/products/${productId}/`);
-            // const data = await res.json();
-            // setUnitPrice(data.unit_price);
-
-            // Dummy simulated response:
-            await new Promise(r => setTimeout(r, 300)); // simulate latency
-            const dummyUnitPrice = (Math.floor(Math.random() * 90) + 10).toString(); // 10..99
-            setUnitPrice(dummyUnitPrice);
+            const product = await dispatch(getVaterinaryProductsById(productId));
+            const unitPrice = product.payload.data.selling_price;
+            setUnitPrice(unitPrice);
         } catch (err) {
             console.error("Failed to fetch product details:", err);
             setUnitPrice("");
@@ -111,32 +104,49 @@ export default function BillModal({ isOpen, onClose }) {
         return items.reduce((s, it) => s + (Number(it.total) || 0), 0);
     };
 
-    const getGrandTotal = () => {
+    useEffect(() => {
         const subtotal = calculateSubtotal();
         const disc = Number(discount) || 0;
         const afterDiscount = subtotal - disc;
-        return parseFloat(afterDiscount.toFixed(2));
-    };
+        setTotalAmount(afterDiscount);
+    }, [items, discount]);
 
-    const handleSubmit = (e) => {
+    const getOrderId = async () => {
+        try {
+            const order = await dispatch(createDistributerOrder(partyForm));
+            return order.payload.data.id;
+        } catch (err) {
+            console.error("Failed to fetch order", err);
+        }
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (items.length === 0) return alert("Add at least one product to the bill");
+
+        const order_id = await getOrderId();
+        if (!order_id) return alert("Failed to create order");
 
         const payload = {
             order_id,
             formData: {
                 items: items.map(it => ({
-                    product_id: it.product_id,
+                    product_id: Number(it.product_id),
                     quantity: it.quantity,
                     unit_price: it.unit_price
                 })),
-                discount: Number(discount) || 0,
+                order_id,
+                total_amount: Number(totalAmount) || 0,
+                total_discount: Number(discount) || 0,
                 paid_status: paidStatus,
-                paid_amount: Number(paidAmount) || 0
             }
         };
 
         dispatch(createBill(payload));
+        setPartyForm({
+            party_id: "",
+            remarks: ""
+        })
         onClose();
     };
 
@@ -284,7 +294,6 @@ export default function BillModal({ isOpen, onClose }) {
                                     onChange={(e) => {
                                         const v = e.target ? e.target.value : e?.value;
                                         setPaidStatus(v);
-                                        if (v === "unpaid") setPaidAmount(0);
                                     }}
                                 />
                             </div>
@@ -292,7 +301,7 @@ export default function BillModal({ isOpen, onClose }) {
                             <div className="p-4 border rounded-xl flex flex-col border-gray-200 justify-between">
                                 <div>
                                     <p className="text-sm text-gray-500">Grand Total</p>
-                                    <p className="text-2xl font-semibold">{getGrandTotal().toFixed(2)}</p>
+                                    <p className="text-2xl font-semibold">{totalAmount}</p>
                                 </div>
 
                                 <div className="mt-4">
