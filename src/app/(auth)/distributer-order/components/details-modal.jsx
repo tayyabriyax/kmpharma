@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function OrderDetailsModal({ isOpen, onClose, order }) {
 
-    if (!isOpen || !order) return null;
-
     const dispatch = useDispatch();
 
     const orderDetails = useSelector(state => state.kmpharma.distributerOrder.orderDetails);
@@ -17,13 +15,13 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
         dispatch(getOrderDetails(order));
     }, [isOpen])
 
+    if (!isOpen) return null;
+
     return (
         <div
-            onClick={onClose}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-2"
         >
             <div
-                onClick={stop}
                 className="bg-white rounded-xl shadow-lg w-full max-w-2xl flex flex-col animate-fadeIn"
             >
                 {/* Header */}
@@ -41,12 +39,12 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
 
                     {/* Order Info */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl border border-gray-200">
-                        <Detail label="Party" value={orderDetails.party_name} />
-                        <Detail label="Distributer" value={orderDetails.distributer_name} />
-                        <Detail label="Date" value={new Date(orderDetails.created_at).toDateString()} />
-                        <Detail label="Paid Status" value={orderDetails.paid_status} />
-                        <Detail label="Total Amount" value={orderDetails.total_amount} />
-                        <Detail label="Discount" value={orderDetails.discount} />
+                        <Detail label="Party" value={orderDetails?.party_name} />
+                        <Detail label="Distributer" value={orderDetails?.distributer_name} />
+                        <Detail label="Date" value={orderDetails?.created_at ? new Date(orderDetails?.created_at).toDateString() : "—"} />
+                        <Detail label="Paid Status" value={orderDetails?.paid_status} />
+                        <Detail label="Total Amount" value={orderDetails?.total_amount} />
+                        <Detail label="Discount" value={orderDetails?.discount} />
                     </div>
 
                     {/* Products Table */}
@@ -60,8 +58,8 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {orderDetails.details?.length > 0 ? (
-                                    orderDetails.details.map((item, idx) => (
+                                {orderDetails?.details?.length > 0 ? (
+                                    orderDetails?.details.map((item, idx) => (
                                         <tr
                                             key={idx}
                                             className="hover:bg-[#222]"

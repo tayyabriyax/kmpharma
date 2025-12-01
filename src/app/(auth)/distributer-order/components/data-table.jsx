@@ -1,28 +1,26 @@
 "use client"
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Edit, Info, Trash } from "lucide-react";
+import { Info, Trash } from "lucide-react";
 import DeleteModal from "@/components/delete-modal";
-import AddDistributerProductModal from "./add-modal";
 import { deleteDistributerOrderById } from "@/lib/slices/distributerOrderSlice";
 import OrderDetailsModal from "./details-modal";
 
 export default function ResponsiveTable({ data = [] }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
 
     const [selectedItem, setSelectedItem] = useState(0);
-    const [editableItem, setEditableItem] = useState(0);
+    const [selectedOrder, setSelectedOrder] = useState(0);
 
     const handleClickOnTrash = (id) => {
         setSelectedItem(id);
         setShowDeleteModal(true);
     }
 
-    const handleClickOnInfo = (item) => {
-        setEditableItem(item);
+    const handleClickOnInfo = (id) => {
+        setSelectedOrder(id);
         setShowDetailsModal(true);
     }
 
@@ -70,7 +68,6 @@ export default function ResponsiveTable({ data = [] }) {
                         <div
                             key={i}
                             className="px-4 py-3 hover:bg-gray-50 transition"
-                        // onClick={() => toggleRow(i)}
                         >
                             <div className="flex justify-between items-center">
                                 <div>
@@ -78,9 +75,6 @@ export default function ResponsiveTable({ data = [] }) {
                                     <p className="text-sm text-gray-500">{item.remarks}</p>
                                 </div>
                                 <div className="space-x-4">
-                                    {/* <button className="text-gray-500">
-                                        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                                    </button> */}
                                     <button onClick={() => handleClickOnInfo(item.id)} className="text-gray-500">
                                         <Info size={18} />
                                     </button>
@@ -88,20 +82,6 @@ export default function ResponsiveTable({ data = [] }) {
                                         <Trash size={18} />
                                     </button>
                                 </div>
-                            </div>
-
-                            <div
-                                className={`transition-all overflow-hidden ${isOpen ? "max-h-fit mt-3" : "max-h-0"
-                                    }`}
-                            >
-                                {/* <div className="space-y-1 text-sm text-gray-600">
-                                    <p>
-                                        <span className="font-semibold">Brand : </span> {item.brand}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">Category : </span>{item.category}
-                                    </p>
-                                </div> */}
                             </div>
                         </div>
                     );
@@ -115,7 +95,7 @@ export default function ResponsiveTable({ data = [] }) {
             />
             <OrderDetailsModal
                 isOpen={showDetailsModal}
-                order={editableItem}
+                order={selectedOrder}
                 onClose={() => setShowDetailsModal(false)} />
         </div>
     );

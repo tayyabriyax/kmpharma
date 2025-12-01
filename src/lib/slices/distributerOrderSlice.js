@@ -20,14 +20,27 @@ export const createDistributerOrder = createAsyncThunk("distributerOrder/createD
     }
 })
 
-export const getAllDistributerOrders = createAsyncThunk("distributerOrder/getAllDistributerOrders", async (_, thunkAPI) => {
+export const getAllDistributerOrders = createAsyncThunk("distributerOrder/getAllDistributerOrders", async ({ party_id, from_date, to_date, paid_status }, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/orders/", { method: "GET", token });
+        const params = new URLSearchParams();
+
+        if (party_id) params.append("party_id", party_id);
+        if (from_date) params.append("from_date", from_date);
+        if (to_date) params.append("to_date", to_date);
+        if (paid_status) params.append("paid_status", paid_status);
+
+        const query = params.toString();
+
+        return await fetchAPI(
+            `api/v1/orders/${query ? `?${query}` : ""}`,
+            { method: "GET", token }
+        );
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
-})
+}
+);
 
 export const deleteDistributerOrderById = createAsyncThunk("distributerOrder/deleteDistributerOrderById", async (id, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
@@ -68,11 +81,34 @@ export const createBill = createAsyncThunk("distributerOrder/createBill", async 
 export const getOrderDetails = createAsyncThunk("distributerOrder/getOrderDetails", async (order_id, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI(`api/v1/orders/items-bill_by_order_id/${order_id}`, { method: "GET" });
+        return await fetchAPI(`api/v1/orders/items-bill-by-order-id/${order_id}`, { method: "GET" });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
 })
+
+export const getOrdersByFilters = createAsyncThunk("distributerOrder/getOrdersByFilters", async ({ distributer_id, from_date, to_date, paid_status }, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        const params = new URLSearchParams();
+
+        if (distributer_id) params.append("distributer_id", distributer_id);
+        if (from_date) params.append("from_date", from_date);
+        if (to_date) params.append("to_date", to_date);
+        if (paid_status) params.append("paid_status", paid_status);
+
+        const query = params.toString();
+
+        return await fetchAPI(
+            `api/v1/orders-get-all-orders-for-admin-with-detail${query ? `?${query}` : ""}`,
+            { method: "GET", token }
+        );
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+}
+);
+
 
 const distributerOrderSlice = createSlice({
     name: 'distributerOrder',
@@ -102,6 +138,9 @@ const distributerOrderSlice = createSlice({
             })
             .addCase(getAllDistributerOrders.fulfilled, (state, action) => {
                 state.distributerOrders = action.payload.data;
+            })
+            .addCase(getOrdersByFilters.fulfilled, (state, action) => {
+                state.distributerOrders = action.payload.data.orders;
             })
             .addCase(getOrderDetails.fulfilled, (state, action) => {
                 state.orderDetails = action.payload.data;
