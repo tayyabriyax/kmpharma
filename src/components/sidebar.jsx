@@ -13,11 +13,16 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     const menuItems = [
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
-        // { title: "Parties", href: "/parties", icon: <Users size={20} /> },
         { title: "Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
-        // { title: "Distributer Products", href: "/distributer-products", icon: <PackageSearch size={20} /> },
         { title: "Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
     ];
+
+    // Close sidebar only on mobile
+    const handleMobileClose = () => {
+        if (typeof window !== "undefined" && window.innerWidth < 768) {
+            setSidebarOpen(false);
+        }
+    };
 
     return (
         <aside
@@ -40,6 +45,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <Link
                             key={item.title}
                             href={item.href}
+                            onClick={handleMobileClose}
                             className={`flex items-center gap-3 px-3 py-3 transition-all
                                 ${isActive
                                     ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
@@ -51,10 +57,12 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </Link>
                     );
                 })}
+
                 {user.role === "Admin" ? (
                     <>
                         <Link
                             href="/user"
+                            onClick={handleMobileClose}
                             className={`flex items-center gap-3 px-3 py-3 transition-all
                              ${pathname === "/user"
                                     ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
@@ -64,8 +72,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <User size={20} />
                             <span className="font-medium">Users</span>
                         </Link>
+
                         <Link
                             href="/distributors"
+                            onClick={handleMobileClose}
                             className={`flex items-center gap-3 px-3 py-3 transition-all
                              ${pathname === "/distributors"
                                     ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
@@ -75,8 +85,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <Handshake size={20} />
                             <span className="font-medium">Distributors</span>
                         </Link>
+
                         <Link
                             href="/suppliers"
+                            onClick={handleMobileClose}
                             className={`flex items-center gap-3 px-3 py-3 transition-all
                              ${pathname === "/suppliers"
                                     ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"
@@ -91,6 +103,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <>
                         <Link
                             href="/parties"
+                            onClick={handleMobileClose}
                             className={`flex items-center gap-3 px-3 py-3 transition-all
                              ${pathname === "/parties"
                                     ? "border-r-4 border-teal-600 text-teal-600 bg-teal-50"

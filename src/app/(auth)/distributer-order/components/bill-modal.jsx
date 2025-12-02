@@ -147,6 +147,7 @@ export default function BillModal({ isOpen, onClose, partyForm, setPartyForm }) 
             party_id: "",
             remarks: ""
         })
+        setItems([]);
         onClose();
     };
 
