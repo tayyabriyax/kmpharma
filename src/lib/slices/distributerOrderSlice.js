@@ -69,6 +69,15 @@ export const getDropdownParties = createAsyncThunk("distributerOrder/getDropdown
     }
 })
 
+export const getDropdownAdminParties = createAsyncThunk("distributerOrder/getDropdownAdminParties", async (_, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/dropdowns/parties`, { method: "GET", token });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
 export const createBill = createAsyncThunk("distributerOrder/createBill", async ({ order_id, formData }, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
@@ -134,6 +143,9 @@ const distributerOrderSlice = createSlice({
                 state.loading = false;
             })
             .addCase(getDropdownParties.fulfilled, (state, action) => {
+                state.parties = action.payload;
+            })
+            .addCase(getDropdownAdminParties.fulfilled, (state, action) => {
                 state.parties = action.payload;
             })
             .addCase(getAllDistributerOrders.fulfilled, (state, action) => {

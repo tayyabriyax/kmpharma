@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { ClipboardList, Handshake, LayoutDashboard, PackageSearch, PawPrint, Truck, User, Users, X } from "lucide-react";
+import { Clipboard, ClipboardList, Handshake, LayoutDashboard, PackageSearch, PawPrint, Truck, User, Users, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
@@ -15,6 +15,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
         { title: "Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
         { title: "Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
+        { title: "Reports", href: "/reports", icon: <Clipboard size={20} /> },
     ];
 
     // Close sidebar only on mobile
