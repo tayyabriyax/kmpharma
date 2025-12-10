@@ -34,15 +34,24 @@ export default function Reports() {
         dispatch(getDropdownAdminParties())
     }, [loadData])
 
-    const handleApply = () => {
-        dispatch(generateReport({
+    const handleApply = async () => {
+        const result = await dispatch(generateReport({
             distributer_id: distributorId || "",
             party_id: partyId || "",
             paid_status: paidStatus || "",
             from_date: fromDate || "",
             to_date: toDate || "",
+            download: true,
         }));
+
+        // If the thunk is successful
+        if (generateReport.fulfilled.match(result)) {
+            const blob = result.payload; // PDF blob
+            const url = window.URL.createObjectURL(blob);
+            window.open(url, "_blank"); // open PDF in new tab
+        }
     };
+
 
     const handleClear = () => {
         setDistributorId("");

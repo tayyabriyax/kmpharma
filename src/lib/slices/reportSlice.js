@@ -1,33 +1,48 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchAPI } from '../fetchAPI';
 import toast from 'react-hot-toast';
 
 const initialState = {
     loading: false
 };
 
-export const generateReport = createAsyncThunk("reports/generateReport", async ({ party_id, from_date, to_date, paid_status, distributer_id }, thunkAPI) => {
-    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
-    try {
-        const params = new URLSearchParams();
+export const generateReport = createAsyncThunk(
+    "reports/generateReport",
+    async ({ party_id, from_date, to_date, paid_status, distributer_id, download }, thunkAPI) => {
+        const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
 
-        if (party_id) params.append("party_id", party_id);
-        if (distributer_id) params.append("distributer_id", distributer_id);
-        if (from_date) params.append("from_date", from_date);
-        if (to_date) params.append("to_date", to_date);
-        if (paid_status) params.append("paid_status", paid_status);
+        try {
+            const params = new URLSearchParams();
 
-        const query = params.toString();
+            if (party_id) params.append("party_id", party_id);
+            if (distributer_id) params.append("distributer_id", distributer_id);
+            if (from_date) params.append("from_date", from_date);
+            if (to_date) params.append("to_date", to_date);
+            if (paid_status) params.append("paid_status", paid_status);
+            if (download) params.append("download", download);
 
-        return await fetchAPI(
-            `api/v1/reports/orders${query ? `?${query}` : ""}`,
-            { method: "GET", token }
-        );
-    } catch (err) {
-        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+            const query = params.toString();
+            const url = `api/v1/reports/orders${query ? `?${query}` : ""}`;
+
+            // IMPORTANT CHANGE → fetch the PDF as a blob
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to generate report");
+            }
+
+            const blob = await response.blob();
+            return blob; // return PDF blob
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.message);
+        }
     }
-}
 );
+
 
 const reportSlice = createSlice({
     name: 'report',
