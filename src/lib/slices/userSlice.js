@@ -63,6 +63,15 @@ export const changePassword = createAsyncThunk("user/changePassword", async (cre
     }
 })
 
+export const sendMailForPassword = createAsyncThunk("user/sendMailForPassword", async (mail, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/user/send-mail-for-update-password?email=${mail}`, { method: "POST" });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -134,6 +143,22 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(changePassword.rejected, (state, action) => {
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
+                state.loading = false;
+            })
+            .addCase(sendMailForPassword.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(sendMailForPassword.fulfilled, (state, action) => {
+                toast.success("Mail sent to your email");
+                state.loading = false;
+            })
+            .addCase(sendMailForPassword.rejected, (state, action) => {
                 const errorMessage =
                     action.payload?.message ||
                     action.payload?.errors?.[0] ||

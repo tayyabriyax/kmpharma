@@ -3,14 +3,19 @@
 import { useState } from "react";
 import { Mail } from "lucide-react";
 import SubmitButton from "@/components/submit-button";
+import { useDispatch, useSelector } from "react-redux";
+import { sendMailForPassword } from "@/lib/slices/userSlice";
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState("");
 
+    const dispatch = useDispatch();
+
+    const loading = useSelector((state) => state.kmpharma?.user?.loading);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // TODO: handle API call to send reset link
-        console.log("Reset link sent to:", email);
+        dispatch(sendMailForPassword(email));
     };
 
     return (
@@ -45,7 +50,7 @@ export default function ForgotPasswordPage() {
                         </div>
                     </div>
 
-                    <SubmitButton label={"Send Reset Link"} />
+                    <SubmitButton label={"Send Reset Link"} loading={loading} />
                 </form>
 
                 <p className="text-sm text-center text-gray-600 mt-6">
