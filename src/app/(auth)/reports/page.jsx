@@ -63,14 +63,6 @@ export default function Reports() {
 
     return (
         <div>
-            {
-                isAdmin === "User" &&
-                <div className="w-full sm:w-52 py-4">
-                    <SubmitButton
-                        label={"Create Order"}
-                        onClick={() => setShowModal(true)} />
-                </div>
-            }
             <div className="w-full bg-white border border-gray-300 rounded-xl p-4 
                         grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
 
