@@ -70,24 +70,49 @@ export default function BillModal({ isOpen, onClose, partyForm, setPartyForm }) 
         if (value) fetchProductDetails(value);
     };
 
-    // Add current selection to items table
     const addProductToTable = () => {
         // basic validation
         if (!currentProductId) return alert("Select a product first");
+
         const qty = Number(quantity);
         const up = Number(unitPrice);
+
         if (!qty || qty <= 0) return alert("Enter a valid quantity");
-        if (!up || up < 0) return alert("Unit price is invalid");
+        if (up < 0) return alert("Unit price is invalid");
 
-        const newItem = {
-            product_id: currentProductId,
-            product_label: currentProductLabel || (products.find(p => p.value == currentProductId)?.label ?? ""),
-            quantity: qty,
-            unit_price: up,
-            total: parseFloat((qty * up).toFixed(2))
-        };
+        setItems(prev => {
+            const existingIndex = prev.findIndex(
+                item => item.product_id === currentProductId
+            );
 
-        setItems(prev => [...prev, newItem]);
+            // 🔁 Product already exists → increase quantity
+            if (existingIndex !== -1) {
+                return prev.map((item, index) => {
+                    if (index !== existingIndex) return item;
+
+                    const newQty = item.quantity + qty;
+                    return {
+                        ...item,
+                        quantity: newQty,
+                        total: parseFloat((newQty * item.unit_price).toFixed(2)),
+                    };
+                });
+            }
+
+            // ➕ New product → add row
+            return [
+                ...prev,
+                {
+                    product_id: currentProductId,
+                    product_label:
+                        currentProductLabel ||
+                        (products.find(p => p.value == currentProductId)?.label ?? ""),
+                    quantity: qty,
+                    unit_price: up,
+                    total: parseFloat((qty * up).toFixed(2)),
+                },
+            ];
+        });
 
         // reset current selection
         setCurrentProductId("");
