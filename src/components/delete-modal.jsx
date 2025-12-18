@@ -31,7 +31,7 @@ export default function DeleteModal({ isOpen, onClose, selectedItem, method }) {
                 </div>
 
                 <div className="px-6 py-4 space-y-4">
-                    <p>Are you sure to delete this ?</p>
+                    <p className="text-gray-800">Are you sure to delete this ?</p>
                     <DeleteButton onClick={handleDelete} label={"Delete"} />
                 </div>
             </div>
