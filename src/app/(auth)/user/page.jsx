@@ -20,8 +20,6 @@ export default function Users() {
         dispatch(getAllUsers());
     }, [loadData])
 
-    console.log(users)
-
     return (
         <div>
             <div className="w-full sm:w-52 py-4">

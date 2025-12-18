@@ -1,15 +1,18 @@
 "use client"
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Edit, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Trash, UserCheck } from "lucide-react";
 import DeleteModal from "@/components/delete-modal";
-import { deleteUserById } from "@/lib/slices/userSlice";
+import { activateUser, deleteUserById } from "@/lib/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function ResponsiveTable({ data = [] }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [selectedItem, setSelectedItem] = useState(0);
+
+    const dispatch = useDispatch();
 
     const toggleRow = (index) => {
         setOpenRow(openRow === index ? null : index);
@@ -18,6 +21,10 @@ export default function ResponsiveTable({ data = [] }) {
     const handleClickOnTrash = (id) => {
         setSelectedItem(id);
         setShowDeleteModal(true);
+    }
+
+    const handleClickOnActiveUser = (id) => {
+        dispatch(activateUser(id));
     }
 
     return (
@@ -48,6 +55,9 @@ export default function ResponsiveTable({ data = [] }) {
                                     <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
                                         <Trash size={18} />
                                     </button>
+                                    <button onClick={() => handleClickOnActiveUser(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                                        <UserCheck size={18} />
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -74,9 +84,16 @@ export default function ResponsiveTable({ data = [] }) {
                                     <button className="text-gray-500">
                                         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                                     </button>
-                                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
-                                        <Trash size={18} />
-                                    </button>
+                                    {
+                                        item?.is_active === true ?
+                                            <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
+                                                <Trash size={18} />
+                                            </button>
+                                            :
+                                            <button onClick={() => handleClickOnActiveUser(item.id)} className="text-gray-500">
+                                                <UserCheck size={18} />
+                                            </button>
+                                    }
                                 </div>
                             </div>
 

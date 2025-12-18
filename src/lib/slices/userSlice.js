@@ -72,6 +72,15 @@ export const sendMailForPassword = createAsyncThunk("user/sendMailForPassword", 
     }
 })
 
+export const activateUser = createAsyncThunk("user/activateUser", async (id, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/user/update-user-active-and-role/${id}`, { method: "PUT", data: { role: "User", is_active: true } });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -102,7 +111,7 @@ const userSlice = createSlice({
                 state.loading = true;
             })
             .addCase(deleteUserById.fulfilled, (state, action) => {
-                toast.success("User deleted Successfully");
+                toast.success("User deactivated Successfully");
                 state.loadData = !state.loadData;
                 state.loading = false;
             })
@@ -159,6 +168,23 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(sendMailForPassword.rejected, (state, action) => {
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
+                state.loading = false;
+            })
+            .addCase(activateUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(activateUser.fulfilled, (state, action) => {
+                toast.success("User avtivated Successfully");
+                state.loadData = !state.loadData;
+                state.loading = false;
+            })
+            .addCase(activateUser.rejected, (state, action) => {
                 const errorMessage =
                     action.payload?.message ||
                     action.payload?.errors?.[0] ||

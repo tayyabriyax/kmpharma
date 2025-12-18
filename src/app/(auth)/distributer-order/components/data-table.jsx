@@ -5,11 +5,14 @@ import { Info, Trash } from "lucide-react";
 import DeleteModal from "@/components/delete-modal";
 import { deleteDistributerOrderById } from "@/lib/slices/distributerOrderSlice";
 import OrderDetailsModal from "./details-modal";
+import { useSelector } from "react-redux";
 
 export default function ResponsiveTable({ data = [] }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
+
+    const isAdmin = useSelector(state => state.kmpharma?.auth?.loggedInUser?.role);
 
     const [selectedItem, setSelectedItem] = useState(0);
     const [selectedOrder, setSelectedOrder] = useState(0);
@@ -71,7 +74,12 @@ export default function ResponsiveTable({ data = [] }) {
                         >
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <p className="font-semibold text-gray-800">{item.party_name}</p>
+                                    {
+                                        isAdmin === "Admin" ?
+                                        <p className="font-semibold text-gray-800">{item.distributer_name}</p>
+                                        :
+                                        <p className="font-semibold text-gray-800">{item.party_name}</p>
+                                    }
                                     <p className="text-sm text-gray-500">{item.remarks}</p>
                                 </div>
                                 <div className="space-x-4">

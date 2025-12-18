@@ -19,7 +19,7 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-2"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-2 text-gray-800"
         >
             <div
                 className="bg-white rounded-xl shadow-lg w-full max-w-2xl flex flex-col animate-fadeIn"
@@ -62,7 +62,7 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
                                     orderDetails?.details.map((item, idx) => (
                                         <tr
                                             key={idx}
-                                            className="hover:bg-[#222]"
+                                            className="hover:bg-gray-100"
                                         >
                                             <td className="p-3">{item.product_name}</td>
                                             <td className="p-3">{item.quantity}</td>
