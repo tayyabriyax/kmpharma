@@ -52,12 +52,18 @@ export default function ResponsiveTable({ data = [] }) {
                                 <td className="px-4 py-3">{item.email}</td>
                                 <td className="px-4 py-3">{item.role}</td>
                                 <td className="px-2 py-1 space-x-4">
-                                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
-                                        <Trash size={18} />
-                                    </button>
-                                    <button onClick={() => handleClickOnActiveUser(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
-                                        <UserCheck size={18} />
-                                    </button>
+                                    {
+                                        item?.role === "User" && (
+                                            item?.is_active === true ?
+                                                <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                                                    <Trash size={18} />
+                                                </button>
+                                                :
+                                                <button onClick={() => handleClickOnActiveUser(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                                                    <UserCheck size={18} />
+                                                </button>
+                                        )
+                                    }
                                 </td>
                             </tr>
                         ))}
@@ -85,14 +91,16 @@ export default function ResponsiveTable({ data = [] }) {
                                         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                                     </button>
                                     {
-                                        item?.is_active === true ?
-                                            <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
-                                                <Trash size={18} />
-                                            </button>
-                                            :
-                                            <button onClick={() => handleClickOnActiveUser(item.id)} className="text-gray-500">
-                                                <UserCheck size={18} />
-                                            </button>
+                                        item?.role === "User" && (
+                                            item?.is_active === true ?
+                                                <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500">
+                                                    <Trash size={18} />
+                                                </button>
+                                                :
+                                                <button onClick={() => handleClickOnActiveUser(item.id)} className="text-gray-500">
+                                                    <UserCheck size={18} />
+                                                </button>
+                                        )
                                     }
                                 </div>
                             </div>
