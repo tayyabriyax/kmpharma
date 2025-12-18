@@ -34,7 +34,7 @@ export default function ResponsiveTable({ data = [] }) {
                 <table className="min-w-full text-sm text-left text-gray-600">
                     <thead className="bg-gray-200 text-gray-800 uppercase font-bold">
                         <tr>
-                            <th className="px-4 py-3">Party Name</th>
+                            <th className="px-4 py-3">{isAdmin === "Admin" ? "Distributer" : "Party"} Name</th>
                             <th className="px-4 py-3">Remarks</th>
                             <th className="px-4 py-3">Created At</th>
                             <th className="px-4 py-3">Action</th>
@@ -46,7 +46,7 @@ export default function ResponsiveTable({ data = [] }) {
                                 key={i}
                                 className="border-t border-gray-200 hover:bg-gray-50 transition"
                             >
-                                <td className="px-4 py-3">{item.party_name}</td>
+                                <td className="px-4 py-3">{isAdmin === "Admin" ? item.distributer_name : item.party_name}</td>
                                 <td className="px-4 py-3">{item.remarks}</td>
                                 <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td>
                                 <td className="px-2 py-1 space-x-4">
@@ -76,9 +76,9 @@ export default function ResponsiveTable({ data = [] }) {
                                 <div>
                                     {
                                         isAdmin === "Admin" ?
-                                        <p className="font-semibold text-gray-800">{item.distributer_name}</p>
-                                        :
-                                        <p className="font-semibold text-gray-800">{item.party_name}</p>
+                                            <p className="font-semibold text-gray-800">{item.distributer_name}</p>
+                                            :
+                                            <p className="font-semibold text-gray-800">{item.party_name}</p>
                                     }
                                     <p className="text-sm text-gray-500">{item.remarks}</p>
                                 </div>
