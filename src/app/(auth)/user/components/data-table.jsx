@@ -1,16 +1,19 @@
 "use client"
 
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Trash, UserCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp, KeyRound, Trash, UserCheck } from "lucide-react";
 import DeleteModal from "@/components/delete-modal";
 import { activateUser, deleteUserById } from "@/lib/slices/userSlice";
 import { useDispatch } from "react-redux";
+import ChangePasswordModal from "./change-password-modal";
 
 export default function ResponsiveTable({ data = [] }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
     const [selectedItem, setSelectedItem] = useState(0);
+    const [selectedUser, setSelectedUser] = useState({});
 
     const dispatch = useDispatch();
 
@@ -25,6 +28,11 @@ export default function ResponsiveTable({ data = [] }) {
 
     const handleClickOnActiveUser = (id) => {
         dispatch(activateUser(id));
+    }
+
+    const handleClickOnPassword = (user) => {
+        setShowChangePasswordModal(true);
+        setSelectedUser(user);
     }
 
     return (
@@ -87,9 +95,6 @@ export default function ResponsiveTable({ data = [] }) {
                                     <p className="text-sm text-gray-500">{item.email}</p>
                                 </div>
                                 <div className="space-x-4">
-                                    <button className="text-gray-500">
-                                        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                                    </button>
                                     {
                                         item?.role === "User" && (
                                             item?.is_active === true ?
@@ -102,6 +107,12 @@ export default function ResponsiveTable({ data = [] }) {
                                                 </button>
                                         )
                                     }
+                                    <button onClick={() => handleClickOnPassword(item)} className="text-gray-500">
+                                        <KeyRound size={18} />
+                                    </button>
+                                    <button className="text-gray-500">
+                                        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                                    </button>
                                 </div>
                             </div>
 
@@ -128,6 +139,10 @@ export default function ResponsiveTable({ data = [] }) {
                 method={deleteUserById}
                 onClose={() => setShowDeleteModal(false)}
             />
+            <ChangePasswordModal
+                isOpen={showChangePasswordModal}
+                selectedItem={selectedUser}
+                onClose={() => setShowChangePasswordModal(false)} />
         </div>
     );
 }

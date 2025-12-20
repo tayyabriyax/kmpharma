@@ -81,6 +81,15 @@ export const activateUser = createAsyncThunk("user/activateUser", async (id, thu
     }
 })
 
+export const updatePassword = createAsyncThunk("user/updatePassword", async (credentials, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/user/update-forgot-password`, { method: "PUT", data: credentials, token });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -185,6 +194,22 @@ const userSlice = createSlice({
                 state.loading = false;
             })
             .addCase(activateUser.rejected, (state, action) => {
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
+                state.loading = false;
+            })
+            .addCase(updatePassword.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updatePassword.fulfilled, (state, action) => {
+                toast.success("Password changed Successfully");
+                state.loading = false;
+            })
+            .addCase(updatePassword.rejected, (state, action) => {
                 const errorMessage =
                     action.payload?.message ||
                     action.payload?.errors?.[0] ||
