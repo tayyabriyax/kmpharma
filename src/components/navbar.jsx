@@ -54,7 +54,7 @@ export default function Navbar({ setSidebarOpen }) {
         : "U";
 
     return (
-        <header className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-2.5">
+        <header className="flex items-center justify-between border-b border-gray-300 z-50 shadow-sm bg-white px-4 py-2.5">
             <div className="flex items-center gap-2">
                 <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                     <Menu className="w-6 h-6 text-gray-700" />

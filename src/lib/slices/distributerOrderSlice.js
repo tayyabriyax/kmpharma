@@ -7,6 +7,7 @@ const initialState = {
     orderDetails: [],
     order_id: 0,
     parties: [],
+    paymentDetails: [],
     loadData: false,
     loading: false
 };
@@ -96,11 +97,12 @@ export const getOrderDetails = createAsyncThunk("distributerOrder/getOrderDetail
     }
 })
 
-export const getOrdersByFilters = createAsyncThunk("distributerOrder/getOrdersByFilters", async ({ distributer_id, from_date, to_date, paid_status }, thunkAPI) => {
+export const getOrdersByFilters = createAsyncThunk("distributerOrder/getOrdersByFilters", async ({ party_id, distributer_id, from_date, to_date, paid_status }, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
         const params = new URLSearchParams();
 
+        if (party_id) params.append("party_id", party_id);
         if (distributer_id) params.append("distributer_id", distributer_id);
         if (from_date) params.append("from_date", from_date);
         if (to_date) params.append("to_date", to_date);
@@ -109,7 +111,7 @@ export const getOrdersByFilters = createAsyncThunk("distributerOrder/getOrdersBy
         const query = params.toString();
 
         return await fetchAPI(
-            `api/v1/orders-get-all-orders-for-admin-with-detail${query ? `?${query}` : ""}`,
+            `api/v1/orders-get-all-orders-for-admin-user-with-detail${query ? `?${query}` : ""}`,
             { method: "GET", token }
         );
     } catch (err) {
@@ -153,6 +155,7 @@ const distributerOrderSlice = createSlice({
             })
             .addCase(getOrdersByFilters.fulfilled, (state, action) => {
                 state.distributerOrders = action.payload.data.orders;
+                state.paymentDetails = action.payload.data;
             })
             .addCase(getOrderDetails.fulfilled, (state, action) => {
                 state.orderDetails = action.payload.data;

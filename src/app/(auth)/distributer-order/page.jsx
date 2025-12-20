@@ -28,6 +28,7 @@ export default function VaterinaryProducts() {
     });
 
     const orders = useSelector(state => state.kmpharma.distributerOrder.distributerOrders);
+    const paymentDetails = useSelector(state => state.kmpharma.distributerOrder.paymentDetails);
     const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
     const distributors = useSelector(state => state.kmpharma.party.distributers);
     const parties = useSelector(state => state.kmpharma.distributerOrder.parties);
@@ -48,7 +49,7 @@ export default function VaterinaryProducts() {
                 to_date: toDate || "",
             }));
         } else {
-            dispatch(getAllDistributerOrders({
+            dispatch(getOrdersByFilters({
                 party_id: partyId || "",
                 paid_status: paidStatus || "",
                 from_date: fromDate || "",
@@ -66,7 +67,7 @@ export default function VaterinaryProducts() {
                 to_date: toDate || "",
             }));
         } else {
-            dispatch(getAllDistributerOrders({
+            dispatch(getOrdersByFilters({
                 party_id: partyId || "",
                 paid_status: paidStatus || "",
                 from_date: fromDate || "",
@@ -90,7 +91,7 @@ export default function VaterinaryProducts() {
                 to_date: null,
             }));
         } else {
-            dispatch(getAllDistributerOrders({
+            dispatch(getOrdersByFilters({
                 party_id: null,
                 paid_status: null,
                 from_date: null,
@@ -205,6 +206,31 @@ export default function VaterinaryProducts() {
                     </button>
                 </div>
 
+            </div>
+            <div className="w-full bg-white p-4 rounded-lg transition-shadow border-gray-300 border mb-4">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">Payment Summary</h3>
+                <div className="space-y-2">
+                    <div className="flex justify-between">
+                        <span className="text-gray-600 text-sm font-semibold">Total Orders</span>
+                        <span className="text-sm text-gray-800">{paymentDetails?.total_orders}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-600 text-sm font-semibold">Total Paid Orders</span>
+                        <span className="text-sm text-gray-800">{paymentDetails?.total_paid_orders}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-600 text-sm font-semibold">Total Unpaid Orders</span>
+                        <span className="text-sm text-gray-800">{paymentDetails?.total_unpaid_orders}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-600 text-sm font-semibold">Total Paid Amount</span>
+                        <span className="text-sm text-gray-800"><span className="font-semibold">Rs</span> {paymentDetails?.total_paid_amount}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-600 text-sm font-semibold">Total Unpaid Amount</span>
+                        <span className="text-sm text-gray-800"><span className="font-semibold">Rs</span> {paymentDetails?.total_unpaid_amount}</span>
+                    </div>
+                </div>
             </div>
             <ResponsiveTable data={orders} />
             <AddDistributerOrderModal
