@@ -11,7 +11,7 @@ const initialState = {
 
 export const loginAsync = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
     try {
-        return await fetchAPI("api/v1/user/login/", { method: "POST", data: credentials });
+        return await fetchAPI("api/v1/user/login", { method: "POST", data: credentials });
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
