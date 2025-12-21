@@ -72,6 +72,9 @@ export default function ResponsiveTable({ data = [] }) {
                                                 </button>
                                         )
                                     }
+                                    <button onClick={() => handleClickOnPassword(item)} className="text-gray-500">
+                                        <KeyRound size={18} />
+                                    </button>
                                 </td>
                             </tr>
                         ))}
