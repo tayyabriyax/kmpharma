@@ -17,7 +17,7 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
     }, [isOpen])
 
     const handleClickOnPaid = () => {
-        dispatch(updateStatusAsPaid(orderDetails.id));
+        dispatch(updateStatusAsPaid(orderDetails?.id));
         onClose();
     }
 
