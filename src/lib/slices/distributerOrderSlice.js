@@ -120,6 +120,14 @@ export const getOrdersByFilters = createAsyncThunk("distributerOrder/getOrdersBy
 }
 );
 
+export const updateStatusAsPaid = createAsyncThunk("distributerOrder/updateStatusAsPaid", async (order_id, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/orders/${order_id}/paid-status-update`, { method: "PATCH", data: { paid_status: "paid" } });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
 
 const distributerOrderSlice = createSlice({
     name: 'distributerOrder',
@@ -203,6 +211,23 @@ const distributerOrderSlice = createSlice({
                 state.loading = false;
             })
             .addCase(createBill.rejected, (state, action) => {
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
+                state.loading = false;
+            })
+            .addCase(updateStatusAsPaid.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(updateStatusAsPaid.fulfilled, (state, action) => {
+                toast.success("Status Updated");
+                state.loadData = !state.loadData;
+                state.loading = false;
+            })
+            .addCase(updateStatusAsPaid.rejected, (state, action) => {
                 const errorMessage =
                     action.payload?.message ||
                     action.payload?.errors?.[0] ||

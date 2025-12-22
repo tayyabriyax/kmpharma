@@ -1,6 +1,7 @@
 "use client";
 
-import { getOrderDetails } from "@/lib/slices/distributerOrderSlice";
+import SubmitButton from "@/components/submit-button";
+import { getOrderDetails, updateStatusAsPaid } from "@/lib/slices/distributerOrderSlice";
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,11 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
     useEffect(() => {
         dispatch(getOrderDetails(order));
     }, [isOpen])
+
+    const handleClickOnPaid = () => {
+        dispatch(updateStatusAsPaid(orderDetails.id));
+        onClose();
+    }
 
     if (!isOpen) return null;
 
@@ -79,6 +85,10 @@ export default function OrderDetailsModal({ isOpen, onClose, order }) {
                             </tbody>
                         </table>
                     </div>
+                    {
+                        orderDetails?.paid_status === "unpaid" &&
+                        <SubmitButton label={"Paid"} onClick={handleClickOnPaid} />
+                    }
                 </div>
             </div>
         </div>

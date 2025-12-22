@@ -76,9 +76,15 @@ export default function ResponsiveTable({ data = [] }) {
                                 <div>
                                     {
                                         isAdmin === "Admin" ?
-                                            <p className="font-semibold text-gray-800">{item.distributer_name}</p>
+                                            <>
+                                                <p className="font-semibold text-gray-800">{item.distributer_name}</p>
+                                                <p className="text-gray-800">{item.paid_status}</p>
+                                            </>
                                             :
-                                            <p className="font-semibold text-gray-800">{item.party_name}</p>
+                                            <>
+                                                <p className="font-semibold text-gray-800">{item.party_name}</p>
+                                                <p className="text-gray-800">{item.paid_status}</p>
+                                            </>
                                     }
                                     <p className="text-sm text-gray-500">{item.remarks}</p>
                                 </div>
