@@ -272,7 +272,7 @@ export default function BillModal({ isOpen, onClose, partyForm, setPartyForm }) 
                                         </tr>
                                     )}
                                     {items.map((it, idx) => (
-                                        <tr key={idx} className="border-b border-gray-200 last:border-b-0">
+                                        <tr key={idx} className="border-b text-gray-500 border-gray-200 last:border-b-0">
                                             <td className="py-3 px-3 text-sm">{it.product_label}</td>
                                             <td className="py-3 px-3 text-sm">{it.quantity}</td>
                                             <td className="py-3 px-3 text-sm">{it.unit_price}</td>
@@ -296,7 +296,7 @@ export default function BillModal({ isOpen, onClose, partyForm, setPartyForm }) 
                         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="p-4 border rounded-xl border-gray-200">
                                 <p className="text-sm text-gray-500">Subtotal</p>
-                                <p className="text-xl font-semibold">{calculateSubtotal().toFixed(2)}</p>
+                                <p className="text-xl text-gray-800 font-semibold">{calculateSubtotal().toFixed(2)}</p>
                             </div>
 
                             <div className="p-4 border border-gray-200 rounded-xl space-y-3">
@@ -327,7 +327,7 @@ export default function BillModal({ isOpen, onClose, partyForm, setPartyForm }) 
                             <div className="p-4 border rounded-xl flex flex-col border-gray-200 justify-between">
                                 <div>
                                     <p className="text-sm text-gray-500">Grand Total</p>
-                                    <p className="text-2xl font-semibold">{totalAmount}</p>
+                                    <p className="text-2xl text-gray-800 font-semibold">{totalAmount}</p>
                                 </div>
 
                                 <div className="mt-4">
