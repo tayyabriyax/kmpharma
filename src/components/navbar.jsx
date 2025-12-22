@@ -26,12 +26,13 @@ export default function Navbar({ setSidebarOpen }) {
         if (pathname.includes('/distributors')) return 'Distributors'
         if (pathname.includes('/suppliers')) return 'Suppliers'
         if (pathname.includes('/parties')) return 'Parties'
-        if (pathname.includes('/veterinary-products')) return 'Products'
+        if (pathname.includes('/vaterinary-products')) return 'Products'
         // if (pathname.includes('/distributer-products')) return 'Distributer Products'
         if (pathname.includes('/distributer-order')) return 'Orders'
         if (pathname.includes('/user')) return 'User'
         if (pathname.includes('/profile')) return 'Profile'
         if (pathname.includes('/change-password')) return 'Change Password'
+        if (pathname.includes('/report')) return 'Reports'
     }
 
     const dropdownRef = useRef(null);
@@ -54,7 +55,7 @@ export default function Navbar({ setSidebarOpen }) {
         : "U";
 
     return (
-        <header className="flex items-center justify-between border-b border-gray-300 z-50 shadow-sm bg-white px-4 py-2.5">
+        <header className="flex items-center justify-between border-b border-gray-300 z-50 shadow-sm sm:shadow-none bg-white px-4 py-2.5">
             <div className="flex items-center gap-2">
                 <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                     <Menu className="w-6 h-6 text-gray-700" />
@@ -97,7 +98,7 @@ export default function Navbar({ setSidebarOpen }) {
 
                     {/* DROPDOWN MENU */}
                     {openDropdown && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 py-2 z-50 animate-fadeIn">
+                        <div className="absolute right-0 mt-2 w-56 bg-white shadow-lg rounded-lg border border-gray-200 py-2 z-50 animate-fadeIn">
                             <Link
                                 href="/profile"
                                 className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-gray-700"

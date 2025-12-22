@@ -1,6 +1,5 @@
 "use client"
 
-import SubmitButton from "@/components/submit-button"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { getDropdownAdminParties } from "@/lib/slices/distributerOrderSlice";
@@ -51,7 +50,6 @@ export default function Reports() {
             window.open(url, "_blank"); // open PDF in new tab
         }
     };
-
 
     const handleClear = () => {
         setDistributorId("");
@@ -141,22 +139,23 @@ export default function Reports() {
                 </div>
 
                 {/* Buttons */}
-                <div className="w-full flex gap-2 items-end md:items-start md:flex-col">
+                <div className="w-full space-y-2 items-end md:items-start md:flex-col">
+                    <button
+                        onClick={handleClear}
+                        className="flex-1 w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2.5 rounded-lg 
+                    text-sm flex items-center justify-center gap-2"
+                    >
+                        <X size={16} /> Clear
+                    </button>
+
                     <button
                         onClick={handleApply}
-                        className="flex-1 md:w-full bg-teal-600 hover:bg-teal-700 text-white py-2.5 rounded-lg 
+                        className="flex-1 w-full bg-teal-600 hover:bg-teal-700 text-white py-2.5 rounded-lg 
                     text-sm flex items-center justify-center gap-2"
                     >
                         <Clipboard size={16} /> Generate Report
                     </button>
 
-                    <button
-                        onClick={handleClear}
-                        className="flex-1 md:w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2.5 rounded-lg 
-                    text-sm flex items-center justify-center gap-2"
-                    >
-                        <X size={16} /> Clear
-                    </button>
                 </div>
 
             </div>
