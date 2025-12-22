@@ -1,37 +1,47 @@
-"use client"
+"use client";
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import SubmitButton from "@/components/submit-button";
 import { getAllDistributers } from "@/lib/slices/distributerSlice";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import ResponsiveTable from "./components/data-table";
 import AddDistributorModal from "./components/add-modal";
 
-export default function Distributers() {
-
+export default function DistributorsPage() {
     const dispatch = useDispatch();
 
-    const [showModal, setShowModal] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const distributers = useSelector(state => state.kmpharma.distributer.distributers);
-    const loadData = useSelector(state => state.kmpharma.distributer.loadData);
+    const { distributers, loadData, loading } = useSelector(
+        (state) => state.kmpharma.distributer
+    );
 
     useEffect(() => {
         dispatch(getAllDistributers());
-    }, [loadData])
+    }, [dispatch, loadData]);
 
     return (
-        <div>
-            <div className="w-full sm:w-52 py-4">
-                <SubmitButton
-                    label={"Add Distributor"}
-                    onClick={() => setShowModal(true)} />
+        <div className="space-y-4">
+            {/* Header Actions */}
+            <div className="flex justify-start">
+                <div className="w-full sm:w-52">
+                    <SubmitButton
+                        label="Add Distributor"
+                        onClick={() => setIsModalOpen(true)}
+                    />
+                </div>
             </div>
-            <ResponsiveTable data={distributers} />
+
+            {/* Data Table */}
+            <ResponsiveTable data={distributers} isLoading={loading} />
+
+            {/* Add Modal */}
             <AddDistributorModal
-                isOpen={showModal}
-                onClose={() => setShowModal(false)}
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
             />
         </div>
-    )
+    );
 }

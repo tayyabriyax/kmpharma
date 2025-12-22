@@ -77,8 +77,12 @@ const distributerSlice = createSlice({
                 toast.error(errorMessage);
                 state.loading = false;
             })
+            .addCase(getAllDistributers.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(getAllDistributers.fulfilled, (state, action) => {
                 state.distributers = action.payload.data;
+                state.loading = false;
             })
             .addCase(deleteDistributerById.pending, (state) => {
                 state.loading = true;

@@ -23,7 +23,7 @@ export default function Navbar({ setSidebarOpen }) {
 
     function activeTab() {
         if (pathname.includes('/dashboard')) return 'Dashboard'
-        if (pathname.includes('/distributers')) return 'Distributers'
+        if (pathname.includes('/distributors')) return 'Distributors'
         if (pathname.includes('/suppliers')) return 'Suppliers'
         if (pathname.includes('/parties')) return 'Parties'
         if (pathname.includes('/veterinary-products')) return 'Products'
@@ -65,10 +65,10 @@ export default function Navbar({ setSidebarOpen }) {
             <div className="flex items-center gap-4">
 
                 {/* NOTIFICATION */}
-                <button className="relative">
+                {/* <button className="relative">
                     <Bell className="w-6 h-6 text-gray-700" />
                     <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
+                </button> */}
 
                 {/* EXISTING LOGOUT BUTTON */}
                 {/* <button
