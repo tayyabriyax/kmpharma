@@ -28,7 +28,7 @@ export default function Distributers() {
                     label={"Add Supplier"}
                     onClick={() => setShowModal(true)} />
             </div>
-            <ResponsiveTable data={suppliers} loading={loading} />
+            <ResponsiveTable data={suppliers} isLoading={loading} />
             <AddSuppliersModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
