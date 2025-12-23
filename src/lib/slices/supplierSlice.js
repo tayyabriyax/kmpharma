@@ -66,8 +66,12 @@ const supplierSlice = createSlice({
                 toast.error(errorMessage);
                 state.loading = false;
             })
+            .addCase(getAllSuppliers.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(getAllSuppliers.fulfilled, (state, action) => {
                 state.suppliers = action.payload.data;
+                state.loading = false;
             })
             .addCase(deleteSupplierById.pending, (state) => {
                 state.loading = true;

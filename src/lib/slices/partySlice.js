@@ -80,8 +80,12 @@ const partySlice = createSlice({
             .addCase(getDropdownDistributers.fulfilled, (state, action) => {
                 state.distributers = action.payload;
             })
+            .addCase(getAllParties.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(getAllParties.fulfilled, (state, action) => {
                 state.parties = action.payload.data.parties;
+                state.loading = false;
             })
             .addCase(deletePartyById.pending, (state) => {
                 state.loading = true;

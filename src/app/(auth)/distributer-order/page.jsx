@@ -4,7 +4,7 @@ import SubmitButton from "@/components/submit-button"
 import { useEffect, useState } from "react"
 import ResponsiveTable from "./components/data-table";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllDistributerOrders, getOrdersByFilters } from "@/lib/slices/distributerOrderSlice";
+import { getOrdersByFilters } from "@/lib/slices/distributerOrderSlice";
 import AddDistributerOrderModal from "./components/add-modal";
 import BillModal from "./components/bill-modal";
 import { Calendar, Filter, X } from "lucide-react";
@@ -32,6 +32,7 @@ export default function VaterinaryProducts() {
     const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
     const distributors = useSelector(state => state.kmpharma.party.distributers);
     const parties = useSelector(state => state.kmpharma.distributerOrder.parties);
+    const loading = useSelector(state => state.kmpharma.distributerOrder.loading);
     const isAdmin = useSelector(state => state.kmpharma?.auth?.loggedInUser?.role);
 
     const [distributorId, setDistributorId] = useState("");
@@ -232,7 +233,7 @@ export default function VaterinaryProducts() {
                     </div>
                 </div>
             </div>
-            <ResponsiveTable data={orders} />
+            <ResponsiveTable data={orders} isLoading={loading} />
             <AddDistributerOrderModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}

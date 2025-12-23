@@ -89,8 +89,12 @@ const vaterinaryProductSlice = createSlice({
             .addCase(getDropdownSuppliers.fulfilled, (state, action) => {
                 state.suppliers = action.payload;
             })
+            .addCase(getAllVaterinaryProducts.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(getAllVaterinaryProducts.fulfilled, (state, action) => {
                 state.vaterinaryProducts = action.payload.data;
+                state.loading = false;
             })
             .addCase(getVaterinaryProductsById.fulfilled, (state, action) => {
                 state.productDetails = action.payload.data;

@@ -14,6 +14,7 @@ export default function VaterinaryProducts() {
     const [showModal, setShowModal] = useState(false);
 
     const products = useSelector(state => state.kmpharma.vaterinaryProduct.vaterinaryProducts);
+    const loading = useSelector(state => state.kmpharma.vaterinaryProduct.loading);
     const loadData = useSelector(state => state.kmpharma.vaterinaryProduct.loadData);
     const user = useSelector(state => state.kmpharma.auth.loggedInUser);
 
@@ -31,7 +32,7 @@ export default function VaterinaryProducts() {
                         onClick={() => setShowModal(true)} />
                 </div>
             }
-            <ResponsiveTable data={products} user={user} />
+            <ResponsiveTable data={products} user={user} isLoading={loading} />
             <AddSuppliersModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}

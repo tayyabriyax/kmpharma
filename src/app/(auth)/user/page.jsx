@@ -14,6 +14,7 @@ export default function Users() {
     const [showModal, setShowModal] = useState(false);
 
     const users = useSelector(state => state.kmpharma.user.users);
+    const loading = useSelector(state => state.kmpharma.user.loading);
     const loadData = useSelector(state => state.kmpharma.user.loadData);
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export default function Users() {
                     label={"Add User"}
                     onClick={() => setShowModal(true)} />
             </div>
-            <ResponsiveTable data={users} />
+            <ResponsiveTable data={users} isLoading={loading} />
             <AddUserModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}

@@ -14,6 +14,7 @@ export default function Distributers() {
     const [showModal, setShowModal] = useState(false);
 
     const suppliers = useSelector(state => state.kmpharma.supplier.suppliers);
+    const loading = useSelector(state => state.kmpharma.supplier.loading);
     const loadData = useSelector(state => state.kmpharma.supplier.loadData);
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export default function Distributers() {
                     label={"Add Supplier"}
                     onClick={() => setShowModal(true)} />
             </div>
-            <ResponsiveTable data={suppliers} />
+            <ResponsiveTable data={suppliers} loading={loading} />
             <AddSuppliersModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}

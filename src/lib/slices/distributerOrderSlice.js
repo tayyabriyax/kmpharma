@@ -161,9 +161,13 @@ const distributerOrderSlice = createSlice({
             .addCase(getAllDistributerOrders.fulfilled, (state, action) => {
                 state.distributerOrders = action.payload.data;
             })
+            .addCase(getOrdersByFilters.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(getOrdersByFilters.fulfilled, (state, action) => {
                 state.distributerOrders = action.payload.data.orders;
                 state.paymentDetails = action.payload.data;
+                state.loading = false;
             })
             .addCase(getOrderDetails.fulfilled, (state, action) => {
                 state.orderDetails = action.payload.data;

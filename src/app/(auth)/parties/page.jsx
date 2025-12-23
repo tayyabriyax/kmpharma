@@ -14,6 +14,7 @@ export default function Parties() {
     const [showModal, setShowModal] = useState(false);
 
     const parties = useSelector(state => state.kmpharma.party.parties);
+    const loading = useSelector(state => state.kmpharma.party.loading);
     const loadData = useSelector(state => state.kmpharma.party.loadData);
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export default function Parties() {
                     label={"Add Parties"}
                     onClick={() => setShowModal(true)} />
             </div>
-            <ResponsiveTable data={parties} />
+            <ResponsiveTable data={parties} isLoading={loading} />
             <AddSuppliersModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}

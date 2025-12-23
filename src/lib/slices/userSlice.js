@@ -113,8 +113,12 @@ const userSlice = createSlice({
                 toast.error(errorMessage);
                 state.loading = false;
             })
+            .addCase(getAllUsers.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(getAllUsers.fulfilled, (state, action) => {
                 state.users = action.payload;
+                state.loading = false;
             })
             .addCase(deleteUserById.pending, (state) => {
                 state.loading = true;

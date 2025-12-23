@@ -6,7 +6,7 @@ import DeleteModal from "@/components/delete-modal";
 import AddDistributorModal from "./add-modal";
 import { deleteSupplierById } from "@/lib/slices/supplierSlice";
 
-export default function ResponsiveTable({ data }) {
+export default function ResponsiveTable({ data = [], loading = false }) {
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -14,9 +14,7 @@ export default function ResponsiveTable({ data }) {
     const [selectedItem, setSelectedItem] = useState(0);
     const [editableItem, setEditableItem] = useState(0);
 
-    const toggleRow = (index) => {
-        setOpenRow(openRow === index ? null : index);
-    };
+    const toggleRow = (index) => setOpenRow(openRow === index ? null : index);
 
     const handleClickOnTrash = (id) => {
         setSelectedItem(id);
@@ -26,6 +24,49 @@ export default function ResponsiveTable({ data }) {
     const handleClickOnEdit = (item) => {
         setEditableItem(item);
         setShowEditModal(true);
+    }
+
+    const renderTableRows = () => {
+        if (loading) {
+            return (
+                <tr>
+                    <td colSpan={6} className="text-center py-6 text-gray-500">
+                        Loading...
+                    </td>
+                </tr>
+            );
+        }
+
+        if (!data || data.length === 0) {
+            return (
+                <tr>
+                    <td colSpan={6} className="text-center py-6 text-gray-500">
+                        No data found
+                    </td>
+                </tr>
+            );
+        }
+
+        return data.map((item, i) => (
+            <tr
+                key={i}
+                className="border-t border-gray-200 hover:bg-gray-50 transition"
+            >
+                <td className="px-4 py-3">{item.name}</td>
+                <td className="px-4 py-3">{item.email}</td>
+                <td className="px-4 py-3">{item.phone}</td>
+                <td className="px-4 py-3">{item.address}</td>
+                <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td>
+                <td className="px-2 py-1 space-x-4">
+                    <button onClick={() => handleClickOnEdit(item)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                        <Edit size={18} />
+                    </button>
+                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
+                        <Trash size={18} />
+                    </button>
+                </td>
+            </tr>
+        ));
     }
 
     return (
@@ -43,34 +84,19 @@ export default function ResponsiveTable({ data }) {
                             <th className="px-4 py-3">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {data.map((item, i) => (
-                            <tr
-                                key={i}
-                                className="border-t border-gray-200 hover:bg-gray-50 transition"
-                            >
-                                <td className="px-4 py-3">{item.name}</td>
-                                <td className="px-4 py-3">{item.email}</td>
-                                <td className="px-4 py-3">{item.phone}</td>
-                                <td className="px-4 py-3">{item.address}</td>
-                                <td className="px-4 py-3">{new Date(item.created_at).toDateString()}</td>
-                                <td className="px-2 py-1 space-x-4">
-                                    <button onClick={() => handleClickOnEdit(item)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
-                                        <Edit size={18} />
-                                    </button>
-                                    <button onClick={() => handleClickOnTrash(item.id)} className="text-gray-500 cursor-pointer p-2 rounded-full hover:bg-gray-200">
-                                        <Trash size={18} />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
+                    <tbody>{renderTableRows()}</tbody>
                 </table>
             </div>
 
             {/* Mobile Table */}
             <div className="md:hidden divide-y divide-gray-200">
-                {data.map((item, i) => {
+                {loading && (
+                    <div className="text-center py-6 text-gray-500">Loading...</div>
+                )}
+                {!loading && (!data || data.length === 0) && (
+                    <div className="text-center py-6 text-gray-500">No data found</div>
+                )}
+                {!loading && data?.map((item, i) => {
                     const isOpen = openRow === i;
                     return (
                         <div
@@ -96,26 +122,18 @@ export default function ResponsiveTable({ data }) {
                                 </div>
                             </div>
 
-                            <div
-                                className={`transition-all overflow-hidden ${isOpen ? "max-h-40 mt-3" : "max-h-0"
-                                    }`}
-                            >
+                            <div className={`transition-all overflow-hidden ${isOpen ? "max-h-40 mt-3" : "max-h-0"}`}>
                                 <div className="space-y-1 text-sm text-gray-600">
-                                    <p>
-                                        <span className="font-semibold">Phone : </span> {item.phone}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">Address : </span>{item.address}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">Created At : </span> {new Date(item.created_at).toDateString()}
-                                    </p>
+                                    <p><span className="font-semibold">Phone : </span> {item.phone}</p>
+                                    <p><span className="font-semibold">Address : </span>{item.address}</p>
+                                    <p><span className="font-semibold">Created At : </span> {new Date(item.created_at).toDateString()}</p>
                                 </div>
                             </div>
                         </div>
                     );
                 })}
             </div>
+
             <DeleteModal
                 isOpen={showDeleteModal}
                 selectedItem={selectedItem}
@@ -125,7 +143,8 @@ export default function ResponsiveTable({ data }) {
             <AddDistributorModal
                 isOpen={showEditModal}
                 editableSupplier={editableItem}
-                onClose={() => setShowEditModal(false)} />
+                onClose={() => setShowEditModal(false)}
+            />
         </div>
     );
 }
