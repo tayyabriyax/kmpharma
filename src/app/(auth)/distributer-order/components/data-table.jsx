@@ -153,12 +153,7 @@ export default function ResponsiveTable({
                                             : item.party_name}
                                     </p>
                                     <p className="text-sm text-gray-500">
-                                        {item.remarks}
-                                    </p>
-                                    <p className="text-sm text-gray-500">
-                                        {new Date(
-                                            item.created_at
-                                        ).toDateString()}
+                                        {item.paid_status}
                                     </p>
                                 </div>
 
