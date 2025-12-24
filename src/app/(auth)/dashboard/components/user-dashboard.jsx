@@ -40,6 +40,7 @@ export default function UserDashboard({ data = {} }) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <StatCard title="Total Orders" value={orders.total_orders || 0} />
                 <StatCard title="Paid Orders" value={orders.paid_orders || 0} />
+                <StatCard title="Unpaid Orders" value={orders.unpaid_orders || 0} />
                 <StatCard title="Paid Amount" value={`Rs ${sales.total?.paid_amount || 0}`} />
                 <StatCard title="Unpaid Amount" value={`Rs ${sales.total?.unpaid_amount || 0}`} />
                 <StatCard
