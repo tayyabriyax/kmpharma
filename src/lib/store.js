@@ -10,6 +10,7 @@ import distributerProductReducer from "./slices/distributerProductSlice";
 import distrbuterOrderReducer from "./slices/distributerOrderSlice";
 import userReducer from "./slices/userSlice";
 import reportReducer from "./slices/reportSlice";
+import dashboardReducer from "./slices/dashboardSlice";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     distributerProduct: distributerProductReducer,
     distributerOrder: distrbuterOrderReducer,
     user: userReducer,
-    report: reportReducer
+    report: reportReducer,
+    dashboard: dashboardReducer
 });
 
 const persistConfig = {
