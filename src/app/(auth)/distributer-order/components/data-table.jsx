@@ -45,7 +45,7 @@ export default function ResponsiveTable({
                             <th className="px-4 py-3">
                                 {isAdmin ? "Distributer" : "Party"} Name
                             </th>
-                            <th className="px-4 py-3">Remarks</th>
+                            <th className="px-4 py-3">Status</th>
                             <th className="px-4 py-3">Created At</th>
                             <th className="px-4 py-3 text-center">Action</th>
                         </tr>
@@ -89,7 +89,7 @@ export default function ResponsiveTable({
                                             : item.party_name}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {item.remarks}
+                                        {item.paid_status}
                                     </td>
                                     <td className="px-4 py-3">
                                         {new Date(
