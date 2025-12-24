@@ -155,6 +155,11 @@ export default function ResponsiveTable({
                                     <p className="text-sm text-gray-500">
                                         {item.paid_status}
                                     </p>
+                                    <p className="text-sm text-gray-500">
+                                        {new Date(
+                                            item.created_at
+                                        ).toDateString()}
+                                    </p>
                                 </div>
 
                                 <div className="flex items-center space-x-3">
