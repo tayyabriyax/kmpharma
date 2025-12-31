@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Info, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Info, Trash } from "lucide-react";
 import { useSelector } from "react-redux";
 
 import DeleteModal from "@/components/delete-modal";
 import { deleteDistributerOrderById } from "@/lib/slices/distributerOrderSlice";
-import OrderDetailsModal from "./details-modal";
+// import OrderDetailsModal from "./details-modal";
 import { useRouter } from "next/navigation";
 
 export default function ResponsiveTable({
@@ -15,6 +15,7 @@ export default function ResponsiveTable({
 }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [openRow, setOpenRow] = useState(null);
 
     const router = useRouter();
 
@@ -24,15 +25,9 @@ export default function ResponsiveTable({
     const isAdmin = role === "Admin";
 
     const [selectedItem, setSelectedItem] = useState(null);
-    const [selectedOrder, setSelectedOrder] = useState(null);
 
-    const handleClickOnTrash = (id) => {
-        setSelectedItem(id);
-        setShowDeleteModal(true);
-    };
-
-    const handleClickOnInfo = (id) => {
-        router.push(`/distributer-order/details/${id}`);
+    const toggleRow = (index) => {
+        setOpenRow((prev) => (prev === index ? null : index));
     };
 
     const showEmptyState = !isLoading && data.length === 0;
@@ -49,7 +44,6 @@ export default function ResponsiveTable({
                             </th>
                             <th className="px-4 py-3">Status</th>
                             <th className="px-4 py-3">Created At</th>
-                            <th className="px-4 py-3 text-center">Action</th>
                         </tr>
                     </thead>
 
@@ -98,24 +92,6 @@ export default function ResponsiveTable({
                                             item.created_at
                                         ).toDateString()}
                                     </td>
-                                    <td className="px-2 py-1 text-center space-x-2">
-                                        <button
-                                            onClick={() =>
-                                                handleClickOnInfo(item.id)
-                                            }
-                                            className="rounded-full p-2 text-gray-500 hover:bg-gray-200"
-                                        >
-                                            <Info size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                handleClickOnTrash(item.id)
-                                            }
-                                            className="rounded-full p-2 text-gray-500 hover:bg-gray-200"
-                                        >
-                                            <Trash size={18} />
-                                        </button>
-                                    </td>
                                 </tr>
                             ))}
                     </tbody>
@@ -142,48 +118,83 @@ export default function ResponsiveTable({
 
                 {/* Data */}
                 {!isLoading &&
-                    data.map((item, i) => (
-                        <div
-                            key={i}
-                            className="px-4 py-3 transition hover:bg-gray-50"
-                            onClick={() =>
-                                handleClickOnInfo(item.id)
-                            }
-                        >
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="font-semibold text-gray-800">
-                                        {isAdmin
-                                            ? item?.user?.fullname
-                                            : item?.name}
-                                    </p>
-                                    {/* <p className="text-sm text-gray-500">
-                                        {item.paid_status}
-                                    </p> */}
-                                    <p className="text-sm text-gray-500">
-                                        {item.adress}
-                                    </p>
+                    data.map((item, i) => {
+                        const isOpen = openRow === i;
+
+                        return (
+                            <div
+                                key={i}
+                                className="px-4 py-3 transition hover:bg-gray-50"
+                                onClick={() => toggleRow(i)}
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="font-semibold text-gray-800">
+                                            {new Date(item.created_at).toDateString()}
+                                        </p>
+                                        <p className="text-sm text-gray-500">
+                                            {item.paid_status}
+                                        </p>
+                                    </div>
+
+                                    <div className="flex items-center space-x-3">
+                                        {isOpen ? (
+                                            <ChevronUp size={18} />
+                                        ) : (
+                                            <ChevronDown size={18} />
+                                        )}
+                                    </div>
                                 </div>
 
-                                <div className="flex items-center space-x-3">
-                                    {/* <button
-                                        onClick={() =>
-                                            handleClickOnInfo(item.id)
-                                        }
-                                    >
-                                        <Info size={18} />
-                                    </button> */}
-                                    {/* <button
-                                        onClick={() =>
-                                            handleClickOnTrash(item.id)
-                                        }
-                                    >
-                                        <Trash size={18} />
-                                    </button> */}
+                                <div
+                                    className={`overflow-hidden transition-all ${isOpen
+                                        ? "mt-3 max-h-40"
+                                        : "max-h-0"
+                                        }`}
+                                >
+                                    <div className="space-y-5">
+
+                                        {/* Products Table */}
+                                        <div className="overflow-x-auto border border-gray-200 rounded-lg">
+                                            <table className="w-full text-sm">
+                                                <thead className="bg-gray-200">
+                                                    <tr>
+                                                        <th className="p-3 text-left">Product</th>
+                                                        <th className="p-3 text-left">Qty</th>
+                                                        <th className="p-3 text-left">Unit Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {item?.items.length > 0 ? (
+                                                        item?.items.map((item, idx) => (
+                                                            <tr
+                                                                key={idx}
+                                                                className="hover:bg-gray-100"
+                                                            >
+                                                                <td className="p-3">{item.product_name}</td>
+                                                                <td className="p-3">{item.quantity}</td>
+                                                                <td className="p-3">{item.unit_price}</td>
+                                                            </tr>
+                                                        ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td className="p-4 text-center text-gray-400" colSpan="4">
+                                                                No products found.
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {/* {
+                                            orderDetails?.paid_status === "unpaid" &&
+                                            <SubmitButton label={"Paid"} onClick={handleClickOnPaid} />
+                                        } */}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
             </div>
 
             {/* Modals */}
@@ -194,6 +205,15 @@ export default function ResponsiveTable({
                 onClose={() => setShowDeleteModal(false)}
             />
 
+        </div>
+    );
+}
+
+function Detail({ label, value }) {
+    return (
+        <div>
+            <p className="text-gray-700 text-sm">{label}</p>
+            <p className="font-bold">{value || "—"}</p>
         </div>
     );
 }
