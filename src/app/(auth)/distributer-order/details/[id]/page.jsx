@@ -18,6 +18,7 @@ export default function OrderDetails() {
     );
     const isAdmin = role === "Admin";
     const orders = useSelector(state => state.kmpharma.distributerOrder.distributerOrders);
+    const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
     const loading = useSelector(state => state.kmpharma.distributerOrder.loading);
 
     useEffect(() => {
@@ -30,7 +31,7 @@ export default function OrderDetails() {
                 party_id: id || "",
             }));
         }
-    }, [])
+    }, [loadData])
 
     return (
         <div>

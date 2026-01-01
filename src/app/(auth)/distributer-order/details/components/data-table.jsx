@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Trash } from "lucide-react";
 import { useSelector } from "react-redux";
+import DeleteModal from "@/components/delete-modal";
+import { deleteDistributerOrderById } from "@/lib/slices/distributerOrderSlice";
 
 export default function ResponsiveTable({
     data = [],
@@ -21,6 +23,14 @@ export default function ResponsiveTable({
 
     const showEmptyState = !isLoading && data.length === 0;
 
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const handleClickOnTrash = (id) => {
+        setSelectedItem(id);
+        setShowDeleteModal(true);
+    };
+
     return (
         <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white text-gray-800">
 
@@ -30,7 +40,7 @@ export default function ResponsiveTable({
                     <thead className="bg-gray-200 text-gray-800 uppercase font-bold">
                         <tr>
                             <th className="px-4 py-3">
-                                {isAdmin ? "Distributer" : "Party"} Name
+                                #
                             </th>
                             <th className="px-4 py-3">Status</th>
                             <th className="px-4 py-3">Created At</th>
@@ -76,9 +86,7 @@ export default function ResponsiveTable({
                                             onClick={() => toggleRow(i)}
                                         >
                                             <td className="px-4 py-3">
-                                                {isAdmin
-                                                    ? item.distributer_name
-                                                    : item.party_name}
+                                                Order - {item.id}
                                             </td>
                                             <td className="px-4 py-3">
                                                 {item.paid_status}
@@ -183,14 +191,24 @@ export default function ResponsiveTable({
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <p className="font-semibold text-gray-800">
-                                            {new Date(item.created_at).toDateString()}
+                                            Order - {item.id}
                                         </p>
                                         <p className="text-sm text-gray-500">
-                                            {item.party_name}
+                                            {new Date(item.created_at).toDateString()}
                                         </p>
                                     </div>
 
-                                    {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                                    <div className="flex items-center space-x-3">
+                                        <button
+                                        onClick={() =>
+                                            handleClickOnTrash(item.id)
+                                        }
+                                        >
+                                            <Trash size={18} />
+                                        </button>
+                                        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                                    </div>
+
                                 </div>
 
                                 <div
@@ -200,6 +218,7 @@ export default function ResponsiveTable({
                                     <div className="space-y-5">
                                         <div className="space-y-1 text-sm text-gray-600">
                                             <p><b>Distributer :</b> {item.distributer_name}</p>
+                                            <p><b>Party :</b> {item.party_name}</p>
                                             <p><b>Paid Status :</b> {item.paid_status}</p>
                                             <p><b>Total Amount :</b> Rs {item.total_amount}</p>
                                             <p>
@@ -246,6 +265,13 @@ export default function ResponsiveTable({
                         );
                     })}
             </div>
+            {/* Modals */}
+            <DeleteModal
+                isOpen={showDeleteModal}
+                selectedItem={selectedItem}
+                method={deleteDistributerOrderById}
+                onClose={() => setShowDeleteModal(false)}
+            />
         </div>
     );
 }
