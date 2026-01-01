@@ -1,30 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Info, Trash } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSelector } from "react-redux";
-
-import DeleteModal from "@/components/delete-modal";
-import { deleteDistributerOrderById } from "@/lib/slices/distributerOrderSlice";
-// import OrderDetailsModal from "./details-modal";
-import { useRouter } from "next/navigation";
 
 export default function ResponsiveTable({
     data = [],
     isLoading = false,
 }) {
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [openRow, setOpenRow] = useState(null);
-
-    const router = useRouter();
 
     const role = useSelector(
         (state) => state.kmpharma?.auth?.loggedInUser?.role
     );
     const isAdmin = role === "Admin";
-
-    const [selectedItem, setSelectedItem] = useState(null);
 
     const toggleRow = (index) => {
         setOpenRow((prev) => (prev === index ? null : index));
@@ -34,8 +23,9 @@ export default function ResponsiveTable({
 
     return (
         <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white">
+
             {/* ================= DESKTOP ================= */}
-            <div className="hidden overflow-x-auto md:block">
+            <div className="hidden md:block">
                 <table className="min-w-full text-left text-sm text-gray-600">
                     <thead className="bg-gray-200 text-gray-800 uppercase font-bold">
                         <tr>
@@ -44,6 +34,7 @@ export default function ResponsiveTable({
                             </th>
                             <th className="px-4 py-3">Status</th>
                             <th className="px-4 py-3">Created At</th>
+                            <th className="px-4 py-3 w-10"></th>
                         </tr>
                     </thead>
 
@@ -51,7 +42,7 @@ export default function ResponsiveTable({
                         {/* Loading */}
                         {isLoading &&
                             Array.from({ length: 5 }).map((_, i) => (
-                                <tr key={i} className="border-t">
+                                <tr key={i} className="border-t border-gray-200">
                                     {Array.from({ length: 4 }).map((_, j) => (
                                         <td key={j} className="px-4 py-3">
                                             <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
@@ -74,33 +65,98 @@ export default function ResponsiveTable({
 
                         {/* Data */}
                         {!isLoading &&
-                            data.map((item, i) => (
-                                <tr
-                                    key={i}
-                                    className="border-t transition hover:bg-gray-50"
-                                >
-                                    <td className="px-4 py-3">
-                                        {isAdmin
-                                            ? item.distributer_name
-                                            : item.party_name}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        {item.paid_status}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        {new Date(
-                                            item.created_at
-                                        ).toDateString()}
-                                    </td>
-                                </tr>
-                            ))}
+                            data.map((item, i) => {
+                                const isOpen = openRow === i;
+
+                                return (
+                                    <React.Fragment key={i}>
+                                        <tr
+                                            key={i}
+                                            className="border-t border-gray-200 cursor-pointer hover:bg-gray-50"
+                                            onClick={() => toggleRow(i)}
+                                        >
+                                            <td className="px-4 py-3">
+                                                {isAdmin
+                                                    ? item.distributer_name
+                                                    : item.party_name}
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                {item.paid_status}
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                {new Date(item.created_at).toDateString()}
+                                            </td>
+                                            <td className="px-4 py-3 text-right">
+                                                {isOpen ? (
+                                                    <ChevronUp size={18} />
+                                                ) : (
+                                                    <ChevronDown size={18} />
+                                                )}
+                                            </td>
+                                        </tr>
+
+                                        {/* Expanded Row (same content as mobile) */}
+                                        {isOpen && (
+                                            <tr className="border-t border-gray-200 bg-gray-50">
+                                                <td colSpan={4} className="px-4 py-4">
+                                                    <div className="space-y-5">
+
+                                                        <div className="space-y-1 text-sm text-gray-600">
+                                                            <p><b>Distributer :</b> {item.distributer_name}</p>
+                                                            <p><b>Party :</b> {item.party_name}</p>
+                                                            <p><b>Total Discount :</b> Rs {item.total_discount}</p>
+                                                            <p><b>Total Amount :</b> Rs {item.total_amount}</p>
+                                                            <p>
+                                                                <b>Created At :</b>{" "}
+                                                                {new Date(item.created_at).toDateString()}
+                                                            </p>
+                                                        </div>
+
+                                                        {/* Products Table (UNCHANGED) */}
+                                                        <div className="overflow-x-auto border border-gray-200 rounded-lg">
+                                                            <table className="w-full text-sm">
+                                                                <thead className="bg-gray-200">
+                                                                    <tr>
+                                                                        <th className="p-3 text-left">Product</th>
+                                                                        <th className="p-3 text-left">Qty</th>
+                                                                        <th className="p-3 text-left">Unit Price</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {item?.items?.length > 0 ? (
+                                                                        item.items.map((p, idx) => (
+                                                                            <tr key={idx} className="hover:bg-gray-100">
+                                                                                <td className="p-3">{p.product_name}</td>
+                                                                                <td className="p-3">{p.quantity}</td>
+                                                                                <td className="p-3">{p.unit_price}</td>
+                                                                            </tr>
+                                                                        ))
+                                                                    ) : (
+                                                                        <tr>
+                                                                            <td
+                                                                                colSpan="3"
+                                                                                className="p-4 text-center text-gray-400"
+                                                                            >
+                                                                                No products found.
+                                                                            </td>
+                                                                        </tr>
+                                                                    )}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </React.Fragment>
+                                );
+                            })}
                     </tbody>
                 </table>
             </div>
 
-            {/* ================= MOBILE ================= */}
+            {/* ================= MOBILE (UNCHANGED) ================= */}
             <div className="divide-y divide-gray-200 md:hidden">
-                {/* Loading */}
                 {isLoading &&
                     Array.from({ length: 4 }).map((_, i) => (
                         <div key={i} className="space-y-2 px-4 py-4">
@@ -109,14 +165,12 @@ export default function ResponsiveTable({
                         </div>
                     ))}
 
-                {/* Empty */}
                 {showEmptyState && (
                     <div className="px-4 py-10 text-center text-gray-500">
                         No orders found
                     </div>
                 )}
 
-                {/* Data */}
                 {!isLoading &&
                     data.map((item, i) => {
                         const isOpen = openRow === i;
@@ -137,24 +191,26 @@ export default function ResponsiveTable({
                                         </p>
                                     </div>
 
-                                    <div className="flex items-center space-x-3">
-                                        {isOpen ? (
-                                            <ChevronUp size={18} />
-                                        ) : (
-                                            <ChevronDown size={18} />
-                                        )}
-                                    </div>
+                                    {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                                 </div>
 
                                 <div
-                                    className={`overflow-hidden transition-all ${isOpen
-                                        ? "mt-3 max-h-40"
-                                        : "max-h-0"
+                                    className={`overflow-hidden transition-all ${isOpen ? "mt-3 max-h-fit" : "max-h-0"
                                         }`}
                                 >
                                     <div className="space-y-5">
+                                        <div className="space-y-1 text-sm text-gray-600">
+                                            <p><b>Distributer :</b> {item.distributer_name}</p>
+                                            <p><b>Party :</b> {item.party_name}</p>
+                                            <p><b>Total Discount :</b> Rs {item.total_discount}</p>
+                                            <p><b>Total Amount :</b> Rs {item.total_amount}</p>
+                                            <p>
+                                                <b>Created At :</b>{" "}
+                                                {new Date(item.created_at).toDateString()}
+                                            </p>
+                                        </div>
 
-                                        {/* Products Table */}
+                                        {/* Products Table (UNCHANGED) */}
                                         <div className="overflow-x-auto border border-gray-200 rounded-lg">
                                             <table className="w-full text-sm">
                                                 <thead className="bg-gray-200">
@@ -165,20 +221,20 @@ export default function ResponsiveTable({
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {item?.items.length > 0 ? (
-                                                        item?.items.map((item, idx) => (
-                                                            <tr
-                                                                key={idx}
-                                                                className="hover:bg-gray-100"
-                                                            >
-                                                                <td className="p-3">{item.product_name}</td>
-                                                                <td className="p-3">{item.quantity}</td>
-                                                                <td className="p-3">{item.unit_price}</td>
+                                                    {item?.items?.length > 0 ? (
+                                                        item.items.map((p, idx) => (
+                                                            <tr key={idx} className="hover:bg-gray-100">
+                                                                <td className="p-3">{p.product_name}</td>
+                                                                <td className="p-3">{p.quantity}</td>
+                                                                <td className="p-3">{p.unit_price}</td>
                                                             </tr>
                                                         ))
                                                     ) : (
                                                         <tr>
-                                                            <td className="p-4 text-center text-gray-400" colSpan="4">
+                                                            <td
+                                                                colSpan="3"
+                                                                className="p-4 text-center text-gray-400"
+                                                            >
                                                                 No products found.
                                                             </td>
                                                         </tr>
@@ -186,34 +242,12 @@ export default function ResponsiveTable({
                                                 </tbody>
                                             </table>
                                         </div>
-                                        {/* {
-                                            orderDetails?.paid_status === "unpaid" &&
-                                            <SubmitButton label={"Paid"} onClick={handleClickOnPaid} />
-                                        } */}
                                     </div>
                                 </div>
                             </div>
                         );
                     })}
             </div>
-
-            {/* Modals */}
-            <DeleteModal
-                isOpen={showDeleteModal}
-                selectedItem={selectedItem}
-                method={deleteDistributerOrderById}
-                onClose={() => setShowDeleteModal(false)}
-            />
-
-        </div>
-    );
-}
-
-function Detail({ label, value }) {
-    return (
-        <div>
-            <p className="text-gray-700 text-sm">{label}</p>
-            <p className="font-bold">{value || "—"}</p>
         </div>
     );
 }

@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrdersByFilters } from "@/lib/slices/distributerOrderSlice";
 import AddDistributerOrderModal from "./components/add-modal";
 import BillModal from "./components/bill-modal";
-import { Calendar, Filter, X } from "lucide-react";
+import { ArrowLeft, Calendar, Filter, X } from "lucide-react";
 import SelectInput from "@/components/select";
 import { getAllDistributers } from "@/lib/slices/distributerSlice";
 import { getAllParties } from "@/lib/slices/partySlice";
+import { useRouter } from "next/navigation";
 
 // const PAID_STATUS_OPTIONS = [
 //     { label: "Paid", value: "paid" },
@@ -20,6 +21,7 @@ import { getAllParties } from "@/lib/slices/partySlice";
 export default function VaterinaryProducts() {
 
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const [showModal, setShowModal] = useState(false);
     const [openBillModal, setOpenBillModal] = useState(false);
@@ -34,7 +36,8 @@ export default function VaterinaryProducts() {
     const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
     const distributors = useSelector(state => state.kmpharma.distributer.distributers);
     const parties = useSelector(state => state.kmpharma.party.parties);
-    const loading = useSelector(state => state.kmpharma.distributerOrder.loading);
+    const partyLoading = useSelector(state => state.kmpharma.party.loading);
+    const distributerLoading = useSelector(state => state.kmpharma.distributer.loading);
     const isAdmin = useSelector(state => state.kmpharma?.auth?.loggedInUser?.role);
 
     const [distributorId, setDistributorId] = useState("");
@@ -95,9 +98,20 @@ export default function VaterinaryProducts() {
 
     return (
         <div>
+            <div className="flex items-center gap-3 mb-4">
+                <button
+                    onClick={() => router.back()}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 bg-white
+                               hover:bg-gray-100 transition
+                               text-sm font-medium"
+                >
+                    <ArrowLeft size={18} />
+                    Back
+                </button>
+            </div>
             {
                 isAdmin === "User" &&
-                <div className="w-full sm:w-52 py-4">
+                <div className="w-full sm:w-52 mb-4">
                     <SubmitButton
                         label={"Create Order"}
                         onClick={() => setShowModal(true)} />
@@ -225,7 +239,9 @@ export default function VaterinaryProducts() {
                     </div>
                 </div>
             </div> */}
-            <ResponsiveTable data={isAdmin === "Admin" ? distributors : parties} isLoading={loading} />
+            <ResponsiveTable
+                data={isAdmin === "Admin" ? distributors : parties}
+                isLoading={isAdmin === "Admin" ? distributerLoading : partyLoading} />
             <AddDistributerOrderModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
