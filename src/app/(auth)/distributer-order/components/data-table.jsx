@@ -47,9 +47,8 @@ export default function ResponsiveTable({
                             <th className="px-4 py-3">
                                 {isAdmin ? "Distributer" : "Party"} Name
                             </th>
-                            <th className="px-4 py-3">Status</th>
+                            <th className="px-4 py-3">Address</th>
                             <th className="px-4 py-3">Created At</th>
-                            <th className="px-4 py-3 text-center">Action</th>
                         </tr>
                     </thead>
 
@@ -84,37 +83,22 @@ export default function ResponsiveTable({
                                 <tr
                                     key={i}
                                     className="border-t transition hover:bg-gray-50"
+                                    onClick={() =>
+                                        handleClickOnInfo(item.id)
+                                    }
                                 >
                                     <td className="px-4 py-3">
                                         {isAdmin
                                             ? item.distributer_name
-                                            : item.party_name}
+                                            : item.name}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {item.paid_status}
+                                        {item.adress}
                                     </td>
                                     <td className="px-4 py-3">
                                         {new Date(
                                             item.created_at
                                         ).toDateString()}
-                                    </td>
-                                    <td className="px-2 py-1 text-center space-x-2">
-                                        <button
-                                            onClick={() =>
-                                                handleClickOnInfo(item.id)
-                                            }
-                                            className="rounded-full p-2 text-gray-500 hover:bg-gray-200"
-                                        >
-                                            <Info size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                handleClickOnTrash(item.id)
-                                            }
-                                            className="rounded-full p-2 text-gray-500 hover:bg-gray-200"
-                                        >
-                                            <Trash size={18} />
-                                        </button>
                                     </td>
                                 </tr>
                             ))}

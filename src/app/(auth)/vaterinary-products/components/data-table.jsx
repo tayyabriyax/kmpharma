@@ -50,8 +50,8 @@ export default function ResponsiveTable({
                         <tr>
                             <th className="px-4 py-3">Name</th>
                             <th className="px-4 py-3">Supplier</th>
-                            <th className="px-4 py-3">Buying Price</th>
-                            <th className="px-4 py-3">Selling Price</th>
+                            {/* <th className="px-4 py-3">Buying Price</th> */}
+                            <th className="px-4 py-3">Price</th>
                             {/* <th className="px-4 py-3">Composition</th>
                             <th className="px-4 py-3">Dosage Form</th> */}
                             <th className="px-4 py-3">Created At</th>
@@ -103,9 +103,9 @@ export default function ResponsiveTable({
                                     <td className="px-4 py-3">
                                         {item.supplier_name}
                                     </td>
-                                    <td className="px-4 py-3">
+                                    {/* <td className="px-4 py-3">
                                         Rs {item.buying_price}
-                                    </td>
+                                    </td> */}
                                     <td className="px-4 py-3">
                                         Rs {item.selling_price}
                                     </td>
@@ -235,10 +235,10 @@ export default function ResponsiveTable({
                                         <p><b>Withdrawal:</b> {item.withdrawal_period}</p>
                                         <p><b>Storage:</b> {item.storage_conditions}</p>
                                         <p><b>Side Effects:</b> {item.side_effects}</p> */}
-                                        <p><b>Buying Price: Rs</b> {item.buying_price}</p>
-                                        <p><b>Selling Price: Rs</b> {item.selling_price}</p>
+                                        {/* <p><b>Buying Price: Rs</b> {item.buying_price}</p> */}
+                                        <p><b>Price: Rs</b> {item.selling_price}</p>
                                         {/* <p><b>Batch No:</b> {item.batch_no}</p> */}
-                                        <p>
+                                        {/* <p>
                                             <b>Manufacture:</b>{" "}
                                             {new Date(
                                                 item.manufacture_date
@@ -249,7 +249,7 @@ export default function ResponsiveTable({
                                             {new Date(
                                                 item.expiry_date
                                             ).toDateString()}
-                                        </p>
+                                        </p> */}
                                         {/* <p><b>Remarks:</b> {item.remarks}</p> */}
                                         <p>
                                             <b>Created At:</b>{" "}

@@ -5,15 +5,19 @@ import {
     Clipboard,
     ClipboardList,
     Handshake,
+    KeyRound,
+    LogOut,
     PawPrint,
     Truck,
     User,
     Users,
 } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { REMOVE_ACTIVE_USER } from "@/lib/slices/authSlice";
 
 export default function Dashboard() {
     const user = useSelector((state) => state.kmpharma.auth.loggedInUser);
+    const dispatch = useDispatch();
 
     /* ---------- Common Menus ---------- */
     const commonMenus = [
@@ -62,10 +66,24 @@ export default function Dashboard() {
         },
     ];
 
+    /* ---------- Profile Menus ---------- */
+    const profileMenus = [
+        {
+            title: "Edit Profile",
+            href: "/profile",
+            icon: User,
+        },
+        {
+            title: "Change Password",
+            href: "/change-password",
+            icon: KeyRound,
+        },
+    ];
+
     const menus =
         user?.role === "Admin"
-            ? [...commonMenus, ...adminMenus]
-            : [...commonMenus, ...userMenus];
+            ? [...commonMenus, ...adminMenus, ...profileMenus]
+            : [...commonMenus, ...userMenus, ...profileMenus];
 
     return (
         <div className="space-y-4">
@@ -74,6 +92,28 @@ export default function Dashboard() {
                 {menus.map((item) => (
                     <DashboardCard key={item.title} item={item} />
                 ))}
+                <button
+                    onClick={() => dispatch(REMOVE_ACTIVE_USER())}
+                    className="group bg-white border border-gray-200 rounded-xl p-6
+                 hover:border-red-600 hover:shadow-md transition-all"
+                >
+                    <div className="flex flex-col items-center text-center gap-4">
+                        <div
+                            className="p-4 rounded-full bg-red-50 text-red-600
+                     group-hover:bg-red-600 group-hover:text-white transition"
+                        >
+                            <LogOut size={28} />
+                        </div>
+
+                        <h2 className="text-lg font-semibold text-gray-800">
+                            Logout
+                        </h2>
+
+                        <p className="text-sm text-gray-500">
+                            Logout current section
+                        </p>
+                    </div>
+                </button>
             </div>
         </div>
     );

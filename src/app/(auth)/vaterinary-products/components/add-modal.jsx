@@ -56,8 +56,8 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
         buying_price: 0,
         selling_price: 0,
         // batch_no: "",
-        manufacture_date: "",
-        expiry_date: "",
+        manufacture_date: new Date(Date.now()).toISOString().slice(0, 10),
+        expiry_date: new Date(Date.now()).toISOString().slice(0, 10),
         // remarks: "",
     });
 
@@ -77,11 +77,11 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                 // withdrawal_period: editableProduct.withdrawal_period,
                 // storage_conditions: editableProduct.storage_conditions,
                 // side_effects: editableProduct.side_effects,
-                buying_price: editableProduct.buying_price,
+                // buying_price: editableProduct.buying_price,
                 selling_price: editableProduct.selling_price,
                 // batch_no: editableProduct.batch_no,
-                manufacture_date: new Date(editableProduct.manufacture_date).toISOString().slice(0, 10),
-                expiry_date: new Date(editableProduct.expiry_date).toISOString().slice(0, 10),
+                // manufacture_date: new Date(Date.now()).toISOString().slice(0, 10),
+                // expiry_date: new Date(Date.now()).toISOString().slice(0, 10),
                 // remarks: editableProduct.remarks,
             }))
         }
@@ -117,11 +117,11 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
             // withdrawal_period: "",
             // storage_conditions: "",
             // side_effects: "",
-            buying_price: 0,
+            // buying_price: 0,
             selling_price: 0,
             // batch_no: "",
-            manufacture_date: "",
-            expiry_date: "",
+            // manufacture_date: "",
+            // expiry_date: "",
             // remarks: "",
         }))
         onClose();
@@ -273,19 +273,19 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                             /> */}
 
                             {/* Buying Price */}
-                            <InputField
-                                label={"Buying Price"}
+                            {/* <InputField
+                                label={"Price"}
                                 value={formData.buying_price}
                                 onChange={handleChange}
                                 icon={<DollarSign className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 id={"buying_price"}
                                 placeholder={"e.g. 250"}
                                 required
-                            />
+                            /> */}
 
                             {/* Selling Price */}
                             <InputField
-                                label={"Selling Price"}
+                                label={"Price"}
                                 value={formData.selling_price}
                                 onChange={handleChange}
                                 icon={<BadgeDollarSign className="absolute left-3 top-3 text-gray-400" size={18} />}
@@ -306,7 +306,7 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                             /> */}
 
                             {/* Manufacture Date */}
-                            <InputField
+                            {/* <InputField
                                 label={"Manufacture Date"}
                                 value={formData.manufacture_date}
                                 onChange={handleChange}
@@ -314,10 +314,10 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 id={"manufacture_date"}
                                 type="date"
                                 required
-                            />
+                            /> */}
 
                             {/* Expiry Date */}
-                            <InputField
+                            {/* <InputField
                                 label={"Expiry Date"}
                                 value={formData.expiry_date}
                                 onChange={handleChange}
@@ -325,7 +325,7 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 id={"expiry_date"}
                                 type="date"
                                 required
-                            />
+                            /> */}
 
                             {/* Remarks */}
                             {/* <TextAreaField

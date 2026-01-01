@@ -12,6 +12,7 @@ import SelectInput from "@/components/select";
 import { getAllDistributers } from "@/lib/slices/distributerSlice";
 import { getAllParties } from "@/lib/slices/partySlice";
 import { useRouter } from "next/navigation";
+import BackButton from "@/components/back-button";
 
 // const PAID_STATUS_OPTIONS = [
 //     { label: "Paid", value: "paid" },
@@ -99,15 +100,7 @@ export default function VaterinaryProducts() {
     return (
         <div>
             <div className="flex items-center gap-3 mb-4">
-                <button
-                    onClick={() => router.back()}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 bg-white
-                               hover:bg-gray-100 transition
-                               text-sm font-medium"
-                >
-                    <ArrowLeft size={18} />
-                    Back
-                </button>
+                <BackButton />
             </div>
             {
                 isAdmin === "User" &&

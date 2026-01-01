@@ -7,6 +7,7 @@ import SubmitButton from "@/components/submit-button";
 import { useSelector, useDispatch } from "react-redux";
 import { editUser } from "@/lib/slices/userSlice";
 import { useRouter } from "next/navigation";
+import BackButton from "@/components/back-button";
 
 export default function EditProfilePage() {
     const dispatch = useDispatch();
@@ -40,15 +41,7 @@ export default function EditProfilePage() {
     return (
         <div className="md:p-6">
             <div className="flex items-center gap-3 mb-4">
-                <button
-                    onClick={() => router.back()}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 bg-white
-                               hover:bg-gray-100 transition
-                               text-sm font-medium"
-                >
-                    <ArrowLeft size={18} />
-                    Back
-                </button>
+                <BackButton />
             </div>
             <div className="max-w-lg mx-auto bg-white shadow-lg rounded-xl p-6 border border-gray-200">
 

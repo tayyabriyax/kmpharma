@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllVaterinaryProducts } from "@/lib/slices/vaterinaryProductSlice";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import BackButton from "@/components/back-button";
 
 export default function VaterinaryProducts() {
 
@@ -28,15 +29,7 @@ export default function VaterinaryProducts() {
     return (
         <div>
             <div className="flex items-center gap-3 mb-4">
-                <button
-                    onClick={() => router.back()}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 bg-white
-                               hover:bg-gray-100 transition
-                               text-sm font-medium"
-                >
-                    <ArrowLeft size={18} />
-                    Back
-                </button>
+                <BackButton />
             </div>
             {
                 user.role === "Admin" &&

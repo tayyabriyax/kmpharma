@@ -22,7 +22,7 @@ export default function ResponsiveTable({
     const showEmptyState = !isLoading && data.length === 0;
 
     return (
-        <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white">
+        <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white text-gray-800">
 
             {/* ================= DESKTOP ================= */}
             <div className="hidden md:block">
@@ -104,7 +104,6 @@ export default function ResponsiveTable({
                                                         <div className="space-y-1 text-sm text-gray-600">
                                                             <p><b>Distributer :</b> {item.distributer_name}</p>
                                                             <p><b>Party :</b> {item.party_name}</p>
-                                                            <p><b>Total Discount :</b> Rs {item.total_discount}</p>
                                                             <p><b>Total Amount :</b> Rs {item.total_amount}</p>
                                                             <p>
                                                                 <b>Created At :</b>{" "}
@@ -187,7 +186,7 @@ export default function ResponsiveTable({
                                             {new Date(item.created_at).toDateString()}
                                         </p>
                                         <p className="text-sm text-gray-500">
-                                            {item.paid_status}
+                                            {item.party_name}
                                         </p>
                                     </div>
 
@@ -201,8 +200,7 @@ export default function ResponsiveTable({
                                     <div className="space-y-5">
                                         <div className="space-y-1 text-sm text-gray-600">
                                             <p><b>Distributer :</b> {item.distributer_name}</p>
-                                            <p><b>Party :</b> {item.party_name}</p>
-                                            <p><b>Total Discount :</b> Rs {item.total_discount}</p>
+                                            <p><b>Paid Status :</b> {item.paid_status}</p>
                                             <p><b>Total Amount :</b> Rs {item.total_amount}</p>
                                             <p>
                                                 <b>Created At :</b>{" "}
