@@ -5,9 +5,12 @@ import SubmitButton from "@/components/submit-button";
 import { useDispatch, useSelector } from "react-redux";
 import PasswordField from "@/components/password-field";
 import { changePassword } from "@/lib/slices/userSlice";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ChangePassword() {
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const [formData, setFormData] = useState({
         old_password: "",
@@ -31,7 +34,18 @@ export default function ChangePassword() {
     };
 
     return (
-        <div className="p-4 md:p-10">
+        <div className="md:p-10">
+            <div className="flex items-center gap-3 mb-4">
+                <button
+                    onClick={() => router.back()}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 bg-white
+                               hover:bg-gray-100 transition
+                               text-sm font-medium"
+                >
+                    <ArrowLeft size={18} />
+                    Back
+                </button>
+            </div>
             <div className="max-w-lg mx-auto bg-white shadow-lg rounded-xl p-6 border border-gray-200">
 
                 {/* Header */}

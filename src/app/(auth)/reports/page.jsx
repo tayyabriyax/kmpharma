@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { getDropdownAdminParties } from "@/lib/slices/distributerOrderSlice";
-import { Calendar, Clipboard, X } from "lucide-react";
+import { ArrowLeft, Calendar, Clipboard, X } from "lucide-react";
 import SelectInput from "@/components/select";
 import { getDropdownDistributers } from "@/lib/slices/partySlice";
 import { generateReport } from "@/lib/slices/reportSlice";
+import { useRouter } from "next/navigation";
 
 const PAID_STATUS_OPTIONS = [
     { label: "Paid", value: "paid" },
@@ -16,6 +17,7 @@ const PAID_STATUS_OPTIONS = [
 export default function Reports() {
 
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
     const distributors = useSelector(state => state.kmpharma.party.distributers);
@@ -61,6 +63,17 @@ export default function Reports() {
 
     return (
         <div>
+            <div className="flex items-center gap-3 mb-4">
+                <button
+                    onClick={() => router.back()}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 bg-white
+                               hover:bg-gray-100 transition
+                               text-sm font-medium"
+                >
+                    <ArrowLeft size={18} />
+                    Back
+                </button>
+            </div>
             <div className="w-full bg-white border border-gray-300 rounded-xl p-4 
                         grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
 
