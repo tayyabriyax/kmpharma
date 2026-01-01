@@ -43,22 +43,22 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
     const [formData, setFormData] = useState({
         name: "",
         supplier_id: "",
-        brand: "",
-        category: "",
-        composition: "",
-        dosage_form: "",
-        pack_size: "",
-        species_targeted: "",
-        usage_instructions: "",
-        withdrawal_period: "",
-        storage_conditions: "",
-        side_effects: "",
+        // brand: "",
+        // category: "",
+        // composition: "",
+        // dosage_form: "",
+        // pack_size: "",
+        // species_targeted: "",
+        // usage_instructions: "",
+        // withdrawal_period: "",
+        // storage_conditions: "",
+        // side_effects: "",
         buying_price: 0,
         selling_price: 0,
-        batch_no: "",
+        // batch_no: "",
         manufacture_date: "",
         expiry_date: "",
-        remarks: "",
+        // remarks: "",
     });
 
     useEffect(() => {
@@ -67,22 +67,22 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                 ...prev,
                 name: editableProduct.name,
                 supplier_id: editableProduct.supplier_id,
-                brand: editableProduct.brand,
-                category: editableProduct.category,
-                composition: editableProduct.composition,
-                dosage_form: editableProduct.dosage_form,
-                pack_size: editableProduct.pack_size,
-                species_targeted: editableProduct.species_targeted,
-                usage_instructions: editableProduct.usage_instructions,
-                withdrawal_period: editableProduct.withdrawal_period,
-                storage_conditions: editableProduct.storage_conditions,
-                side_effects: editableProduct.side_effects,
+                // brand: editableProduct.brand,
+                // category: editableProduct.category,
+                // composition: editableProduct.composition,
+                // dosage_form: editableProduct.dosage_form,
+                // pack_size: editableProduct.pack_size,
+                // species_targeted: editableProduct.species_targeted,
+                // usage_instructions: editableProduct.usage_instructions,
+                // withdrawal_period: editableProduct.withdrawal_period,
+                // storage_conditions: editableProduct.storage_conditions,
+                // side_effects: editableProduct.side_effects,
                 buying_price: editableProduct.buying_price,
                 selling_price: editableProduct.selling_price,
-                batch_no: editableProduct.batch_no,
+                // batch_no: editableProduct.batch_no,
                 manufacture_date: new Date(editableProduct.manufacture_date).toISOString().slice(0, 10),
                 expiry_date: new Date(editableProduct.expiry_date).toISOString().slice(0, 10),
-                remarks: editableProduct.remarks,
+                // remarks: editableProduct.remarks,
             }))
         }
     }, [isOpen])
@@ -107,22 +107,22 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
             ...prev,
             name: "",
             supplier_id: "",
-            brand: "",
-            category: "",
-            composition: "",
-            dosage_form: "",
-            pack_size: "",
-            species_targeted: "",
-            usage_instructions: "",
-            withdrawal_period: "",
-            storage_conditions: "",
-            side_effects: "",
+            // brand: "",
+            // category: "",
+            // composition: "",
+            // dosage_form: "",
+            // pack_size: "",
+            // species_targeted: "",
+            // usage_instructions: "",
+            // withdrawal_period: "",
+            // storage_conditions: "",
+            // side_effects: "",
             buying_price: 0,
             selling_price: 0,
-            batch_no: "",
+            // batch_no: "",
             manufacture_date: "",
             expiry_date: "",
-            remarks: "",
+            // remarks: "",
         }))
         onClose();
     };
@@ -161,14 +161,14 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 required={true} />
 
                             {/* Brand */}
-                            <InputField
+                            {/* <InputField
                                 label={"Brand"}
                                 value={formData.brand}
                                 onChange={handleChange}
                                 icon={<Tag className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 id={"brand"}
                                 placeholder={"Engro"}
-                                required={true} />
+                                required={true} /> */}
 
                             {/* Supplier */}
                             <SelectInput
@@ -180,67 +180,67 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 onChange={handleChange} />
 
                             {/* Category */}
-                            <InputField
+                            {/* <InputField
                                 label={"Category"}
                                 value={formData.category}
                                 onChange={handleChange}
                                 icon={<Folder className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 id={"category"}
                                 placeholder={"Headache"}
-                                required={true} />
+                                required={true} /> */}
 
                             {/* Composition */}
-                            <InputField
+                            {/* <InputField
                                 label={"Composition"}
                                 value={formData.composition}
                                 onChange={handleChange}
                                 icon={<FlaskRound className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 id={"composition"}
                                 placeholder={"e.g. Paracetamol 500mg"}
-                                required={true} />
+                                required={true} /> */}
 
                             {/* Dosage Form */}
-                            <InputField
+                            {/* <InputField
                                 label={"Dosage Form"}
                                 value={formData.dosage_form}
                                 onChange={handleChange}
                                 icon={<Pill className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 id={"dosage_form"}
                                 placeholder={"e.g. Tablet, Syrup, Injection"}
-                                required={true} />
+                                required={true} /> */}
 
                             {/* Pack Size */}
-                            <InputField
+                            {/* <InputField
                                 label={"Pack Size"}
                                 value={formData.pack_size}
                                 onChange={handleChange}
                                 icon={<Box className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 id={"pack_size"}
                                 placeholder={"e.g. 10 tablets, 100ml bottle"}
-                                required={true} />
+                                required={true} /> */}
 
                             {/* Species Targeted */}
-                            <InputField
+                            {/* <InputField
                                 label={"Species Targeted"}
                                 value={formData.species_targeted}
                                 onChange={handleChange}
                                 icon={<Dog className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 id={"species_targeted"}
                                 placeholder={"e.g. Dogs, Cats, Cattle"}
-                                required={true} />
+                                required={true} /> */}
 
                             {/* Usage Instructions */}
-                            <InputField
+                            {/* <InputField
                                 label={"Usage Instructions"}
                                 value={formData.usage_instructions}
                                 onChange={handleChange}
                                 icon={<FileText className="absolute left-3 top-3 text-gray-400" size={18} />}
                                 placeholder={"e.g. Give 1 tablet per 10kg"}
                                 id={"usage_instructions"}
-                                required={true} />
+                                required={true} /> */}
 
                             {/* Withdrawal Period */}
-                            <InputField
+                            {/* <InputField
                                 label={"Withdrawal Period"}
                                 value={formData.withdrawal_period}
                                 onChange={handleChange}
@@ -248,10 +248,10 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 id={"withdrawal_period"}
                                 placeholder={"e.g. 3 days"}
                                 required
-                            />
+                            /> */}
 
                             {/* Storage Conditions */}
-                            <InputField
+                            {/* <InputField
                                 label={"Storage Conditions"}
                                 value={formData.storage_conditions}
                                 onChange={handleChange}
@@ -259,10 +259,10 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 id={"storage_conditions"}
                                 placeholder={"e.g. Keep below 25°C"}
                                 required
-                            />
+                            /> */}
 
                             {/* Side Effects */}
-                            <InputField
+                            {/* <InputField
                                 label={"Side Effects"}
                                 value={formData.side_effects}
                                 onChange={handleChange}
@@ -270,7 +270,7 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 id={"side_effects"}
                                 placeholder={"e.g. Vomiting, dizziness"}
                                 required
-                            />
+                            /> */}
 
                             {/* Buying Price */}
                             <InputField
@@ -295,7 +295,7 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                             />
 
                             {/* Batch Number */}
-                            <InputField
+                            {/* <InputField
                                 label={"Batch Number"}
                                 value={formData.batch_no}
                                 onChange={handleChange}
@@ -303,7 +303,7 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                                 id={"batch_no"}
                                 placeholder={"e.g. BATCH-0021"}
                                 required
-                            />
+                            /> */}
 
                             {/* Manufacture Date */}
                             <InputField
@@ -328,14 +328,14 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
                             />
 
                             {/* Remarks */}
-                            <TextAreaField
+                            {/* <TextAreaField
                                 label="Remarks"
                                 value={formData.remarks}
                                 onChange={handleChange}
                                 id="remarks"
                                 placeholder="Add any important notes here..."
                                 required={false}
-                            />
+                            /> */}
                         </div>
 
                         {/* Submit Button */}
