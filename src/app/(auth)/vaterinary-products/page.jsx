@@ -6,14 +6,11 @@ import AddSuppliersModal from "./components/add-modal";
 import ResponsiveTable from "./components/data-table";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllVaterinaryProducts } from "@/lib/slices/vaterinaryProductSlice";
-import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import BackButton from "@/components/back-button";
 
 export default function VaterinaryProducts() {
 
     const dispatch = useDispatch();
-    const router = useRouter();
 
     const [showModal, setShowModal] = useState(false);
 

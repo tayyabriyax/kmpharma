@@ -89,7 +89,7 @@ export default function ResponsiveTable({
                                 >
                                     <td className="px-4 py-3">
                                         {isAdmin
-                                            ? item.distributer_name
+                                            ? item.user?.fullname
                                             : item.name}
                                     </td>
                                     <td className="px-4 py-3">

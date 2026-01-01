@@ -7,7 +7,7 @@ const initialState = {
 
 export const generateReport = createAsyncThunk(
     "reports/generateReport",
-    async ({ party_id, from_date, to_date, paid_status, distributer_id, download }, thunkAPI) => {
+    async ({ party_id, from_date, to_date, distributer_id, download }, thunkAPI) => {
         const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
 
         try {
@@ -17,11 +17,10 @@ export const generateReport = createAsyncThunk(
             if (distributer_id) params.append("distributer_id", distributer_id);
             if (from_date) params.append("from_date", from_date);
             if (to_date) params.append("to_date", to_date);
-            if (paid_status) params.append("paid_status", paid_status);
             if (download) params.append("download", download);
 
             const query = params.toString();
-            const url = `api/v1/reports/orders${query ? `?${query}` : ""}`;
+            const url = `api/v1/reports/orders-for-company-admin${query ? `?${query}` : ""}`;
 
             // IMPORTANT CHANGE → fetch the PDF as a blob
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`, {

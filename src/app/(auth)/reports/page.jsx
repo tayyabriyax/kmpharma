@@ -1,170 +1,71 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
-import { getDropdownAdminParties } from "@/lib/slices/distributerOrderSlice";
-import { ArrowLeft, Calendar, Clipboard, X } from "lucide-react";
-import SelectInput from "@/components/select";
-import { getDropdownDistributers } from "@/lib/slices/partySlice";
-import { generateReport } from "@/lib/slices/reportSlice";
-import { useRouter } from "next/navigation";
+import { NotebookPen } from "lucide-react";
 import BackButton from "@/components/back-button";
+import Link from "next/link";
+import { useSelector } from "react-redux";
 
-const PAID_STATUS_OPTIONS = [
-    { label: "Paid", value: "paid" },
-    { label: "Unpaid", value: "unpaid" },
-];
+export default function OrdersToCompany() {
 
-export default function Reports() {
+    const role = useSelector(
+        (state) => state.kmpharma?.auth?.loggedInUser?.role
+    );
+    const isAdmin = role === "Admin";
 
-    const dispatch = useDispatch();
-    const router = useRouter();
-
-    const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
-    const distributors = useSelector(state => state.kmpharma.party.distributers);
-    const parties = useSelector(state => state.kmpharma.distributerOrder.parties);
-    const isAdmin = useSelector(state => state.kmpharma?.auth?.loggedInUser?.role);
-
-    const [distributorId, setDistributorId] = useState("");
-    const [partyId, setPartyId] = useState("");
-    const [paidStatus, setPaidStatus] = useState("");
-    const [fromDate, setFromDate] = useState("");
-    const [toDate, setToDate] = useState("");
-
-    useEffect(() => {
-        dispatch(getDropdownDistributers());
-        dispatch(getDropdownAdminParties())
-    }, [loadData])
-
-    const handleApply = async () => {
-        const result = await dispatch(generateReport({
-            distributer_id: distributorId || "",
-            party_id: partyId || "",
-            paid_status: paidStatus || "",
-            from_date: fromDate || "",
-            to_date: toDate || "",
-            download: true,
-        }));
-
-        // If the thunk is successful
-        if (generateReport.fulfilled.match(result)) {
-            const blob = result.payload; // PDF blob
-            const url = window.URL.createObjectURL(blob);
-            window.open(url, "_blank"); // open PDF in new tab
-        }
-    };
-
-    const handleClear = () => {
-        setDistributorId("");
-        setPaidStatus("");
-        setPartyId("");
-        setFromDate("");
-        setToDate("");
-    };
+    const menus = [
+        {
+            title: "Orders to Company",
+            href: "/reports/orders-to-company",
+            icon: NotebookPen,
+        },
+    ]
 
     return (
         <div>
             <div className="flex items-center gap-3 mb-4">
                 <BackButton />
             </div>
-            <div className="w-full bg-white border border-gray-300 rounded-xl p-4 
-                        grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
-
-                {
-                    isAdmin === "Admin" &&
-                    <div className="w-full">
-                        <SelectInput
-                            label="Distributor"
-                            options={distributors}
-                            value={distributorId}
-                            onChange={(e) => setDistributorId(e.target.value)}
-                            placeholder="Select Distributor"
-                        />
+            {
+                isAdmin ?
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {menus.map((item) => (
+                            <Card key={item.title} item={item} />
+                        ))}
                     </div>
-                }
-
-                <div className="w-full">
-                    <SelectInput
-                        label="Party"
-                        options={parties}
-                        value={partyId}
-                        onChange={(e) => setPartyId(e.target.value)}
-                        placeholder="Select Party"
-                    />
-                </div>
-
-                {/* From Date */}
-                <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        From Date
-                    </label>
-                    <div className="relative">
-                        <Calendar
-                            size={18}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <input
-                            type="date"
-                            value={fromDate}
-                            onChange={(e) => setFromDate(e.target.value)}
-                            className="w-full pl-10 pr-3 py-2 md:py-2.5 text-sm border border-gray-300 
-                        rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                        />
+                    :
+                    <div className="w-full flex justify-center py-20">
+                        <span>This feature is not Available</span>
                     </div>
-                </div>
-
-                {/* To Date */}
-                <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        To Date
-                    </label>
-                    <div className="relative">
-                        <Calendar
-                            size={18}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <input
-                            type="date"
-                            value={toDate}
-                            onChange={(e) => setToDate(e.target.value)}
-                            className="w-full pl-10 pr-3 py-2 md:py-2.5 text-sm border border-gray-300 
-                        rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                        />
-                    </div>
-                </div>
-
-                {/* Paid Status */}
-                <div className="w-full">
-                    <SelectInput
-                        label="Paid Status"
-                        options={PAID_STATUS_OPTIONS}
-                        value={paidStatus}
-                        onChange={(e) => setPaidStatus(e.target.value)}
-                        placeholder="Paid / Unpaid"
-                    />
-                </div>
-
-                {/* Buttons */}
-                <div className="w-full space-y-2 items-end md:items-start md:flex-col">
-                    <button
-                        onClick={handleClear}
-                        className="flex-1 w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2.5 rounded-lg 
-                    text-sm flex items-center justify-center gap-2"
-                    >
-                        <X size={16} /> Clear
-                    </button>
-
-                    <button
-                        onClick={handleApply}
-                        className="flex-1 w-full bg-teal-600 hover:bg-teal-700 text-white py-2.5 rounded-lg 
-                    text-sm flex items-center justify-center gap-2"
-                    >
-                        <Clipboard size={16} /> Generate Report
-                    </button>
-
-                </div>
-
-            </div>
+            }
         </div>
     )
+}
+
+function Card({ item }) {
+    const Icon = item.icon;
+
+    return (
+        <Link
+            href={item.href}
+            className="group bg-white border border-gray-300 rounded-xl p-6
+                 hover:border-teal-600 hover:shadow-md transition-all"
+        >
+            <div className="flex flex-col items-center text-center gap-4">
+                <div
+                    className="p-4 rounded-full bg-teal-50 text-teal-600
+                     group-hover:bg-teal-600 group-hover:text-white transition"
+                >
+                    <Icon size={28} />
+                </div>
+
+                <h2 className="text-lg font-semibold text-gray-800">
+                    {item.title}
+                </h2>
+
+                <p className="text-sm text-gray-500">
+                    Generate Report
+                </p>
+            </div>
+        </Link>
+    );
 }

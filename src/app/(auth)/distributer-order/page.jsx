@@ -22,7 +22,6 @@ import BackButton from "@/components/back-button";
 export default function VaterinaryProducts() {
 
     const dispatch = useDispatch();
-    const router = useRouter();
 
     const [showModal, setShowModal] = useState(false);
     const [openBillModal, setOpenBillModal] = useState(false);
@@ -32,8 +31,6 @@ export default function VaterinaryProducts() {
         remarks: ""
     });
 
-    const orders = useSelector(state => state.kmpharma.distributerOrder.distributerOrders);
-    const paymentDetails = useSelector(state => state.kmpharma.distributerOrder.paymentDetails);
     const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
     const distributors = useSelector(state => state.kmpharma.distributer.distributers);
     const parties = useSelector(state => state.kmpharma.party.parties);
