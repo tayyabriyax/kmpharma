@@ -1,17 +1,17 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getOrdersByFilters } from "@/lib/slices/distributerOrderSlice";
 import ResponsiveTable from "../components/data-table";
 import BackButton from "@/components/back-button";
+import SubmitButton from "@/components/submit-button";
 
 export default function OrderDetails() {
     const { id } = useParams();
-    const router = useRouter();
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const role = useSelector(
         (state) => state.kmpharma?.auth?.loggedInUser?.role
@@ -39,6 +39,15 @@ export default function OrderDetails() {
             <div className="flex items-center gap-3 mb-4">
                 <BackButton />
             </div>
+            {
+                !isAdmin &&
+                <div className="w-full sm:w-52 mb-4">
+                    <SubmitButton
+                        label={"Create Order"}
+                        onClick={() => router.push(`/distributer-order/details/${id}/create-order`)}
+                    />
+                </div>
+            }
 
             <ResponsiveTable data={orders} isLoading={loading} />
         </div>

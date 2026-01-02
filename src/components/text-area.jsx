@@ -40,7 +40,7 @@ export default function TextAreaField({
                     rows={rows}
                     className={`
             w-full 
-            border border-gray-300 
+            border border-gray-300 bg-white
             rounded-xl 
             focus:outline-none 
             focus:ring-teal-500 
