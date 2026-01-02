@@ -8,13 +8,10 @@ import { getAllDistributers } from "@/lib/slices/distributerSlice";
 
 import ResponsiveTable from "./components/data-table";
 import AddDistributorModal from "./components/add-modal";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import BackButton from "@/components/back-button";
 
 export default function DistributorsPage() {
     const dispatch = useDispatch();
-    const router = useRouter();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -35,7 +32,7 @@ export default function DistributorsPage() {
             <div className="flex justify-start">
                 <div className="w-full sm:w-52">
                     <SubmitButton
-                        label="Add Distributor"
+                        label="Add Team Member"
                         onClick={() => setIsModalOpen(true)}
                     />
                 </div>

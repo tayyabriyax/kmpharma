@@ -91,8 +91,8 @@ export default function AddDistributorModal({
                 <div className="flex items-center justify-between border-b border-gray-300 px-6 py-4">
                     <h2 className="text-lg font-semibold text-gray-800">
                         {editableDistributer
-                            ? "Edit Distributor"
-                            : "Add Distributor"}
+                            ? "Edit Team Member"
+                            : "Add Team Member"}
                     </h2>
                     <button
                         onClick={onClose}

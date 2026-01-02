@@ -3,17 +3,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { getDropdownAdminParties } from "@/lib/slices/distributerOrderSlice";
-import { ArrowLeft, Calendar, Clipboard, X } from "lucide-react";
+import { Calendar, Clipboard, X } from "lucide-react";
 import SelectInput from "@/components/select";
 import { getDropdownDistributers } from "@/lib/slices/partySlice";
 import { generateReport } from "@/lib/slices/reportSlice";
-import { useRouter } from "next/navigation";
 import BackButton from "@/components/back-button";
-
-const PAID_STATUS_OPTIONS = [
-    { label: "Paid", value: "paid" },
-    { label: "Unpaid", value: "unpaid" },
-];
 
 export default function Reports() {
 
@@ -22,7 +16,6 @@ export default function Reports() {
     const loadData = useSelector(state => state.kmpharma.distributerOrder.loadData);
     const distributors = useSelector(state => state.kmpharma.party.distributers);
     const parties = useSelector(state => state.kmpharma.distributerOrder.parties);
-    const isAdmin = useSelector(state => state.kmpharma?.auth?.loggedInUser?.role);
 
     const [distributorId, setDistributorId] = useState("");
     const [partyId, setPartyId] = useState("");
@@ -68,11 +61,11 @@ export default function Reports() {
 
                 <div className="w-full">
                     <SelectInput
-                        label="Distributor"
+                        label="Team Member"
                         options={distributors}
                         value={distributorId}
                         onChange={(e) => setDistributorId(e.target.value)}
-                        placeholder="Select Distributor"
+                        placeholder="Select Member"
                     />
                 </div>
 

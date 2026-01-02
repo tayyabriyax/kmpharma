@@ -46,7 +46,7 @@ export default function Dashboard() {
             icon: User,
         },
         {
-            title: "Distributors",
+            title: "Team Members",
             href: "/distributors",
             icon: Handshake,
         },

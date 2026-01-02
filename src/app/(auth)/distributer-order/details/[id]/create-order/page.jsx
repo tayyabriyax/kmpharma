@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, PawPrint, Package, BadgeDollarSign, BadgePercent } from "lucide-react";
+import { PawPrint, Package, BadgeDollarSign, BadgePercent } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import SubmitButton from "@/components/submit-button";
@@ -335,7 +335,7 @@ export default function CreateBill() {
 
                         <div>
                             <SubmitButton
-                                label="Create Bill"
+                                label="Save Order"
                                 loading={loading}
                                 onClick={handleSubmit}
                                 className="w-full"

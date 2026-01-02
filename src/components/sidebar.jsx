@@ -99,7 +99,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 <User size={20} /> Users
                             </Link>
                             <Link href="/distributors" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
-                                <Handshake size={20} /> Distributors
+                                <Handshake size={20} /> Team Members
                             </Link>
                             <Link href="/suppliers" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
                                 <Truck size={20} /> Suppliers

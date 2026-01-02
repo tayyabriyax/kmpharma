@@ -23,7 +23,7 @@ export default function Navbar({ setSidebarOpen }) {
 
     function activeTab() {
         if (pathname.includes('/dashboard')) return 'Dashboard'
-        if (pathname.includes('/distributors')) return 'Distributors'
+        if (pathname.includes('/distributors')) return 'Team Members'
         if (pathname.includes('/suppliers')) return 'Suppliers'
         if (pathname.includes('/parties')) return 'Parties'
         if (pathname.includes('/vaterinary-products')) return 'Products'
