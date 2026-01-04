@@ -33,6 +33,7 @@ export default function Navbar({ setSidebarOpen }) {
         if (pathname.includes('/profile')) return 'Profile'
         if (pathname.includes('/change-password')) return 'Change Password'
         if (pathname.includes('/report')) return 'Reports'
+        if (pathname.includes('/ledger')) return 'Ledger'
     }
 
     const dropdownRef = useRef(null);
@@ -55,7 +56,7 @@ export default function Navbar({ setSidebarOpen }) {
         : "U";
 
     return (
-        <header className="flex items-center justify-between border-b border-gray-300 z-50 shadow-sm sm:shadow-none bg-white px-4 py-2.5">
+        <header className="flex items-center justify-between border-b border-gray-300 z-50 shadow-sm sm:shadow-none bg-white px-4 py-2">
             <div className="flex items-center gap-2">
                 <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                     <Menu className="w-6 h-6 text-gray-700" />

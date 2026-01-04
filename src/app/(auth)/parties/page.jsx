@@ -6,14 +6,11 @@ import AddSuppliersModal from "./components/add-modal";
 import ResponsiveTable from "./components/data-table";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllParties } from "@/lib/slices/partySlice";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import BackButton from "@/components/back-button";
 
 export default function Parties() {
 
     const dispatch = useDispatch();
-    const router = useRouter();
 
     const [showModal, setShowModal] = useState(false);
 

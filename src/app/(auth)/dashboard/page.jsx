@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+    BookOpen,
     Clipboard,
     ClipboardList,
     Handshake,
@@ -35,6 +36,11 @@ export default function Dashboard() {
             title: "Reports",
             href: "/reports",
             icon: Clipboard,
+        },
+        {
+            title: "Ledger",
+            href: "/ledger",
+            icon: BookOpen,
         },
     ];
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+    BookOpen,
     Clipboard,
     ClipboardList,
     Handshake,
@@ -27,6 +28,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         { title: "Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
         { title: "Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
         { title: "Reports", href: "/reports", icon: <Clipboard size={20} /> },
+        { title: "Ledger", href: "/ledger", icon: <BookOpen size={20} /> },
     ];
 
     // Close sidebar on outside click (mobile only)

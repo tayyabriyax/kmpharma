@@ -11,7 +11,7 @@ export default function BackButton() {
         <button
             onClick={() => router.back()}
             className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 bg-white
-                               hover:bg-gray-100 transition text-gray-800 font-semibold
+                               hover:bg-gray-100 transition text-gray-800 font-semibold cursor-pointer
                                text-sm"
         >
             <ArrowLeft size={18} />

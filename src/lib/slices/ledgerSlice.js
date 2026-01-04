@@ -1,0 +1,62 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { fetchAPI } from '../fetchAPI';
+import toast from 'react-hot-toast';
+
+const initialState = {
+    ledgerDetails: [],
+    loadData: false,
+    loading: false
+};
+
+export const createLedger = createAsyncThunk("ledger/createLedger", async (credentials, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI("api/v1/ledger/create", { method: "POST", data: credentials, token });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
+export const getLedgerDetails = createAsyncThunk("ledger/getLedgerDetails", async (_, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI("api/v1/ledger/get-ledger-details", { method: "GET", token });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
+const ledgerSlice = createSlice({
+    name: 'ledger',
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(createLedger.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(createLedger.fulfilled, (state, action) => {
+                toast.success("Ledger created Successfully");
+                state.loadData = !state.loadData;
+                state.loading = false;
+            })
+            .addCase(createLedger.rejected, (state, action) => {
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
+                state.loading = false;
+            })
+            .addCase(getLedgerDetails.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(getLedgerDetails.fulfilled, (state, action) => {
+                state.ledgerDetails = action.payload.data;
+                state.loading = false;
+            })
+    }
+});
+
+export default ledgerSlice.reducer;
