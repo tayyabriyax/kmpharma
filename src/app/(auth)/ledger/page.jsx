@@ -61,7 +61,7 @@ export default function Ledger() {
             {
                 isAdmin ?
                     <>
-                        <h1 className="text-lg font-bold px-2">Team Members</h1>
+                        <h1 className="text-lg font-bold px-2 text-gray-800">Team Members</h1>
                         <TeamMemberTable data={distributors} isLoading={distriutorLoading} />
                     </>
                     :
