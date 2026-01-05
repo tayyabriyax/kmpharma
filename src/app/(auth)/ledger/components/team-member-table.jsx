@@ -1,9 +1,24 @@
 "use client";
 
-export default function ResponsiveTable({
+import { useSelector } from "react-redux";
+
+import { useRouter } from "next/navigation";
+
+export default function TeamMemberTable({
     data = [],
     isLoading = false,
 }) {
+
+    const router = useRouter();
+
+    const role = useSelector(
+        (state) => state.kmpharma?.auth?.loggedInUser?.role
+    );
+    const isAdmin = role === "Admin";
+
+    const handleClickOnInfo = (id) => {
+        router.push(`/ledger/details/${id}`);
+    };
 
     const showEmptyState = !isLoading && data.length === 0;
 
@@ -14,8 +29,10 @@ export default function ResponsiveTable({
                 <table className="min-w-full text-left text-sm text-gray-600">
                     <thead className="bg-gray-200 text-gray-800 uppercase font-bold">
                         <tr>
-                            <th className="px-4 py-3">Supplier</th>
-                            <th className="px-4 py-3">Amount</th>
+                            <th className="px-4 py-3">
+                                Team Member
+                            </th>
+                            <th className="px-4 py-3">Address</th>
                             <th className="px-4 py-3">Created At</th>
                         </tr>
                     </thead>
@@ -25,9 +42,7 @@ export default function ResponsiveTable({
                         {isLoading &&
                             Array.from({ length: 5 }).map((_, i) => (
                                 <tr key={i} className="border-t">
-                                    {Array.from({
-                                        length: 7,
-                                    }).map((_, j) => (
+                                    {Array.from({ length: 4 }).map((_, j) => (
                                         <td key={j} className="px-4 py-3">
                                             <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
                                         </td>
@@ -39,7 +54,7 @@ export default function ResponsiveTable({
                         {showEmptyState && (
                             <tr>
                                 <td
-                                    colSpan={7}
+                                    colSpan={4}
                                     className="px-4 py-10 text-center text-gray-500"
                                 >
                                     No data found
@@ -53,12 +68,15 @@ export default function ResponsiveTable({
                                 <tr
                                     key={i}
                                     className="border-t transition hover:bg-gray-50"
+                                    onClick={() =>
+                                        handleClickOnInfo(item.id)
+                                    }
                                 >
                                     <td className="px-4 py-3">
-                                        {item.supplier_name}
+                                        {item.user?.fullname}
                                     </td>
                                     <td className="px-4 py-3">
-                                        Rs {item.amount}
+                                        {item.adress}
                                     </td>
                                     <td className="px-4 py-3">
                                         {new Date(
@@ -85,41 +103,35 @@ export default function ResponsiveTable({
                 {/* Empty */}
                 {showEmptyState && (
                     <div className="px-4 py-10 text-center text-gray-500">
-                        No data found
+                        No orders found
                     </div>
                 )}
 
                 {/* Data */}
                 {!isLoading &&
-                    data.map((item, i) => {
-
-                        return (
-                            <div
-                                key={i}
-                                className="px-4 py-3 transition hover:bg-gray-50"
-                            >
-                                <div
-                                    className="flex items-center justify-between"
-                                >
-                                    <div>
-                                        <p className="font-semibold text-gray-800">
-                                            {item.supplier_name}
-                                        </p>
-                                        <p className="text-sm text-gray-500">
-                                            Rs {item.amount}
-                                        </p>
-                                        <p>
-                                            {new Date(
-                                                item.created_at
-                                            ).toDateString()}
-                                        </p>
-                                    </div>
-
+                    data.map((item, i) => (
+                        <div
+                            key={i}
+                            className="px-4 py-3 transition hover:bg-gray-50"
+                            onClick={() =>
+                                handleClickOnInfo(item.id)
+                            }
+                        >
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="font-semibold text-gray-800">
+                                        {item?.user?.fullname}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                        {item.adress}
+                                    </p>
                                 </div>
+
                             </div>
-                        );
-                    })}
+                        </div>
+                    ))}
             </div>
+
         </div>
     );
 }

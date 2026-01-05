@@ -27,7 +27,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
         { title: "Products", href: "/vaterinary-products", icon: <PawPrint size={20} /> },
         { title: "Orders", href: "/distributer-order", icon: <ClipboardList size={20} /> },
-        { title: "Reports", href: "/reports", icon: <Clipboard size={20} /> },
+        // { title: "Reports", href: "/reports", icon: <Clipboard size={20} /> },
         { title: "Ledger", href: "/ledger", icon: <BookOpen size={20} /> },
     ];
 
@@ -97,6 +97,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
                     {user.role === "Admin" ? (
                         <>
+                            <Link href="/reports" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
+                                <Clipboard size={20} /> Reports
+                            </Link>
                             <Link href="/user" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
                                 <User size={20} /> Users
                             </Link>

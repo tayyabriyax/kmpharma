@@ -9,6 +9,8 @@ import LedgerTilesSkeleton from "./components/ledger-tiles-loader";
 import SubmitButton from "@/components/submit-button";
 import { useRouter } from "next/navigation";
 import ResponsiveTable from "./components/data-table";
+import { getAllDistributers } from "@/lib/slices/distributerSlice";
+import TeamMemberTable from "./components/team-member-table";
 
 export default function Ledger() {
 
@@ -21,16 +23,23 @@ export default function Ledger() {
     const router = useRouter();
 
     const ledgerDetails = useSelector(state => state.kmpharma?.ledger?.ledgerDetails?.ledger_entries);
+    const distributors = useSelector(state => state.kmpharma.distributer.distributers);
     const ledger = useSelector(state => state.kmpharma?.ledger?.ledgerDetails?.ledger);
     const loading = useSelector(state => state.kmpharma.ledger.loading);
+    const distriutorLoading = useSelector(state => state.kmpharma.distributer.loading);
     const loadData = useSelector(state => state.kmpharma.ledger.loadData);
+
+    const remaining_amount = ledger?.left_amount;
 
     useEffect(() => {
         dispatch(getLedgerDetails());
+        if (isAdmin) {
+            dispatch(getAllDistributers());
+        }
     }, [loadData])
 
     const handleClickOnLedger = () => {
-        router.push("/ledger/insert-ledger");
+        router.push(`/ledger/insert-ledger/${remaining_amount}`);
     }
 
     return (
@@ -42,12 +51,22 @@ export default function Ledger() {
                 !isAdmin &&
                 <SubmitButton label={"Insert Ledger"} onClick={handleClickOnLedger} />
             }
-            {loading ? (
-                <LedgerTilesSkeleton />
-            ) : (
-                <LedgerTiles ledger={ledger} />
+            {!isAdmin && (
+                loading ? (
+                    <LedgerTilesSkeleton />
+                ) : (
+                    <LedgerTiles ledger={ledger} />
+                )
             )}
-            <ResponsiveTable data={ledgerDetails} isLoading={loading} />
+            {
+                isAdmin ?
+                    <>
+                        <h1 className="text-lg font-bold px-2">Team Members</h1>
+                        <TeamMemberTable data={distributors} isLoading={distriutorLoading} />
+                    </>
+                    :
+                    <ResponsiveTable data={ledgerDetails} isLoading={loading} />
+            }
         </div>
     )
 }

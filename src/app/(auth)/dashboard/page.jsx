@@ -33,11 +33,6 @@ export default function Dashboard() {
             icon: ClipboardList,
         },
         {
-            title: "Reports",
-            href: "/reports",
-            icon: Clipboard,
-        },
-        {
             title: "Ledger",
             href: "/ledger",
             icon: BookOpen,
@@ -46,6 +41,11 @@ export default function Dashboard() {
 
     /* ---------- Admin Menus ---------- */
     const adminMenus = [
+        {
+            title: "Reports",
+            href: "/reports",
+            icon: Clipboard,
+        },
         {
             title: "Users",
             href: "/user",

@@ -17,10 +17,19 @@ export const createLedger = createAsyncThunk("ledger/createLedger", async (crede
     }
 })
 
-export const getLedgerDetails = createAsyncThunk("ledger/getLedgerDetails", async (_, thunkAPI) => {
+export const getLedgerDetails = createAsyncThunk("ledger/getLedgerDetails", async (id, thunkAPI) => {
     const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
     try {
-        return await fetchAPI("api/v1/ledger/get-ledger-details", { method: "GET", token });
+        const params = new URLSearchParams();
+
+        if (id) params.append("distributer_id", id);
+
+        const query = params.toString();
+
+        return await fetchAPI(
+            `api/v1/ledger/get-ledger-details${query ? `?${query}` : ""}`,
+            { method: "GET", token }
+        );
     } catch (err) {
         return thunkAPI.rejectWithValue(err.data || { message: err.message });
     }
