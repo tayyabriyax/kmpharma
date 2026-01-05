@@ -40,7 +40,7 @@ export default function ResponsiveTable({
     const showEmptyState = !isLoading && data.length === 0;
 
     return (
-        <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white">
+        <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white text-gray-800">
             {/* ================= DESKTOP ================= */}
             <div className="hidden overflow-x-auto md:block">
                 <table className="min-w-full text-left text-sm text-gray-600">
