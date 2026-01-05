@@ -45,7 +45,7 @@ export default function InsertLedger() {
         dispatch(createLedger({
             distributer_id: distributorId || 0,
             supplier_id: supplierId || 0,
-            remaining_amount: amount
+            ledger_amount: amount
         }));
 
         setDistributorId(0);
