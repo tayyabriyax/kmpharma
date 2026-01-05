@@ -35,6 +35,15 @@ export const getLedgerDetails = createAsyncThunk("ledger/getLedgerDetails", asyn
     }
 })
 
+export const deleteLedgerById = createAsyncThunk("ledger/deleteLedgerById", async (id, thunkAPI) => {
+    const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
+    try {
+        return await fetchAPI(`api/v1/ledger-delete/${id}`, { method: "DELETE" });
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.data || { message: err.message });
+    }
+})
+
 const ledgerSlice = createSlice({
     name: 'ledger',
     initialState,
@@ -63,6 +72,23 @@ const ledgerSlice = createSlice({
             })
             .addCase(getLedgerDetails.fulfilled, (state, action) => {
                 state.ledgerDetails = action.payload.data;
+                state.loading = false;
+            })
+            .addCase(deleteLedgerById.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteLedgerById.fulfilled, (state, action) => {
+                toast.success("Ledger deleted Successfully");
+                state.loadData = !state.loadData;
+                state.loading = false;
+            })
+            .addCase(deleteLedgerById.rejected, (state, action) => {
+                const errorMessage =
+                    action.payload?.message ||
+                    action.payload?.errors?.[0] ||
+                    "Something went wrong";
+
+                toast.error(errorMessage);
                 state.loading = false;
             })
     }

@@ -18,10 +18,11 @@ export default function LedgerDetails() {
     const ledgerDetails = useSelector(state => state.kmpharma?.ledger?.ledgerDetails?.ledger_entries);
     const ledger = useSelector(state => state.kmpharma?.ledger?.ledgerDetails?.ledger);
     const loading = useSelector(state => state.kmpharma.ledger.loading);
+    const loadData = useSelector(state => state.kmpharma.ledger.loadData);
 
     useEffect(() => {
         dispatch(getLedgerDetails(id));
-    }, [])
+    }, [loadData])
 
     return (
         <div className="space-y-4">

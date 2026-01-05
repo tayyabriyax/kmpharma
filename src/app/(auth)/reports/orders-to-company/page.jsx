@@ -19,8 +19,7 @@ export default function Reports() {
 
     const [distributorId, setDistributorId] = useState("");
     const [partyId, setPartyId] = useState("");
-    const [fromDate, setFromDate] = useState("");
-    const [toDate, setToDate] = useState("");
+    const [date, setDate] = useState("");
 
     useEffect(() => {
         dispatch(getDropdownDistributers());
@@ -31,8 +30,7 @@ export default function Reports() {
         const result = await dispatch(generateReport({
             distributer_id: distributorId || "",
             party_id: partyId || "",
-            from_date: fromDate || "",
-            to_date: toDate || "",
+            date: date || "",
             download: true,
         }));
 
@@ -47,8 +45,7 @@ export default function Reports() {
     const handleClear = () => {
         setDistributorId("");
         setPartyId("");
-        setFromDate("");
-        setToDate("");
+        setDate("");
     };
 
     return (
@@ -79,10 +76,10 @@ export default function Reports() {
                     />
                 </div>
 
-                {/* From Date */}
+                {/* Date */}
                 <div className="w-full">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        From Date
+                        Date
                     </label>
                     <div className="relative">
                         <Calendar
@@ -91,28 +88,8 @@ export default function Reports() {
                         />
                         <input
                             type="date"
-                            value={fromDate}
-                            onChange={(e) => setFromDate(e.target.value)}
-                            className="w-full pl-10 pr-3 py-2 md:py-2.5 text-sm border border-gray-300 
-                        rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                        />
-                    </div>
-                </div>
-
-                {/* To Date */}
-                <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        To Date
-                    </label>
-                    <div className="relative">
-                        <Calendar
-                            size={18}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        />
-                        <input
-                            type="date"
-                            value={toDate}
-                            onChange={(e) => setToDate(e.target.value)}
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
                             className="w-full pl-10 pr-3 py-2 md:py-2.5 text-sm border border-gray-300 
                         rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         />

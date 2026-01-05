@@ -1,5 +1,10 @@
 "use client";
 
+import DeleteModal from "@/components/delete-modal";
+import { deleteLedgerById } from "@/lib/slices/ledgerSlice";
+import { Trash } from "lucide-react";
+import { useState } from "react";
+
 export default function ResponsiveTable({
     data = [],
     isLoading = false,
@@ -7,8 +12,16 @@ export default function ResponsiveTable({
 
     const showEmptyState = !isLoading && data.length === 0;
 
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    const handleClickOnTrash = (id) => {
+        setSelectedItem(id);
+        setShowDeleteModal(true);
+    };
+
     return (
-        <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white">
+        <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white text-gray-800">
             {/* ================= DESKTOP ================= */}
             <div className="hidden overflow-x-auto md:block">
                 <table className="min-w-full text-left text-sm text-gray-600">
@@ -17,6 +30,7 @@ export default function ResponsiveTable({
                             <th className="px-4 py-3">Supplier</th>
                             <th className="px-4 py-3">Amount</th>
                             <th className="px-4 py-3">Created At</th>
+                            <th className="px-4 py-3">Action</th>
                         </tr>
                     </thead>
 
@@ -64,6 +78,16 @@ export default function ResponsiveTable({
                                         {new Date(
                                             item.created_at
                                         ).toDateString()}
+                                    </td>
+                                    <td className="px-2 py-1 text-center space-x-2">
+                                        <button
+                                            onClick={() =>
+                                                handleClickOnTrash(item.id)
+                                            }
+                                            className="rounded-full p-2 text-gray-500 hover:bg-gray-200"
+                                        >
+                                            <Trash size={18} />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -115,11 +139,27 @@ export default function ResponsiveTable({
                                         </p>
                                     </div>
 
+                                    <div className="flex items-center space-x-3">
+                                        <button
+                                            onClick={() =>
+                                                handleClickOnTrash(item.id)
+                                            }
+                                        >
+                                            <Trash size={18} />
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
                         );
                     })}
             </div>
+            <DeleteModal
+                isOpen={showDeleteModal}
+                selectedItem={selectedItem}
+                method={deleteLedgerById}
+                onClose={() => setShowDeleteModal(false)}
+            />
         </div>
     );
 }

@@ -7,7 +7,7 @@ const initialState = {
 
 export const generateReport = createAsyncThunk(
     "reports/generateReport",
-    async ({ party_id, from_date, to_date, distributer_id, download }, thunkAPI) => {
+    async ({ party_id, date, distributer_id, download }, thunkAPI) => {
         const token = thunkAPI.getState().kmpharma?.auth?.accessToken;
 
         try {
@@ -15,8 +15,7 @@ export const generateReport = createAsyncThunk(
 
             if (party_id) params.append("party_id", party_id);
             if (distributer_id) params.append("distributer_id", distributer_id);
-            if (from_date) params.append("from_date", from_date);
-            if (to_date) params.append("to_date", to_date);
+            if (date) params.append("date", date);
             if (download) params.append("download", download);
 
             const query = params.toString();
