@@ -156,7 +156,7 @@ export default function ResponsiveTable({
                                         </p>
                                     </div>
 
-                                    <div className="flex items-center space-x-3">
+                                    <div className="flex items-center space-x-3 text-gray-500">
                                         {isOpen ? (
                                             <ChevronUp size={18} />
                                         ) : (
