@@ -78,7 +78,7 @@ export default function AddPartiesModal({ isOpen, onClose, editableParty }) {
                 {/* Header */}
                 <div className="flex items-center justify-between border-b py-4 mx-6 border-gray-300">
                     <h2 className="text-lg font-semibold text-gray-800">
-                        Add Party
+                        {editableParty ? "Edit" : "Add"} Party
                     </h2>
                     <button onClick={onClose} className="text-gray-500 hover:bg-gray-200 p-2 rounded-full cursor-pointer">
                         <X size={20} />
