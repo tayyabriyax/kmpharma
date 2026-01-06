@@ -42,11 +42,6 @@ export default function Dashboard() {
     /* ---------- Admin Menus ---------- */
     const adminMenus = [
         {
-            title: "Reports",
-            href: "/reports",
-            icon: Clipboard,
-        },
-        {
             title: "Users",
             href: "/user",
             icon: User,
@@ -60,6 +55,11 @@ export default function Dashboard() {
             title: "Suppliers",
             href: "/suppliers",
             icon: Truck,
+        },
+        {
+            title: "Reports",
+            href: "/reports",
+            icon: Clipboard,
         },
     ];
 
@@ -88,8 +88,8 @@ export default function Dashboard() {
 
     const menus =
         user?.role === "Admin"
-            ? [...commonMenus, ...adminMenus, ...profileMenus]
-            : [...commonMenus, ...userMenus, ...profileMenus];
+            ? [...adminMenus, ...commonMenus, ...profileMenus]
+            : [...userMenus, ...commonMenus, ...profileMenus];
 
     return (
         <div className="space-y-4">

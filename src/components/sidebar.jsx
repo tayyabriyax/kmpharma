@@ -76,6 +76,26 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </div>
 
                 <nav>
+                    {user.role === "Admin" ? (
+                        <>
+                            <Link href="/user" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
+                                <User size={20} /> Users
+                            </Link>
+                            <Link href="/distributors" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
+                                <Handshake size={20} /> Team Members
+                            </Link>
+                            <Link href="/suppliers" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
+                                <Truck size={20} /> Suppliers
+                            </Link>
+                            <Link href="/reports" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
+                                <Clipboard size={20} /> Reports
+                            </Link>
+                        </>
+                    ) : (
+                        <Link href="/parties" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
+                            <Users size={20} /> Parties
+                        </Link>
+                    )}
                     {menuItems.map(item => {
                         const isActive = pathname === item.href;
                         return (
@@ -94,27 +114,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </Link>
                         );
                     })}
-
-                    {user.role === "Admin" ? (
-                        <>
-                            <Link href="/reports" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
-                                <Clipboard size={20} /> Reports
-                            </Link>
-                            <Link href="/user" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
-                                <User size={20} /> Users
-                            </Link>
-                            <Link href="/distributors" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
-                                <Handshake size={20} /> Team Members
-                            </Link>
-                            <Link href="/suppliers" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
-                                <Truck size={20} /> Suppliers
-                            </Link>
-                        </>
-                    ) : (
-                        <Link href="/parties" onClick={handleMobileClose} className="flex items-center gap-3 px-3 py-3 hover:bg-teal-50">
-                            <Users size={20} /> Parties
-                        </Link>
-                    )}
                 </nav>
             </aside>
         </>
