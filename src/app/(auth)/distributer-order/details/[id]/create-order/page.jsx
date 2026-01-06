@@ -15,10 +15,10 @@ import BackButton from "@/components/back-button";
 import TextAreaField from "@/components/text-area";
 import { useParams, useRouter } from "next/navigation";
 
-const PAID_STATUS = [
-    { label: "Paid", value: "paid" },
-    { label: "Unpaid", value: "unpaid" }
-];
+// const PAID_STATUS = [
+//     { label: "Paid", value: "paid" },
+//     { label: "Unpaid", value: "unpaid" }
+// ];
 
 export default function CreateBill() {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ export default function CreateBill() {
 
     // Global fields (apply to entire bill)
     const [discount, setDiscount] = useState(0);
-    const [paidStatus, setPaidStatus] = useState("unpaid");
+    // const [paidStatus, setPaidStatus] = useState("unpaid");
     const [totalAmount, setTotalAmount] = useState(0);
     const [remarks, setRemarks] = useState("");
 
@@ -169,7 +169,7 @@ export default function CreateBill() {
                 order_id,
                 total_amount: Number(totalAmount) || 0,
                 total_discount: Number(discount) || 0,
-                paid_status: paidStatus,
+                paid_status: "paid",
             }
         };
 
@@ -303,7 +303,7 @@ export default function CreateBill() {
                                 placeholder="0.00"
                             />
 
-                            <SelectInput
+                            {/* <SelectInput
                                 label="Paid Status"
                                 id="paid_status_global"
                                 name="paid_status_global"
@@ -313,7 +313,7 @@ export default function CreateBill() {
                                     const v = e.target ? e.target.value : e?.value;
                                     setPaidStatus(v);
                                 }}
-                            />
+                            /> */}
                         </div>
 
                         <div className="p-4 border rounded-xl flex flex-col border-gray-200 justify-between bg-white">

@@ -42,7 +42,7 @@ export default function ResponsiveTable({
                             <th className="px-4 py-3">
                                 #
                             </th>
-                            <th className="px-4 py-3">Status</th>
+                            {/* <th className="px-4 py-3">Status</th> */}
                             <th className="px-4 py-3">Created At</th>
                             <th className="px-4 py-3 w-10"></th>
                         </tr>
@@ -88,9 +88,9 @@ export default function ResponsiveTable({
                                             <td className="px-4 py-3">
                                                 Order - {item.id}
                                             </td>
-                                            <td className="px-4 py-3">
+                                            {/* <td className="px-4 py-3">
                                                 {item.paid_status}
-                                            </td>
+                                            </td> */}
                                             <td className="px-4 py-3">
                                                 {new Date(item.created_at).toDateString()}
                                             </td>
@@ -219,7 +219,6 @@ export default function ResponsiveTable({
                                         <div className="space-y-1 text-sm text-gray-600">
                                             <p><b>Distributer :</b> {item.distributer_name}</p>
                                             <p><b>Party :</b> {item.party_name}</p>
-                                            <p><b>Paid Status :</b> {item.paid_status}</p>
                                             <p><b>Total Amount :</b> Rs {item.total_amount}</p>
                                             <p>
                                                 <b>Created At :</b>{" "}
