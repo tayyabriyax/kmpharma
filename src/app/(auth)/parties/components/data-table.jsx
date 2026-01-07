@@ -1,7 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Edit, Trash } from "lucide-react";
+import { useState, useMemo } from "react";
+import {
+    ChevronDown,
+    ChevronUp,
+    Edit,
+    Trash,
+    Search
+} from "lucide-react";
 
 import DeleteModal from "@/components/delete-modal";
 import { deletePartyById } from "@/lib/slices/partySlice";
@@ -14,6 +20,7 @@ export default function ResponsiveTable({
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [editableItem, setEditableItem] = useState(null);
@@ -32,10 +39,34 @@ export default function ResponsiveTable({
         setShowEditModal(true);
     };
 
-    const showEmptyState = !isLoading && data.length === 0;
+    // 🔍 Filter data by name
+    const filteredData = useMemo(() => {
+        return data.filter((item) =>
+            item.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [data, searchTerm]);
+
+    const showEmptyState = !isLoading && filteredData.length === 0;
 
     return (
-        <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white">
+        <div className="rounded-lg border-2 border-gray-200 bg-white overflow-hidden">
+            {/* ================= SEARCH BAR ================= */}
+            <div className="p-4 border-b bg-gray-50">
+                <div className="relative max-w-sm">
+                    <Search
+                        size={18}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full rounded-lg border border-gray-300 text-gray-700 placeholder:text-gray-300 bg-white py-2 pl-10 pr-3 text-sm focus:border-gray-400 focus:outline-none"
+                    />
+                </div>
+            </div>
+
             {/* ================= DESKTOP ================= */}
             <div className="hidden overflow-x-auto md:block">
                 <table className="min-w-full text-left text-sm text-gray-600">
@@ -50,7 +81,6 @@ export default function ResponsiveTable({
                     </thead>
 
                     <tbody>
-                        {/* Loading */}
                         {isLoading &&
                             Array.from({ length: 5 }).map((_, i) => (
                                 <tr key={i} className="border-t">
@@ -62,7 +92,6 @@ export default function ResponsiveTable({
                                 </tr>
                             ))}
 
-                        {/* Empty */}
                         {showEmptyState && (
                             <tr>
                                 <td
@@ -74,30 +103,19 @@ export default function ResponsiveTable({
                             </tr>
                         )}
 
-                        {/* Data */}
                         {!isLoading &&
-                            data.map((item, i) => (
+                            filteredData.map((item, i) => (
                                 <tr
                                     key={i}
-                                    className="border-t transition hover:bg-gray-50"
+                                    className="border-t hover:bg-gray-50 transition"
                                 >
-                                    <td className="px-4 py-3">
-                                        {item.name}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        {item.email}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        {item.phone}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        {item.adress}
-                                    </td>
+                                    <td className="px-4 py-3">{item.name}</td>
+                                    <td className="px-4 py-3">{item.email}</td>
+                                    <td className="px-4 py-3">{item.phone}</td>
+                                    <td className="px-4 py-3">{item.adress}</td>
                                     <td className="px-2 py-1 text-center space-x-2">
                                         <button
-                                            onClick={() =>
-                                                handleClickOnEdit(item)
-                                            }
+                                            onClick={() => handleClickOnEdit(item)}
                                             className="rounded-full p-2 text-gray-500 hover:bg-gray-200"
                                         >
                                             <Edit size={18} />
@@ -119,7 +137,6 @@ export default function ResponsiveTable({
 
             {/* ================= MOBILE ================= */}
             <div className="divide-y divide-gray-200 md:hidden">
-                {/* Loading */}
                 {isLoading &&
                     Array.from({ length: 4 }).map((_, i) => (
                         <div key={i} className="space-y-2 px-4 py-4">
@@ -128,22 +145,20 @@ export default function ResponsiveTable({
                         </div>
                     ))}
 
-                {/* Empty */}
                 {showEmptyState && (
                     <div className="px-4 py-10 text-center text-gray-500">
                         No parties found
                     </div>
                 )}
 
-                {/* Data */}
                 {!isLoading &&
-                    data.map((item, i) => {
+                    filteredData.map((item, i) => {
                         const isOpen = openRow === i;
 
                         return (
                             <div
                                 key={i}
-                                className="px-4 py-3 transition hover:bg-gray-50"
+                                className="px-4 py-3 hover:bg-gray-50 transition"
                                 onClick={() => toggleRow(i)}
                             >
                                 <div className="flex items-center justify-between">
