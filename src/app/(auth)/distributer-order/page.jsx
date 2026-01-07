@@ -229,6 +229,7 @@ export default function VaterinaryProducts() {
                     </div>
                 </div>
             </div> */}
+            <h1 className="text-lg font-bold text-gray-800 mb-2">{isAdmin === "Admin" ? "Team Members" : "Parties"}</h1>
             <ResponsiveTable
                 data={isAdmin === "Admin" ? distributors : parties}
                 isLoading={isAdmin === "Admin" ? distributerLoading : partyLoading} />
