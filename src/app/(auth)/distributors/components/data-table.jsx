@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
     ChevronDown,
     ChevronUp,
     Edit,
+    Search,
     Trash,
 } from "lucide-react";
 
@@ -19,6 +20,7 @@ export default function ResponsiveTable({
     const [openRow, setOpenRow] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [editableItem, setEditableItem] = useState(null);
@@ -37,10 +39,34 @@ export default function ResponsiveTable({
         setShowEditModal(true);
     };
 
+    // 🔍 Filter data by name
+    const filteredData = useMemo(() => {
+        return data.filter((item) =>
+            item?.user?.fullname?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [data, searchTerm]);
+
     const showEmptyState = !isLoading && data.length === 0;
 
     return (
         <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white text-gray-800">
+            {/* ================= SEARCH BAR ================= */}
+            <div className="p-4 border-b border-gray-200 bg-gray-50">
+                <div className="relative max-w-sm">
+                    <Search
+                        size={18}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full rounded-lg border border-gray-300 text-gray-700 placeholder:text-gray-300 bg-white py-2 pl-10 pr-3 text-sm focus:border-gray-400 focus:outline-none"
+                    />
+                </div>
+            </div>
+
             {/* ================= DESKTOP ================= */}
             <div className="hidden overflow-x-auto md:block">
                 <table className="min-w-full text-left text-sm text-gray-600">
@@ -83,7 +109,7 @@ export default function ResponsiveTable({
 
                         {/* Data */}
                         {!isLoading &&
-                            data.map((item, i) => (
+                            filteredData.map((item, i) => (
                                 <tr
                                     key={i}
                                     className="border-t border-gray-200 transition hover:bg-gray-50"
@@ -152,7 +178,7 @@ export default function ResponsiveTable({
 
                 {/* Data */}
                 {!isLoading &&
-                    data.map((item, i) => {
+                    filteredData.map((item, i) => {
                         const isOpen = openRow === i;
 
                         return (
@@ -198,8 +224,8 @@ export default function ResponsiveTable({
 
                                 <div
                                     className={`overflow-hidden transition-all ${isOpen
-                                            ? "mt-3 max-h-40"
-                                            : "max-h-0"
+                                        ? "mt-3 max-h-40"
+                                        : "max-h-0"
                                         }`}
                                 >
                                     <div className="space-y-1 text-sm text-gray-600">
