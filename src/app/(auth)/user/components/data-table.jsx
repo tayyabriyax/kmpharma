@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
     ChevronDown,
     ChevronUp,
     KeyRound,
+    Search,
     Trash,
     UserCheck,
 } from "lucide-react";
@@ -28,6 +29,7 @@ export default function ResponsiveTable({
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const dispatch = useDispatch();
 
@@ -48,6 +50,13 @@ export default function ResponsiveTable({
         setSelectedUser(user);
         setShowChangePasswordModal(true);
     };
+
+    // 🔍 Filter data by name
+    const filteredData = useMemo(() => {
+        return data.filter((item) =>
+            item.fullname?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [data, searchTerm]);
 
     const showEmptyState = !isLoading && data.length === 0;
 
@@ -83,6 +92,23 @@ export default function ResponsiveTable({
 
     return (
         <div className="overflow-hidden rounded-lg border-2 border-gray-200 bg-white text-gray-800">
+            {/* ================= SEARCH BAR ================= */}
+            <div className="p-4 border-b border-gray-200 bg-gray-50">
+                <div className="relative max-w-sm">
+                    <Search
+                        size={18}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full rounded-lg border border-gray-300 text-gray-700 placeholder:text-gray-300 bg-white py-2 pl-10 pr-3 text-sm focus:border-gray-400 focus:outline-none"
+                    />
+                </div>
+            </div>
+
             {/* ================= DESKTOP ================= */}
             <div className="hidden overflow-x-auto md:block">
                 <table className="min-w-full text-left text-sm text-gray-600">
@@ -130,7 +156,7 @@ export default function ResponsiveTable({
 
                         {/* Data */}
                         {!isLoading &&
-                            data.map((item, i) => (
+                            filteredData.map((item, i) => (
                                 <tr
                                     key={i}
                                     className="border-t transition hover:bg-gray-50"
@@ -184,7 +210,7 @@ export default function ResponsiveTable({
 
                 {/* Data */}
                 {!isLoading &&
-                    data.map((item, i) => {
+                    filteredData.map((item, i) => {
                         const isOpen = openRow === i;
 
                         return (
