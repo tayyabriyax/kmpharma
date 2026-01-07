@@ -107,7 +107,7 @@ export default function ResponsiveTable({
                             filteredData.map((item, i) => (
                                 <tr
                                     key={i}
-                                    className="border-t hover:bg-gray-50 transition"
+                                    className="border-t border-gray-200 hover:bg-gray-50 transition"
                                 >
                                     <td className="px-4 py-3">{item.name}</td>
                                     <td className="px-4 py-3">{item.email}</td>
