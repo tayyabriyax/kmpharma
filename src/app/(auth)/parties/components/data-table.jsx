@@ -51,7 +51,7 @@ export default function ResponsiveTable({
     return (
         <div className="rounded-lg border-2 border-gray-200 bg-white overflow-hidden">
             {/* ================= SEARCH BAR ================= */}
-            <div className="p-4 border-b bg-gray-50">
+            <div className="p-4 border-b border-gray-200 bg-gray-50">
                 <div className="relative max-w-sm">
                     <Search
                         size={18}
