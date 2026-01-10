@@ -31,6 +31,10 @@ export default function InsertLedger() {
         dispatch(getDropdownSuppliers());
     }, [])
 
+    useEffect(() => {
+        setSupplierId(suppliers[0]?.value)
+    }, [suppliers])
+
     const handleApply = async () => {
         const amount = Number(ledgerAmount);
 
@@ -69,7 +73,7 @@ export default function InsertLedger() {
                             options={suppliers}
                             value={supplierId}
                             onChange={(e) => setSupplierId(e.target.value)}
-                            placeholder="Select Supplier"
+                            // placeholder={suppliers[0]?.label}
                         />
                     </div>
 
