@@ -124,7 +124,7 @@ export default function ResponsiveTable({
                                     className="border-t border-gray-200 transition hover:bg-gray-50"
                                 >
                                     <td className="px-4 py-3">
-                                        {item.name}
+                                        {item?.name?.toUpperCase()}
                                     </td>
                                     <td className="px-4 py-3">
                                         {item.supplier_name}
@@ -207,7 +207,7 @@ export default function ResponsiveTable({
                                 >
                                     <div>
                                         <p className="font-semibold text-gray-800">
-                                            {item.name}
+                                            {item?.name?.toUpperCase()}
                                         </p>
                                         <p className="text-sm text-gray-500">
                                             {item.supplier_name}

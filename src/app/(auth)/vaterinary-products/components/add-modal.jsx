@@ -90,9 +90,10 @@ export default function AddVaterinaryProductModal({ isOpen, onClose, editablePro
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: name === "name" ? value.toUpperCase() : value,
         }));
     };
 
