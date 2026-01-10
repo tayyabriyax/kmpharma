@@ -14,6 +14,7 @@ import { getVaterinaryProductsById } from "@/lib/slices/vaterinaryProductSlice";
 import BackButton from "@/components/back-button";
 import TextAreaField from "@/components/text-area";
 import { useParams, useRouter } from "next/navigation";
+import AutoSuggestSelect from "@/components/auto-suggest";
 
 // const PAID_STATUS = [
 //     { label: "Paid", value: "paid" },
@@ -190,17 +191,23 @@ export default function CreateBill() {
                 {/* 1) Product selection row */}
                 <div className="grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
                     <div className="col-span-1 md:col-span-3">
-                        <SelectInput
+                        <AutoSuggestSelect
                             label="Product"
                             name="product_id"
                             id="product_id"
                             options={products}
                             value={currentProductId}
                             onChange={handleProductChange}
-                            icon={<PawPrint className="absolute left-3 top-3 text-gray-400" size={18} />}
+                            icon={
+                                <PawPrint
+                                    className="absolute left-3 top-3 text-gray-400"
+                                    size={18}
+                                />
+                            }
                             placeholder="Select a product"
                         />
                     </div>
+
 
                     <div className="col-span-1 md:col-span-1">
                         <InputField
